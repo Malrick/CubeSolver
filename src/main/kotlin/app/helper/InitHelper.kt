@@ -1,5 +1,6 @@
 package app.helper
 
+import app.opticRecognition.ColorResolver
 import app.model.Corner
 import app.model.Cube
 import app.model.Edge
@@ -10,7 +11,6 @@ import app.service.SideService
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.*
-import kotlin.Comparator
 
 class InitHelper : KoinComponent {
 
@@ -20,6 +20,8 @@ class InitHelper : KoinComponent {
     var cornerNameToColor :  HashMap<Char, Set<Color>> = HashMap()
     var cornerColorToName : HashMap<Set<Color>, Char> = HashMap()
     var cornerNameToCoordinates : HashMap<Char, Array<Int>> = HashMap()
+
+    var colorResolver = ColorResolver()
 
     var edgeNameToColor :  HashMap<Char, Set<Color>> = HashMap()
     var edgeColorToName : HashMap<Set<Color>, Char> = HashMap()
@@ -52,6 +54,7 @@ class InitHelper : KoinComponent {
         cube.edges = initEdge(cube.sides)
     }
 
+    // TODO Re-propriser
     fun initSide(side : Side, sideColor : Color)
     {
         side.sideColor = sideColor
@@ -82,6 +85,42 @@ class InitHelper : KoinComponent {
             side.colors+=array
         }
     }
+/*
+    fun initSide(side : Side, sideColor : Color)
+    {
+        side.sideColor = sideColor
+        var colors = ArrayList<Color>()
+        println(sideColor)
+        when(sideColor)
+        {
+            Color.WHITE -> colors = colorResolver.resolveColors("img/1.jpg")
+            Color.ORANGE -> colors = colorResolver.resolveColors("img/2.jpg")
+            Color.GREEN -> colors = colorResolver.resolveColors("img/3.jpg")
+            Color.RED -> colors = colorResolver.resolveColors("img/4.jpg")
+            Color.YELLOW -> colors = colorResolver.resolveColors("img/5.jpg")
+            Color.BLUE -> colors = colorResolver.resolveColors("img/6.jpg")
+        }
+
+        for(i in 0..2)
+        {
+            var array = arrayOf<Color>()
+            for(j in 0..2)
+            {
+                if(i==1 && j ==1)
+                {
+                    array+=colors[i*3+j]
+                    if(colors[4]!= sideColor) println("mauvais centre")
+                }
+                else
+                {
+                    array+=colors[i*3+j]
+                }
+            }
+            side.colors+=array
+        }
+        colors.clear()
+
+    }*/
 
 
     fun initSideByCopy(side : Side, sideColor : Color, toCopy : Side)
@@ -107,7 +146,7 @@ class InitHelper : KoinComponent {
 
         var positionList = arrayOf('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H')
 
-        var solved : Boolean;
+        var solved : Boolean
         var colorOne : Color
         var colorTwo : Color
         var colorThree : Color
@@ -169,7 +208,7 @@ class InitHelper : KoinComponent {
 
         var positionList = arrayOf('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L')
 
-        var solved : Boolean;
+        var solved : Boolean
 
         var colorOne : Color
         var colorTwo : Color

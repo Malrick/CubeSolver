@@ -1,28 +1,29 @@
 package app
 
-import app.helper.DisplayHelper
+import app.UI.DisplayHelper
 import app.helper.InitHelper
 import app.helper.InputHelper
-import app.helper.ProjectionHelper
 import app.model.Cube
 import app.model.constants.Movement
+import app.robotLink.MotionService
 import app.solver.populationSolver.*
-import com.github.ajalt.mordant.TermColors
 import org.koin.core.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.core.inject
+import org.opencv.core.*
 
 
 fun main()
 {
     startKoin{
-        modules(listOf(serviceModule, helperModule, displayModule, solverModule, inputModule))
+        modules(listOf(serviceModule, helperModule, displayModule, solverModule, inputModule, servoModule))
     }
 
+    System.loadLibrary( Core.NATIVE_LIBRARY_NAME)
     Launcher().launch()
 }
 
-class Launcher : KoinComponent{
+class Launcher : KoinComponent {
 
     val cube = Cube()
     val inputHelper : InputHelper by inject()
@@ -33,13 +34,22 @@ class Launcher : KoinComponent{
     val populationOLLSolverTwo : PopulationOLLSolverTwo by inject()
     val populationPLLSolverOne : PopulationPLLSolverOne by inject()
     val populationPLLSolverTwo : PopulationPLLSolverTwo by inject()
+    val populationCubeSolver : PopulationCubeSolver by inject()
     val displayHelper : DisplayHelper by inject()
     val initHelper : InitHelper by inject()
+    val motionService : MotionService by inject()
 
     fun launch() {
+
+        var finalSolution = arrayOf<Movement>()
+
         var solution : Array<Movement>
 
+        motionService.init()
+        motionService.release()
+
         initHelper.initCube(cube)
+
 
         displayHelper.display(cube)
 
@@ -55,6 +65,7 @@ class Launcher : KoinComponent{
         println()
         inputHelper.applySequence(cube, solution)
         displayHelper.display(cube)
+        finalSolution = finalSolution.plus(solution)
 
         println()
         println("Corners : ")
@@ -68,8 +79,9 @@ class Launcher : KoinComponent{
         println()
         inputHelper.applySequence(cube, solution)
         displayHelper.display(cube)
+        finalSolution = finalSolution.plus(solution)
 
-      /*  println()
+      println()
         println("SecondFloor : ")
         solution = populationSecondFloorSolver.getSolution(cube)
         for(movement in solution)
@@ -80,7 +92,8 @@ class Launcher : KoinComponent{
         println()
         println()
         inputHelper.applySequence(cube, solution)
-        displayHelper.display(cube)*/
+        displayHelper.display(cube)
+        finalSolution = finalSolution.plus(solution)
 
         println()
         println("OLL one : ")
@@ -94,6 +107,7 @@ class Launcher : KoinComponent{
         println()
         inputHelper.applySequence(cube, solution)
         displayHelper.display(cube)
+        finalSolution = finalSolution.plus(solution)
 
         println()
         println("OLL two : ")
@@ -107,6 +121,7 @@ class Launcher : KoinComponent{
         println()
         inputHelper.applySequence(cube, solution)
         displayHelper.display(cube)
+        finalSolution = finalSolution.plus(solution)
 
         println()
         println("PLL one : ")
@@ -120,6 +135,7 @@ class Launcher : KoinComponent{
         println()
         inputHelper.applySequence(cube, solution)
         displayHelper.display(cube)
+        finalSolution = finalSolution.plus(solution)
 
         println()
         println("PLL two : ")
@@ -133,5 +149,9 @@ class Launcher : KoinComponent{
         println()
         inputHelper.applySequence(cube, solution)
         displayHelper.display(cube)
+        finalSolution = finalSolution.plus(solution)
+
+        motionService.applySequence(finalSolution)
+
     }
 }

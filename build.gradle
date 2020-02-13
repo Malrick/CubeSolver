@@ -11,6 +11,9 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     jcenter()
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 dependencies {
@@ -18,7 +21,8 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation "org.koin:koin-core:2.0.1"
     implementation 'com.github.ajalt:mordant:1.2.1'
-    implementation 'com.github.ajalt:colormath:1.4.0'
+    implementation 'com.github.IAmContent:public:master-SNAPSHOT'
+    compile files('libs/opencv/opencv-420.jar')
 }
 
 compileKotlin {

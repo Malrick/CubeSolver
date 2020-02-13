@@ -7,11 +7,17 @@ import app.model.constants.PLL_ONE_SECOND
 import app.service.EdgeService
 import org.koin.core.inject
 
-class PopulationPLLSolverOne : PopulationSolver() {
+class PopulationPLLSolverOne(
+    override val populationMaxSize: Int,
+    override val ratioOfSurvivingPopulation: Float,
+    override val maxNumberOfMutationsAdded: Int,
+    override val randomizeNumberOfMutation: Boolean
+) : PopulationSolver() {
 
     val edgeService : EdgeService by inject()
 
     override var listOfMovements: Set<Array<Movement>> = setOf(PLL_ONE, PLL_ONE_SECOND, arrayOf(Movement.YELLOW), arrayOf(Movement.YELLOW_REVERSE))
+    override var maxScore = 400
 
     override fun gradeSequence(cube: Cube, sequence: Array<Movement>): Int {
 
@@ -28,7 +34,7 @@ class PopulationPLLSolverOne : PopulationSolver() {
         if(edgeService.findEdgeByName(cubeExperiment.edges,'K')!!.isSolved()) score += 100
         if(edgeService.findEdgeByName(cubeExperiment.edges,'L')!!.isSolved()) score += 100
 
-        if (score == 400) {
+        if (score == maxScore) {
             solved = true
         }
 

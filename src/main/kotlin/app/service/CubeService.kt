@@ -44,6 +44,11 @@ class CubeService : KoinComponent {
         return sideService.getNumberOfCornerOfAColor(getSideByColor(cube, sideColor), cornerColor)
     }
 
+    fun getNumberOfSolved(cube : Cube) : Int
+    {
+        return cube.edges.filter{it.isSolved()}.size + cube.corners.filter { it.isSolved() }.size
+    }
+
     fun getLine(cube : Cube, sideColor: Color, index: Int) : Array<Color>
     {
         return sideService.getLine(getSideByColor(cube, sideColor), index)

@@ -5,13 +5,12 @@ import app.helper.InputHelper
 import app.model.Cube
 import app.model.constants.Movement
 import app.service.CubeService
-import app.service.SideService
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.*
 import kotlin.collections.HashMap
 
-open abstract class PopulationSolver : KoinComponent {
+abstract class PopulationSolver : KoinComponent {
 
     // TODO : reformater les solutions
 
@@ -25,20 +24,21 @@ open abstract class PopulationSolver : KoinComponent {
     protected abstract var listOfMovements : Set<Array<Movement>>
 
     // State of the algorithm
+    protected abstract var maxScore : Int
     protected var solved = false
     private var population = HashMap<Array<Movement>, Int>()
     private var survivingPopulation = HashMap<Array<Movement>, Int>()
 
     // Parameters of the solver
-    private val populationMaxSize = 20000
-    private val ratioOfSurvivingPopulation = 0.001
-    private val maxNumberOfMutationsAdded = 5
-    private val randomizeNumberOfMutation = true
+    protected abstract val populationMaxSize : Int
+    protected abstract val ratioOfSurvivingPopulation : Float
+    protected abstract val maxNumberOfMutationsAdded : Int
+    protected abstract val randomizeNumberOfMutation : Boolean
 
     fun getSolution(cube : Cube) : Array<Movement>
     {
 
-        init()
+        init(cube)
 
         while(!solved) {
 
@@ -48,16 +48,23 @@ open abstract class PopulationSolver : KoinComponent {
 
             repopulate()
 
+            println(population.values.max()!!)
+
         }
 
-        return population.filter { it.value == 400 }.keys.sortedBy { it.size }.first()
+        return population.filter { it.value == maxScore }.keys.minBy { it.size }!!
 
     }
 
-    private fun init() {
+    private fun init(cube : Cube) {
 
-        // General initialization of the solver (maybe it is used to solve many times)
-        solved = false
+        // General initialization of the solver (maybe it is used to do more than one solving, needs to re-init)
+        solved = (gradeSequence(cube, arrayOf()) == maxScore)
+        if(solved)
+        {
+            population[arrayOf()] = maxScore
+            return
+        }
         population = HashMap()
         survivingPopulation = HashMap()
 
@@ -73,7 +80,7 @@ open abstract class PopulationSolver : KoinComponent {
                 elementToAdd += listOfMovements.elementAt(current)
             }
 
-            population.put(elementToAdd, 0)
+            population.put(elementToAdd, -1)
 
             // TODO simplifier
             currentPosition[currentPosition.size - 1]++
@@ -104,55 +111,29 @@ open abstract class PopulationSolver : KoinComponent {
 
     private fun gradeIndividuals(cube: Cube) {
         for (movements: Array<Movement> in population.keys) {
-            population[movements] = gradeSequence(cube, movements)
+            if(population[movements] == -1)
+            {
+                population[movements] = gradeSequence(cube, movements)
+            }
         }
     }
 
     private fun selectBestIndividuals() {
-        var indexOfLimitIndividual = (populationMaxSize.toFloat() * (1.0 - ratioOfSurvivingPopulation)).toInt() - 1
-        var gradeRequiredToSurvive = population.values.sorted()[indexOfLimitIndividual]
+        val indexOfLimitIndividual = (populationMaxSize.toFloat() * (1.0 - ratioOfSurvivingPopulation)).toInt() - 1
+        val gradeRequiredToSurvive = population.values.sorted()[indexOfLimitIndividual]
         survivingPopulation = population.filterValues { it >= gradeRequiredToSurvive } as HashMap<Array<Movement>, Int>
 
-        // Value of the minimum score of the surviving population
-        var minScore : Int
-
-        // Individuals which are having the minimum score
-        var individualsWithMinScore : HashMap<Array<Movement>, Int>
-
-        // Value of the maximum length of the list of movements of the individuals which are having the minimum score
-        var maxLengthOfIndividualsWithMinScore = 0
-
-        // Key of the individual which is having the minimum score, and with the maximum length of movements (individuals to delete)
-        var keyOfIndividualWithMinScoreAndMaxSize : Array<Movement> = arrayOf()
-
+        // TODO Trouver un moyen de virer ce while
         while (survivingPopulation.size.toFloat() > (populationMaxSize * ratioOfSurvivingPopulation)) {
-            // todo Faire une map clé -> Taille de la clé des scores min ?
 
-            // Getting the minimum score of the surviving population
-            minScore = survivingPopulation.values.sorted()[0]
-
-            // Getting all individuals which are having the minimum score
-            individualsWithMinScore = survivingPopulation.filter { it.value == minScore } as HashMap<Array<Movement>, Int>
-
-            // Among these individuals with the minimum score, getting the maximum length of the key
-            for(elem in individualsWithMinScore)
-            {
-                if(elem.key.size >= maxLengthOfIndividualsWithMinScore)
-                {
-                    maxLengthOfIndividualsWithMinScore = elem.key.size
-                    keyOfIndividualWithMinScoreAndMaxSize = elem.key
-                }
-            }
+            // Getting the key of the first individual with minimum score and maximum key length
+            val keyOfIndividualWithMinScoreAndMaxSize = survivingPopulation.filter { it.value == survivingPopulation.minBy { it.value }!!.value }.maxBy{ it.key.size}!!.key
 
             // Deleting the element with the minimum score and the maximum length
             survivingPopulation.remove(keyOfIndividualWithMinScoreAndMaxSize)
-
-            maxLengthOfIndividualsWithMinScore = 0
-            individualsWithMinScore.clear()
         }
 
-        population.clear()
-
+        // Population is now survivingPopulation
         population = HashMap(survivingPopulation)
     }
 
@@ -165,7 +146,7 @@ open abstract class PopulationSolver : KoinComponent {
 
         while (population.size < populationMaxSize) {
             // Select a parent
-            var selectedParent = survivingPopulation.keys.elementAt(random.nextInt(survivingPopulation.size))
+            val selectedParent = survivingPopulation.keys.elementAt(random.nextInt(survivingPopulation.size))
 
             if(randomizeNumberOfMutation)
             {
@@ -173,22 +154,19 @@ open abstract class PopulationSolver : KoinComponent {
             }
 
             // Create a random mutation
-            for(i in 0.. numberOfMutationsAdded) {
+            for(i in 0..numberOfMutationsAdded) {
 
-                // TODO c'est moche
                 do{
-                    var suitableToAdd = true
+                    val suitableToAdd = true
                     randomMutationSelection = listOfMovements.elementAt(random.nextInt(listOfMovements.size))
 
-                } while (suitableToAdd == false)
-
-
+                } while (!suitableToAdd)
 
                 listOfAddedMovements += randomMutationSelection
             }
 
             // Add an individual with these mutations to the population
-            population[selectedParent.plus(listOfAddedMovements)] = 0
+            population[selectedParent.plus(listOfAddedMovements)] = -1
 
             listOfAddedMovements = arrayOf()
         }

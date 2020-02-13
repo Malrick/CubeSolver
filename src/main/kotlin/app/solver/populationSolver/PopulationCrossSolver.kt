@@ -7,13 +7,19 @@ import app.service.EdgeService
 import app.service.SideService
 import org.koin.core.inject
 
-class PopulationCrossSolver : PopulationSolver() {
+class PopulationCrossSolver(
+    override val populationMaxSize: Int,
+    override val ratioOfSurvivingPopulation: Float,
+    override val maxNumberOfMutationsAdded: Int,
+    override val randomizeNumberOfMutation: Boolean
+) : PopulationSolver() {
 
     // TODO Modifier l'heuristique
     val sideService : SideService by inject()
     val edgeService : EdgeService by inject()
 
     override var listOfMovements = Movement.values().map { arrayOf(it) }.toSet()
+    override var maxScore = 400
 
     override fun gradeSequence(cube: Cube, sequence: Array<Movement>): Int {
 
