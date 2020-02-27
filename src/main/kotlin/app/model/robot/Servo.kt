@@ -11,6 +11,29 @@ class Servo {
     private lateinit var positionOnRobot : PositionOnRobot
     private lateinit var servoPosition : PositionOfServo
 
+    private var channel = -1
+
+    fun isAnArm() : Boolean
+    {
+        return positionOnRobot.name.startsWith("ARM", true)
+    }
+
+    fun isAHand() : Boolean
+    {
+        return positionOnRobot.name.startsWith("HAND", true)
+    }
+
+
+    fun getChannel() : Int
+    {
+        return channel
+    }
+
+    fun setChannel(channel : Int)
+    {
+        this.channel = channel
+    }
+
     fun setCalibrationValueNotTurned(value : Double)
     {
         this.calibrationValueNotTurned = value

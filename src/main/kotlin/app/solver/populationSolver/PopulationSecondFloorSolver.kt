@@ -1,9 +1,7 @@
 package app.solver.populationSolver
 
-import app.model.Cube
-import app.model.constants.*
-import app.service.EdgeService
-import org.koin.core.inject
+import app.model.cube.Cube
+import app.model.cubeUtils.*
 
 class PopulationSecondFloorSolver(
     override val populationMaxSize: Int,
@@ -12,26 +10,29 @@ class PopulationSecondFloorSolver(
     override val randomizeNumberOfMutation: Boolean
 ) : PopulationSolver() {
 
-    val edgeService : EdgeService by inject()
-
-    override var listOfMovements= setOf(EDGE_INSERTION_1, EDGE_INSERTION_2, EDGE_INSERTION_3, EDGE_INSERTION_4, EDGE_INSERTION_5, EDGE_INSERTION_6, EDGE_INSERTION_7, EDGE_INSERTION_8, arrayOf(Movement.YELLOW), arrayOf(Movement.YELLOW_REVERSE))
+    override var listOfMovements= setOf(
+        EDGE_INSERTION_1,
+        EDGE_INSERTION_2,
+        EDGE_INSERTION_3,
+        EDGE_INSERTION_4,
+        EDGE_INSERTION_5,
+        EDGE_INSERTION_6,
+        EDGE_INSERTION_7,
+        EDGE_INSERTION_8, arrayOf(
+        Movement.YELLOW), arrayOf(Movement.YELLOW_REVERSE))
     override var maxScore = 400
 
     override fun gradeSequence(cube: Cube, sequence: Array<Movement>): Int {
 
-        var cubeExperiment = Cube()
+        var cubeExperiment = cube.clone()
 
-        initHelper.initCubeByCopy(cubeExperiment, cube)
-
-        inputHelper.applySequence(cubeExperiment, sequence)
+        cubeMotionService.applySequence(cubeExperiment, sequence)
 
         var score = 0
 
-        if(edgeService.findEdgeByName(cubeExperiment.edges, 'E')!!.isSolved()) score += 100
-        if(edgeService.findEdgeByName(cubeExperiment.edges, 'F')!!.isSolved()) score += 100
-        if(edgeService.findEdgeByName(cubeExperiment.edges, 'G')!!.isSolved()) score += 100
-        if(edgeService.findEdgeByName(cubeExperiment.edges, 'H')!!.isSolved()) score += 100
+        var numberOfEdgesSolved = (cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.BLUE) -1) + (cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.GREEN) -1) - cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.YELLOW)
 
+        score = numberOfEdgesSolved*100
 
         if(score == maxScore)
         {

@@ -1,6 +1,6 @@
 package app.model.robot
 
-import app.model.constants.Color
+import app.model.cubeUtils.Color
 import app.model.robot.constants.PositionOfCubeEnum
 
 class Orientation {
@@ -27,14 +27,30 @@ class Orientation {
             orientation[PositionOfCubeEnum.BACK] = orientation[PositionOfCubeEnum.RIGHT]!!
             orientation[PositionOfCubeEnum.RIGHT] = temp!!
         }
-        /*else if(positionOfCubeEnum == PositionOfCubeEnum.LEFT)
+        else if(positionOfCubeEnum == PositionOfCubeEnum.LEFT)
         {
             var temp = orientation[PositionOfCubeEnum.FRONT]
             orientation[PositionOfCubeEnum.FRONT] = orientation[PositionOfCubeEnum.RIGHT]!!
             orientation[PositionOfCubeEnum.RIGHT ] = orientation[PositionOfCubeEnum.BACK]!!
-            orientation[PositionOfCubeEnum.BACK] = orientation[PositionOfCubeEnum.RIGHT]!!
-            orientation[PositionOfCubeEnum.RIGHT] = temp!!
-        }*/
+            orientation[PositionOfCubeEnum.BACK] = orientation[PositionOfCubeEnum.LEFT]!!
+            orientation[PositionOfCubeEnum.LEFT] = temp!!
+        }
+        else if(positionOfCubeEnum == PositionOfCubeEnum.TOP)
+        {
+            var temp = orientation[PositionOfCubeEnum.FRONT]
+            orientation[PositionOfCubeEnum.FRONT] = orientation[PositionOfCubeEnum.BOTTOM]!!
+            orientation[PositionOfCubeEnum.BOTTOM ] = orientation[PositionOfCubeEnum.BACK]!!
+            orientation[PositionOfCubeEnum.BACK] = orientation[PositionOfCubeEnum.TOP]!!
+            orientation[PositionOfCubeEnum.TOP] = temp!!
+        }
+        else if(positionOfCubeEnum == PositionOfCubeEnum.BOTTOM)
+        {
+            var temp = orientation[PositionOfCubeEnum.FRONT]
+            orientation[PositionOfCubeEnum.FRONT] = orientation[PositionOfCubeEnum.TOP]!!
+            orientation[PositionOfCubeEnum.TOP ] = orientation[PositionOfCubeEnum.BACK]!!
+            orientation[PositionOfCubeEnum.BACK] = orientation[PositionOfCubeEnum.BOTTOM]!!
+            orientation[PositionOfCubeEnum.BOTTOM] = temp!!
+        }
     }
 
     fun getPositionOfColor(color : Color) : PositionOfCubeEnum

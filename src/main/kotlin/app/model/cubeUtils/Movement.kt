@@ -1,0 +1,21 @@
+package app.model.cubeUtils
+
+enum class Movement {
+    WHITE,
+    WHITE_REVERSE,
+
+    ORANGE,
+    ORANGE_REVERSE,
+
+    GREEN,
+    GREEN_REVERSE,
+
+    RED,
+    RED_REVERSE,
+
+    YELLOW,
+    YELLOW_REVERSE,
+
+    BLUE,
+    BLUE_REVERSE
+}

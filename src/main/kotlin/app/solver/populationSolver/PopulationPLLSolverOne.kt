@@ -1,10 +1,11 @@
 package app.solver.populationSolver
 
-import app.model.Cube
-import app.model.constants.Movement
-import app.model.constants.PLL_ONE
-import app.model.constants.PLL_ONE_SECOND
-import app.service.EdgeService
+import app.model.cube.Cube
+import app.model.cubeUtils.Movement
+import app.model.cubeUtils.PLL_ONE
+import app.model.cubeUtils.PLL_ONE_SECOND
+import app.model.cubeUtils.Color
+import app.service.cubeOLD.EdgeService
 import org.koin.core.inject
 
 class PopulationPLLSolverOne(
@@ -16,23 +17,18 @@ class PopulationPLLSolverOne(
 
     val edgeService : EdgeService by inject()
 
-    override var listOfMovements: Set<Array<Movement>> = setOf(PLL_ONE, PLL_ONE_SECOND, arrayOf(Movement.YELLOW), arrayOf(Movement.YELLOW_REVERSE))
+    override var listOfMovements: Set<Array<Movement>> = setOf(
+        PLL_ONE, PLL_ONE_SECOND, arrayOf(
+        Movement.YELLOW), arrayOf(Movement.YELLOW_REVERSE))
     override var maxScore = 400
 
     override fun gradeSequence(cube: Cube, sequence: Array<Movement>): Int {
 
-        var cubeExperiment = Cube()
+        var cubeExperiment = cube.clone()
 
-        initHelper.initCubeByCopy(cubeExperiment, cube)
+        cubeMotionService.applySequence(cubeExperiment, sequence)
 
-        inputHelper.applySequence(cubeExperiment, sequence)
-
-        var score = 0
-
-        if(edgeService.findEdgeByName(cubeExperiment.edges,'I')!!.isSolved()) score += 100
-        if(edgeService.findEdgeByName(cubeExperiment.edges,'J')!!.isSolved()) score += 100
-        if(edgeService.findEdgeByName(cubeExperiment.edges,'K')!!.isSolved()) score += 100
-        if(edgeService.findEdgeByName(cubeExperiment.edges,'L')!!.isSolved()) score += 100
+        var score = cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.YELLOW) *100
 
         if (score == maxScore) {
             solved = true

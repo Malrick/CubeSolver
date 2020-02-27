@@ -1,10 +1,11 @@
 package app.solver.populationSolver
 
+import app.UI.ConsoleUI
 import app.helper.InitHelper
-import app.helper.InputHelper
-import app.model.Cube
-import app.model.constants.Movement
-import app.service.CubeService
+import app.model.cube.Cube
+import app.model.cubeUtils.Movement
+import app.service.cube.CubeInformationService
+import app.service.cube.CubeMotionService
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.*
@@ -15,9 +16,9 @@ abstract class PopulationSolver : KoinComponent {
     // TODO : reformater les solutions
 
     // Services / Helpers
-    protected val inputHelper : InputHelper by inject()
     protected val initHelper  : InitHelper  by inject()
-    protected val cubeService : CubeService by inject()
+    protected val cubeInformationService : CubeInformationService by inject()
+    protected val cubeMotionService : CubeMotionService by inject()
     private var random = Random()
 
     // Studied set
@@ -35,7 +36,7 @@ abstract class PopulationSolver : KoinComponent {
     protected abstract val maxNumberOfMutationsAdded : Int
     protected abstract val randomizeNumberOfMutation : Boolean
 
-    fun getSolution(cube : Cube) : Array<Movement>
+    fun solve(cube : Cube) : Array<Movement>
     {
 
         init(cube)
