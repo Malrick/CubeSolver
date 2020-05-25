@@ -6,23 +6,12 @@ import app.model.cube.piece.Edge
 import app.model.cube.piece.Piece
 import java.lang.UnsupportedOperationException
 
-class EdgePosition : Position
+class EdgePosition(override var cubeCoordinates: CubeCoordinates, var colorOne : Color, var colorTwo : Color) : Position()
 {
-    var colorOne : Color
-    var colorTwo : Color
-
-    constructor(cubeCoordinates: CubeCoordinates, colorOne : Color, colorTwo : Color)
-    {
-        this.cubeCoordinates = cubeCoordinates
-        this.colorOne = colorOne
-        this.colorTwo = colorTwo
-    }
-
     override fun matches(piece : Piece) : Boolean
     {
         if(piece !is Edge) throw UnsupportedOperationException()
         else return (piece.colorOne == colorOne && piece.colorTwo == colorTwo)
-
     }
 
     override fun possessColor(color: Color): Boolean {

@@ -11,7 +11,7 @@ class ConsoleUI : KoinComponent {
 
     val cubeInformationService : CubeInformationService by inject()
 
-    fun display(cube : Cube)
+    fun displayCube(cube : Cube)
     {
         displayEmptyLine()
         displayRow(cubeInformationService.getSideByColor(cube, Color.WHITE),0)
@@ -103,13 +103,17 @@ class ConsoleUI : KoinComponent {
     private fun displayRow(colors : List<Color>, rowNumber : Int)
     {
         var colorsToDisplay = listOf<Color>()
+
         when(rowNumber)
         {
             0 -> colorsToDisplay = colors.subList(0, 3)
             1 -> colorsToDisplay = colors.subList(3, 6)
             2 -> colorsToDisplay = colors.subList(6, 9)
         }
-        print(colorToDisplayedString(colorsToDisplay[0]) + colorToDisplayedString(colorsToDisplay[0])+ colorToDisplayedString(colorsToDisplay[0]) + colorToDisplayedString(colorsToDisplay[1])+ colorToDisplayedString(colorsToDisplay[1])+ colorToDisplayedString(colorsToDisplay[1]) + colorToDisplayedString(colorsToDisplay[2])+ colorToDisplayedString(colorsToDisplay[2]) +colorToDisplayedString(colorsToDisplay[2]))
+
+        print(colorToDisplayedString(colorsToDisplay[0]) + colorToDisplayedString(colorsToDisplay[0]) + colorToDisplayedString(colorsToDisplay[0]))
+        print(colorToDisplayedString(colorsToDisplay[1]) + colorToDisplayedString(colorsToDisplay[1]) + colorToDisplayedString(colorsToDisplay[1]))
+        print(colorToDisplayedString(colorsToDisplay[2]) + colorToDisplayedString(colorsToDisplay[2]) + colorToDisplayedString(colorsToDisplay[2]))
     }
 
 
@@ -125,7 +129,6 @@ class ConsoleUI : KoinComponent {
             Color.YELLOW -> with(TermColors()){ return((hsv(32,100,100) on hsv(32,100,100))("Y"))}
         }
     }
-
 
     private fun displayEmptyLine()
     {

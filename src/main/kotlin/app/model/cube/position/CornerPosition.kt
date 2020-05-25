@@ -6,20 +6,8 @@ import app.model.cube.piece.Corner
 import app.model.cube.piece.Piece
 import java.lang.UnsupportedOperationException
 
-class CornerPosition : Position
+class CornerPosition(override var cubeCoordinates: CubeCoordinates, var colorOne : Color, var colorTwo : Color, var colorThree : Color) : Position()
 {
-    var colorOne : Color
-    var colorTwo : Color
-    var colorThree : Color
-
-    constructor(cubeCoordinates: CubeCoordinates, colorOne : Color, colorTwo : Color, colorThree : Color)
-    {
-        this.cubeCoordinates = cubeCoordinates
-        this.colorOne = colorOne
-        this.colorTwo = colorTwo
-        this.colorThree = colorThree
-    }
-
     override fun matches(piece : Piece) : Boolean
     {
         if(piece !is Corner) throw UnsupportedOperationException()

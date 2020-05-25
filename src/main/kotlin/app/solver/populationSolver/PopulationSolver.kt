@@ -6,12 +6,13 @@ import app.model.cube.Cube
 import app.model.cubeUtils.Movement
 import app.service.cube.CubeInformationService
 import app.service.cube.CubeMotionService
+import app.solver.Solver
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.*
 import kotlin.collections.HashMap
 
-abstract class PopulationSolver : KoinComponent {
+abstract class PopulationSolver : Solver, KoinComponent {
 
     // TODO : reformater les solutions
 
@@ -36,7 +37,7 @@ abstract class PopulationSolver : KoinComponent {
     protected abstract val maxNumberOfMutationsAdded : Int
     protected abstract val randomizeNumberOfMutation : Boolean
 
-    fun solve(cube : Cube) : Array<Movement>
+    override fun solve(cube : Cube) : Array<Movement>?
     {
 
         init(cube)
@@ -78,7 +79,8 @@ abstract class PopulationSolver : KoinComponent {
             var elementToAdd = arrayOf<Movement>()
 
             for (current: Int in currentPosition) {
-                elementToAdd += listOfMovements.elementAt(current)
+                var toAdd = listOfMovements.elementAt(current)
+                elementToAdd = elementToAdd.plus(toAdd)
             }
 
             population.put(elementToAdd, -1)

@@ -22,6 +22,7 @@ dependencies {
     implementation "org.koin:koin-core:2.0.1"
     implementation 'com.github.ajalt:mordant:1.2.1'
     implementation 'com.github.IAmContent:public:master-SNAPSHOT'
+    implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:0.7.3'
     compile files('libs/opencv/opencv-420.jar')
 }
 

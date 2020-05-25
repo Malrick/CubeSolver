@@ -1,28 +1,27 @@
 package app.model.robot
 
-import app.model.robot.constants.PositionOfServo
-import app.model.robot.constants.PositionOnRobot
+import app.model.robot.constants.ServoState
+import app.model.robot.constants.ServoIdentity
 
 class Servo {
 
     private var calibrationValueNotTurned : Double = 0.0
     private var calibrationValueTurned : Double = 1.0
 
-    private lateinit var positionOnRobot : PositionOnRobot
-    private lateinit var servoPosition : PositionOfServo
+    private lateinit var positionOnRobot : ServoIdentity
+    private lateinit var servoPosition : ServoState
 
     private var channel = -1
 
     fun isAnArm() : Boolean
     {
-        return positionOnRobot.name.startsWith("ARM", true)
+        return positionOnRobot.name.startsWith("ARM")
     }
 
     fun isAHand() : Boolean
     {
-        return positionOnRobot.name.startsWith("HAND", true)
+        return positionOnRobot.name.startsWith("HAND")
     }
-
 
     fun getChannel() : Int
     {
@@ -44,23 +43,22 @@ class Servo {
         this.calibrationValueTurned = value
     }
 
-
-    fun getServoPosition() : PositionOfServo
+    fun getServoPosition() : ServoState
     {
         return servoPosition
     }
 
-    fun setServoPosition(servoPosition : PositionOfServo)
+    fun setServoPosition(servoPosition : ServoState)
     {
         this.servoPosition = servoPosition
     }
 
-    fun getPositionOnRobot() : PositionOnRobot
+    fun getPositionOnRobot() : ServoIdentity
     {
         return this.positionOnRobot
     }
 
-    fun setPositionOnRobot(position : PositionOnRobot)
+    fun setPositionOnRobot(position : ServoIdentity)
     {
         this.positionOnRobot = position
     }
@@ -74,6 +72,4 @@ class Servo {
     {
         return calibrationValueTurned
     }
-
-
 }

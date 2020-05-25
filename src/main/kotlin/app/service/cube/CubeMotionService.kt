@@ -22,23 +22,24 @@ class CubeMotionService {
     {
         val colorOfMovement = Color.values().first { movement.toString().startsWith(it.toString())}
 
-        var clockwise = !movement.toString().endsWith("REVERSE")
+        var clockwise = !movement.name.endsWith("REVERSE")
 
         var side = cube.positions.keys.filter {it.possessColor(colorOfMovement)}
-            .sortedBy { it.cubeCoordinates.getSideCoordinate(colorOfMovement, cube.cubeSize).coordX }
-            .sortedBy { it.cubeCoordinates.getSideCoordinate(colorOfMovement, cube.cubeSize).coordY }
+            .sortedBy { it.cubeCoordinates.getSideCoordinate(colorOfMovement, cube.cubeSize)!!.coordX }
+            .sortedBy { it.cubeCoordinates.getSideCoordinate(colorOfMovement, cube.cubeSize)!!.coordY }
 
         var newSide = HashMap<Position, Piece>()
 
         while(side.size > 1)
         {
-            for(j in 0 until Math.sqrt(side.size.toDouble()).toInt()-1)
+            val lengthOfTreatedSquare = Math.sqrt(side.size.toDouble()).toInt()
+            for(j in 0 until lengthOfTreatedSquare-1)
             {
 
                 var a = j
-                var b = (j+1)*(Math.sqrt(side.size.toDouble()).toInt())-1
+                var b = (j+1)*(lengthOfTreatedSquare)-1
                 var c = side.size-j-1
-                var d = side.size-(j+1)*(Math.sqrt(side.size.toDouble()).toInt())
+                var d = side.size-(j+1)*(lengthOfTreatedSquare)
 
                 if(clockwise)
                 {
@@ -58,7 +59,7 @@ class CubeMotionService {
             side = side.filterNot { newSide.containsKey(it) }
         }
 
-        for((position, piece) in newSide)
+        for(piece in newSide.values)
         {
             if(piece is Edge && (colorOfMovement== Color.GREEN || colorOfMovement== Color.BLUE))
             {

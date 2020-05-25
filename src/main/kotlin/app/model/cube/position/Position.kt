@@ -7,7 +7,7 @@ import kotlin.properties.Delegates
 
 abstract class Position {
 
-    var cubeCoordinates : CubeCoordinates by Delegates.notNull()
+    abstract var cubeCoordinates : CubeCoordinates
 
     abstract fun possessColor(color : Color) : Boolean
 
@@ -18,11 +18,12 @@ abstract class Position {
     fun isAdjacent(position : Position) : Boolean
     {
         var numberOfEqualCoordinates =0
-        if(cubeCoordinates.height == position.cubeCoordinates.height) numberOfEqualCoordinates++
-        if(cubeCoordinates.width == position.cubeCoordinates.width) numberOfEqualCoordinates++
-        if(cubeCoordinates.depht == position.cubeCoordinates.depht) numberOfEqualCoordinates++
 
-        var sumOfMyCoordinates = cubeCoordinates.height + cubeCoordinates.width + cubeCoordinates.depht
+        if(cubeCoordinates.height == position.cubeCoordinates.height) numberOfEqualCoordinates++
+        if(cubeCoordinates.width  == position.cubeCoordinates.width)  numberOfEqualCoordinates++
+        if(cubeCoordinates.depht  == position.cubeCoordinates.depht)  numberOfEqualCoordinates++
+
+        var sumOfMyCoordinates  =          cubeCoordinates.height +          cubeCoordinates.width +          cubeCoordinates.depht
         var sumOfHisCoordinates = position.cubeCoordinates.height + position.cubeCoordinates.width + position.cubeCoordinates.depht
 
         if(numberOfEqualCoordinates == 2 && sumOfHisCoordinates >= sumOfMyCoordinates-1 && sumOfHisCoordinates <= sumOfMyCoordinates+1) return true

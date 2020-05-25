@@ -1,72 +1,69 @@
 package app.service.robot
 
 import app.model.robot.Servo
-import app.model.robot.constants.PositionOfServo
-import app.model.robot.constants.PositionOnRobot
+import app.model.robot.constants.ServoState
+import app.model.robot.constants.ServoIdentity
 import com.iamcontent.device.controller.pololu.maestro.DefaultPololuServoConfig
+import com.iamcontent.device.servo.ServoSource
 import com.iamcontent.device.servo.command.ImmutableServoCommand
 import com.iamcontent.device.servo.command.ServoCommand
 import com.iamcontent.device.servo.command.SimpleServoCommandExecutor
 
-class ServoService : ServoControl {
+class ServoService {
 
-    var positionToChannel = HashMap<PositionOnRobot, Int>()
+    private var positionToChannel = HashMap<ServoIdentity, Int>()
+    private var servoSource: ServoSource<Int> = DefaultPololuServoConfig.normalServos()
+    private var executor = SimpleServoCommandExecutor(servoSource)
 
-    var servoSource = DefaultPololuServoConfig.normalServos()
-
-    var executor = SimpleServoCommandExecutor(servoSource)
-
-    fun initServos() : HashMap<PositionOnRobot, Servo>
+    fun initServos() : HashMap<ServoIdentity, Servo>
     {
+        positionToChannel[ServoIdentity.HAND_TOP] = 3
+        positionToChannel[ServoIdentity.HAND_LEFT] = 0
+        positionToChannel[ServoIdentity.HAND_BOTTOM] = 1
+        positionToChannel[ServoIdentity.HAND_RIGHT] = 2
 
-        positionToChannel[PositionOnRobot.HAND_TOP] = 3
-        positionToChannel[PositionOnRobot.HAND_LEFT] = 0
-        positionToChannel[PositionOnRobot.HAND_BOTTOM] = 1
-        positionToChannel[PositionOnRobot.HAND_RIGHT] = 2
+        positionToChannel[ServoIdentity.ARM_TOP] = 9
+        positionToChannel[ServoIdentity.ARM_LEFT] = 6
+        positionToChannel[ServoIdentity.ARM_BOTTOM] = 7
+        positionToChannel[ServoIdentity.ARM_RIGHT] = 8
 
-        positionToChannel[PositionOnRobot.ARM_TOP] = 9
-        positionToChannel[PositionOnRobot.ARM_LEFT] = 6
-        positionToChannel[PositionOnRobot.ARM_BOTTOM] = 7
-        positionToChannel[PositionOnRobot.ARM_RIGHT] = 8
+        var servos = HashMap<ServoIdentity, Servo>()
 
-        var servos = HashMap<PositionOnRobot, Servo>()
-
-        for(positionOnRobot in PositionOnRobot.values()) {
+        for(servoIdentity in ServoIdentity.values()) {
             var toAdd = Servo()
-            toAdd.setChannel(positionToChannel[positionOnRobot]!!)
-            toAdd.setPositionOnRobot(positionOnRobot)
+            toAdd.setChannel(positionToChannel[servoIdentity]!!)
+            toAdd.setPositionOnRobot(servoIdentity)
             toAdd.setServoPosition(getPositionOfServo(toAdd)!!)
-            if (positionOnRobot.name.startsWith("HAND"))
+            if (servoIdentity.name.startsWith("HAND"))
             {
                 toAdd.setCalibrationValueNotTurned(0.0)
                 toAdd.setCalibrationValueTurned(0.65)
             }
             else {
-                toAdd.setCalibrationValueNotTurned(0.03)
+                toAdd.setCalibrationValueNotTurned(0.0)
             }
-            servos[positionOnRobot] = toAdd
+            servos[servoIdentity] = toAdd
         }
 
         return servos
-
     }
 
-    override fun getPositionOfServo(servo : Servo) : PositionOfServo? {
+    fun getPositionOfServo(servo : Servo) : ServoState? {
 
         var channel = servo.getChannel()
         var positionOfServo = servoSource.forChannel(channel).value
 
         if(servo.isAnArm())
         {
-            if(positionOfServo ==servo.getCalibrationValueTurned()) return PositionOfServo.OUTSIDE
-            else if(positionOfServo == servo.getCalibrationValueNotTurned()) return PositionOfServo.INSIDE
-            else return PositionOfServo.CURRENTLY_MOVING
+            if(positionOfServo ==servo.getCalibrationValueTurned()) return ServoState.OUTSIDE
+            else if(positionOfServo == servo.getCalibrationValueNotTurned()) return ServoState.INSIDE
+            else return ServoState.CURRENTLY_MOVING
         }
         else if(servo.isAHand())
         {
-            if(positionOfServo == servo.getCalibrationValueTurned()) return PositionOfServo.TURNED
-            else if(positionOfServo == servo.getCalibrationValueNotTurned()) return PositionOfServo.NOT_TURNED
-            else return PositionOfServo.CURRENTLY_MOVING
+            if(positionOfServo == servo.getCalibrationValueTurned()) return ServoState.TURNED
+            else if(positionOfServo == servo.getCalibrationValueNotTurned()) return ServoState.NOT_TURNED
+            else return ServoState.CURRENTLY_MOVING
         }
         else
         {
@@ -76,23 +73,22 @@ class ServoService : ServoControl {
 
     }
 
-    override fun moveServo(servo: Servo, positionOfServo: PositionOfServo) {
+    fun moveServo(servo: Servo, positionOfServo: ServoState) {
 
         var command = getCommand(servo, positionOfServo)
 
         executor.execute(command)
 
         servo.setServoPosition(positionOfServo)
-
     }
 
 
-    private fun getCommand(servo : Servo, positionOfServo: PositionOfServo) : ServoCommand<Int>
+    private fun getCommand(servo : Servo, positionOfServo: ServoState) : ServoCommand<Int>
     {
         var newPosition : Double
 
-        if(servo.getPositionOnRobot().name.startsWith("ARM") && positionOfServo == PositionOfServo.OUTSIDE
-            || servo.getPositionOnRobot().name.startsWith("HAND") && positionOfServo == PositionOfServo.TURNED)
+        if(    servo.getPositionOnRobot().name.startsWith("ARM") && positionOfServo == ServoState.OUTSIDE
+            || servo.getPositionOnRobot().name.startsWith("HAND") && positionOfServo == ServoState.TURNED)
         {
             newPosition = servo.getCalibrationValueTurned()
         }

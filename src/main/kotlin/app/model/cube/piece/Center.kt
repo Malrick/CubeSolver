@@ -17,7 +17,6 @@ class Center(var colorOne : Color) : Piece() {
         }
     }
 
-
     override fun containsColor(color: Color): Boolean {
         return (colorOne==color)
     }

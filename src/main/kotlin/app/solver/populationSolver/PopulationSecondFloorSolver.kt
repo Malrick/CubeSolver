@@ -10,17 +10,24 @@ class PopulationSecondFloorSolver(
     override val randomizeNumberOfMutation: Boolean
 ) : PopulationSolver() {
 
-    override var listOfMovements= setOf(
-        EDGE_INSERTION_1,
-        EDGE_INSERTION_2,
-        EDGE_INSERTION_3,
-        EDGE_INSERTION_4,
-        EDGE_INSERTION_5,
-        EDGE_INSERTION_6,
-        EDGE_INSERTION_7,
-        EDGE_INSERTION_8, arrayOf(
-        Movement.YELLOW), arrayOf(Movement.YELLOW_REVERSE))
+    override var listOfMovements = setOf<Array<Movement>>()
+
     override var maxScore = 400
+
+    init{
+        var orientationService = OrientationService()
+        for(relativeSequence in arrayOf(RELATIVE_EDGE_INSERTION_1, RELATIVE_EDGE_INSERTION_2))
+        {
+            for(orientation in orientationService.getOrientations(Pair(RelativePosition.TOP, Color.YELLOW)))
+            {
+                listOfMovements = listOfMovements.plus(arrayOf(orientationService.convertSequenceOfRelativeMovements(relativeSequence, orientation)))
+            }
+        }
+
+        listOfMovements = listOfMovements.plus(arrayOf(arrayOf(Movement.YELLOW)))
+        listOfMovements = listOfMovements.plus(arrayOf(arrayOf(Movement.YELLOW_REVERSE)))
+    }
+
 
     override fun gradeSequence(cube: Cube, sequence: Array<Movement>): Int {
 

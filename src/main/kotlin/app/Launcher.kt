@@ -3,10 +3,12 @@ package app
 import app.UI.ConsoleUI
 import app.helper.InitHelper
 import app.model.cube.Cube
-import app.model.cubeUtils.Movement
-import app.service.cube.CubeInformationService
+import app.model.cubeUtils.*
 import app.service.cube.CubeMotionService
-import app.service.robot.SequenceService
+import app.service.robot.RobotSequenceService
+import app.solver.Solver
+import app.solver.bruteforceSolver.BruteforceOLLSolver
+import app.solver.bruteforceSolver.BruteforcePLLSolver
 import app.solver.populationSolver.*
 import app.vision.ColorResolver
 import org.koin.core.KoinComponent
@@ -17,20 +19,14 @@ import java.util.*
 
 fun main()
 {
-    startKoin{
-        modules(listOf(serviceModule, helperModule, displayModule, solverModule, visionModule, servoModule))
-    }
-
-    System.loadLibrary( Core.NATIVE_LIBRARY_NAME)
+    startKoin{modules(listOf(serviceModule, helperModule, displayModule, visionModule, servoModule))}
+    System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
     Launcher().launch()
 }
 
 class Launcher : KoinComponent {
 
     //TODO Exceptions
-
-    //TODO OLL / PLL management
-
     //TODO Multithreading
     //TODO lambdas
 
@@ -38,139 +34,69 @@ class Launcher : KoinComponent {
     //TODO Refacto motion
     //TODO Refacto vision
 
-    val cube = Cube(3)
     val cubeMotionService : CubeMotionService by inject()
-    val cubeInformationService : CubeInformationService by inject()
-    val populationCrossSolver : PopulationCrossSolver by inject()
-    val populationCornerSolver : PopulationCornerSolver by inject()
-    val populationSecondFloorSolver : PopulationSecondFloorSolver by inject()
-    val populationOLLSolverOne : PopulationOLLSolverOne by inject()
-    val populationOLLSolverTwo : PopulationOLLSolverTwo by inject()
-    val populationPLLSolverOne : PopulationPLLSolverOne by inject()
-    val populationPLLSolverTwo : PopulationPLLSolverTwo by inject()
     val consoleUI : ConsoleUI by inject()
     val initHelper : InitHelper by inject()
-    //val motionService : SequenceService by inject()
-    val colorResolver : ColorResolver by inject()
+    val robotMotionService : RobotSequenceService by inject()
 
     fun launch() {
 
+        val cube = Cube(3)
 
-
-        var finalSolution = arrayOf<Movement>()
 
         var solution : Array<Movement>
+        var totalSolution = arrayOf<Movement>()
 
-        //motionService.init()
+        robotMotionService.init()
 
-        //motionService.welcome()
+        robotMotionService.welcome()
+        //initHelper.initCubeByKeyboard(cube)
+        //initHelper.initCubeWithRobot(cube)
 
-        initHelper.initCube(cube)
+        //consoleUI.displayCube(cube)
 
-        consoleUI.display(cube)
-        //motionService.release()
 
-        println()
-        println("Cross : ")
-        solution =  populationCrossSolver.solve(cube)
-        for(movement in solution)
+
+        while(true)
         {
-            print(movement)
-            print(" ")
+            initHelper.processColorsAndSaveLab()
+            println("Appuyez sur une touche pour continuer.")
+            Scanner(System.`in`).nextLine()
         }
-        println()
-        println()
-        cubeMotionService.applySequence(cube, solution)
-        consoleUI.display(cube)
 
-        finalSolution = finalSolution.plus(solution)
+        consoleUI.displayCube(cube)
 
-        println()
-        println("Corners : ")
-        solution = populationCornerSolver.solve(cube)
-        for(movement in solution)
+        //robotMotionService.release()
+
+
+        var solvers = arrayOf<Solver>(PopulationCrossSolver(1000, 0.01f, 4, true),
+                                      PopulationCornerSolver(1000, 0.01f, 3, true),
+                                      PopulationSecondFloorSolver(1000, 0.01f, 3, true),
+                                      BruteforceOLLSolver(),
+                                      BruteforcePLLSolver())
+
+
+
+
+        for(solver in solvers)
         {
-            print(movement)
-            print(" ")
+            println()
+            println(solver)
+            solution = solver.solve(cube)!!
+            for(movement in solution)
+            {
+                print(movement)
+                print(" ")
+            }
+            println()
+            println()
+            cubeMotionService.applySequence(cube, solution)
+            consoleUI.displayCube(cube)
+            totalSolution = totalSolution.plus(solution)
         }
-        println()
-        println()
-        cubeMotionService.applySequence(cube, solution)
-        consoleUI.display(cube)
-        finalSolution = finalSolution.plus(solution)
 
-      println()
-        println("SecondFloor : ")
-        solution = populationSecondFloorSolver.solve(cube)
-        for(movement in solution)
-        {
-            print(movement)
-            print(" ")
-        }
-        println()
-        println()
-        cubeMotionService.applySequence(cube, solution)
-        consoleUI.display(cube)
-        finalSolution = finalSolution.plus(solution)
+        println(totalSolution.size)
 
-        println()
-        println("OLL one : ")
-        solution = populationOLLSolverOne.solve(cube)
-        for(movement in solution)
-        {
-            print(movement)
-            print(" ")
-        }
-        println()
-        println()
-        cubeMotionService.applySequence(cube, solution)
-        consoleUI.display(cube)
-        finalSolution = finalSolution.plus(solution)
-
-        println()
-        println("OLL two : ")
-        solution = populationOLLSolverTwo.solve(cube)
-        for(movement in solution)
-        {
-            print(movement)
-            print(" ")
-        }
-        println()
-        println()
-        cubeMotionService.applySequence(cube, solution)
-        consoleUI.display(cube)
-        finalSolution = finalSolution.plus(solution)
-
-        println()
-        println("PLL one : ")
-        solution = populationPLLSolverOne.solve(cube)
-        for(movement in solution)
-        {
-            print(movement)
-            print(" ")
-        }
-        println()
-        println()
-        cubeMotionService.applySequence(cube, solution)
-        consoleUI.display(cube)
-        finalSolution = finalSolution.plus(solution)
-
-        println()
-        println("PLL two : ")
-        solution = populationPLLSolverTwo.solve(cube)
-        for(movement in solution)
-        {
-            print(movement)
-            print(" ")
-        }
-        println()
-        println()
-        cubeMotionService.applySequence(cube, solution)
-        consoleUI.display(cube)
-        finalSolution = finalSolution.plus(solution)
-
-
-        //motionService.applySequence(finalSolution)
-
+        //robotMotionService.applySequence(totalSolution)
     }
 }

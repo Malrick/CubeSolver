@@ -1,383 +1,301 @@
 package app.helper
 
 import app.model.cube.Cube
-import app.model.cubeOLD.Corner
-import app.model.cubeOLD.Edge
-import app.model.cubeOLD.Side
-import app.vision.ColorResolver
 import app.model.cubeUtils.Color
-import app.model.cubeOLD.constants.CornerPosition
-import app.model.cubeOLD.constants.EdgePosition
-import app.model.robot.constants.PositionOfServo
-import app.model.robot.constants.PositionOnRobot
+import app.model.cubeUtils.RelativePosition
+import app.model.robot.constants.ServoState
+import app.model.robot.constants.ServoIdentity
 import app.service.cube.CubeInformationService
-import app.service.cubeOLD.CornerService
-import app.service.cubeOLD.CubeService
-import app.service.cubeOLD.EdgeService
-import app.service.cubeOLD.SideService
-import app.service.robot.MotionService
+import app.service.robot.RobotMotionService
+import app.vision.ColorResolver
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import org.opencv.core.Scalar
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
 class InitHelper : KoinComponent {
 
-    val input = Scanner(System.`in`)
-
-    // Todo Creuser bimap
-    var cornerIdentityToColor :  HashMap<CornerPosition, Set<Color>> = HashMap()
-    var cornerColorToIdentity : HashMap<Set<Color>, CornerPosition> = HashMap()
-    var cornerIdentityToCoordinates : HashMap<CornerPosition, Array<Int>> = HashMap()
-
     var colorResolver = ColorResolver()
+    val cubeInformationService: CubeInformationService by inject()
+    val motionService: RobotMotionService by inject()
 
-    var edgeIdentityToColor :  HashMap<EdgePosition, Set<Color>> = HashMap()
-    var edgeColorToIdentity : HashMap<Set<Color>, EdgePosition> = HashMap()
-    var edgeIdentityToCoordinates : HashMap<EdgePosition, Array<Int>> = HashMap()
-
-    val cubeInformationService : CubeInformationService by inject()
-    val motionService : MotionService by inject()
-    val sideService : SideService by inject()
-    val edgeService : EdgeService by inject()
-    val cornerService : CornerService by inject()
-
-
-    fun initCube(cube : Cube)
-    {
-        for(color in Color.values())
-        {
-            /*when(color)
-            {
-                Color.WHITE ->
-                {
-                    motionService.turnCube(PositionOfCubeEnum.TOP)
-                }
-                Color.ORANGE -> {
-                    motionService.turnCube(PositionOfCubeEnum.BOTTOM)
-                    motionService.turnCube(PositionOfCubeEnum.RIGHT)
-                }
-                Color.GREEN -> motionService.turnCube(PositionOfCubeEnum.LEFT)
-                Color.RED -> motionService.turnCube(PositionOfCubeEnum.LEFT)
-                Color.YELLOW -> {
-                    motionService.turnCube(PositionOfCubeEnum.RIGHT)
-                    motionService.turnCube(PositionOfCubeEnum.BOTTOM)
-                }
-                Color.BLUE-> motionService.turnCube(PositionOfCubeEnum.BOTTOM)
-            }*/
-
+    fun initSolvedCube(cube: Cube) {
+        for (color in Color.values()) {
             var toAdd = ArrayList<Color>()
-            toAdd = initSide(color)
+            for (i in 0 until 9) {
+                toAdd.add(color)
+            }
             cubeInformationService.initSideByColor(cube, color, toAdd)
         }
     }
 
-    // TODO Re-propriser
-    fun initSide(sideColor : Color) : ArrayList<Color>
-    {
-        var toAdd = ArrayList<Color>()
-        println("Please enter the colors of the $sideColor side")
+    fun initCubeByKeyboard(cube: Cube) {
+        val input = Scanner(System.`in`)
 
-        for(i in 0..2)
-        {
-            var array = ArrayList<Color>()
-            for(j in 0..2)
-            {
-                if(i==1 && j ==1)
-                {
-                    array.add(sideColor)
-                }
-                else
-                {
-                    when(input.next()[0])
-                    {
-                        'W' -> array.add(Color.WHITE)
-                        'O' -> array.add(Color.ORANGE)
-                        'G' -> array.add(Color.GREEN)
-                        'R' -> array.add(Color.RED)
-                        'Y' -> array.add(Color.YELLOW)
-                        'B' -> array.add(Color.BLUE)
+        for (color in Color.values()) {
+            var toAdd = ArrayList<Color>()
+
+            println("Please enter the colors of the $color side")
+
+            for (i in 0 until 3) {
+                for (j in 0 until 3) {
+                    when (input.next()[0]) {
+                        'W' -> toAdd.add(Color.WHITE)
+                        'O' -> toAdd.add(Color.ORANGE)
+                        'G' -> toAdd.add(Color.GREEN)
+                        'R' -> toAdd.add(Color.RED)
+                        'Y' -> toAdd.add(Color.YELLOW)
+                        'B' -> toAdd.add(Color.BLUE)
                     }
                 }
             }
-            toAdd.addAll(array)
+
+            cubeInformationService.initSideByColor(cube, color, toAdd)
         }
-        return toAdd
     }
 
-    fun takePicsAndResolveColors(color : Color) : ArrayList<Color>
-    {
-        var result = ArrayList<Color>()
-        var temp = ArrayList<Color>()
-        var temp2 = ArrayList<Color>()
+    fun initCubeWithRobot(cube: Cube) {
 
-        motionService.executeCommand(motionService.servos[PositionOnRobot.ARM_TOP]!!, PositionOfServo.OUTSIDE, false)
-        motionService.executeCommand(motionService.servos[PositionOnRobot.ARM_BOTTOM]!!, PositionOfServo.OUTSIDE, true)
+        var filePath = "colors/"
 
-        temp.addAll(colorResolver.resolveColors("temp.jpg", true))
-
-        motionService.executeCommand(motionService.servos[PositionOnRobot.ARM_TOP]!!, PositionOfServo.INSIDE, false)
-        motionService.executeCommand(motionService.servos[PositionOnRobot.ARM_BOTTOM]!!, PositionOfServo.INSIDE, true)
-        motionService.executeCommand(motionService.servos[PositionOnRobot.ARM_RIGHT]!!, PositionOfServo.OUTSIDE, false)
-        motionService.executeCommand(motionService.servos[PositionOnRobot.ARM_LEFT]!!, PositionOfServo.OUTSIDE, true)
-
-        temp2.addAll(colorResolver.resolveColors("temp2.jpg", true))
-
-        motionService.executeCommand(motionService.servos[PositionOnRobot.ARM_RIGHT]!!, PositionOfServo.INSIDE, false)
-        motionService.executeCommand(motionService.servos[PositionOnRobot.ARM_LEFT]!!, PositionOfServo.INSIDE, true)
-
-
-        for(i in 0..8)
-        {
-            if(i == 3 || i == 5)
-            {
-                result.add(temp2[i])
-            }
-            else
-            {
-                result.add(temp[i])
-            }
-        }
-
-        if(result[4]!=color)
-        {
-            println("Mauvais centre")
-        }
-
-        println("Final face $color :")
-        for(elem in result)
-        {
-            println(elem)
-        }
-
-
-        return result
-    }
-/*
-    fun initSide(side : Side, sideColor : Color)
-    {
-        side.sideColor = sideColor
-        var colors = takePicsAndResolveColors(sideColor)
-        println(sideColor)
-
-        for(i in 0..2)
-        {
-            var array = arrayOf<Color>()
-            for(j in 0..2)
-            {
-                    array+=colors[i*3+j]
-            }
-            side.colors+=array
-        }
-        colors.clear()
-
-    }*/
-    fun initCorner(sides : HashMap<Color, Side>) : Array<Corner>
-    {
-        var corners = arrayOf<Corner>()
-
-        initMaps()
-
-        var solved : Boolean
-        var colorOne : Color
-        var colorTwo : Color
-        var colorThree : Color
-
-        var mapKey : Set<Color>
-
-        var cornerName  = CornerPosition.A
-
-        for(c in CornerPosition.values())
-        {
-            solved = true
-
-            colorOne = sideService.getColor(sides.get(cornerIdentityToColor.get(c)!!.elementAt(0))!!, cornerIdentityToCoordinates.get(c)!![0], cornerIdentityToCoordinates.get(c)!![1])
-            colorTwo = sideService.getColor(sides.get(cornerIdentityToColor.get(c)!!.elementAt(1))!!, cornerIdentityToCoordinates.get(c)!![2],cornerIdentityToCoordinates.get(c)!![3])
-            colorThree = sideService.getColor(sides.get(cornerIdentityToColor.get(c)!!.elementAt(2))!!, cornerIdentityToCoordinates.get(c)!![4],cornerIdentityToCoordinates.get(c)!![5])
-            mapKey = setOf(colorOne, colorTwo, colorThree)
-
-            try
-            {
-                cornerName = cornerColorToIdentity[mapKey]!!
-            }
-            catch (e : KotlinNullPointerException)
-            {
-                println()
-                println("Coin anormal détecté")
-                println("Position : $c")
-                println("Couleurs :")
-                println(colorOne)
-                println(colorTwo)
-                println(colorThree)
+        for (color in Color.values()) {
+            when (color) {
+                Color.WHITE -> {
+                    motionService.turnCube(RelativePosition.TOP)
+                }
+                Color.ORANGE -> {
+                    motionService.turnCube(RelativePosition.BOTTOM)
+                    motionService.turnCube(RelativePosition.RIGHT)
+                }
+                Color.GREEN -> motionService.turnCube(RelativePosition.LEFT)
+                Color.RED -> motionService.turnCube(RelativePosition.LEFT)
+                Color.YELLOW -> {
+                    motionService.turnCube(RelativePosition.RIGHT)
+                    motionService.turnCube(RelativePosition.BOTTOM)
+                }
+                Color.BLUE -> motionService.turnCube(RelativePosition.BOTTOM)
             }
 
-            // Si le nom du coin n'est pas égal au code de sa position
-            if(cornerName != c)
+            if(color == Color.WHITE)
             {
-                solved = false
+                var colorsDetectedOnFirstPicture = ArrayList<Scalar>()
+                var colorsDetectedOnSecondPicture = ArrayList<Scalar>()
+                // Taking a picture, and getting an array of detected colors
+                colorsDetectedOnFirstPicture.addAll(colorResolver.processColorLabs())
+
+                // Taking another picture
+                colorsDetectedOnSecondPicture.addAll(colorResolver.processColorLabs())
+
+                var averageWhiteL = (colorsDetectedOnFirstPicture[4].`val`[0] + colorsDetectedOnSecondPicture[4].`val`[0])/2
+                var averageWhiteA = (colorsDetectedOnFirstPicture[4].`val`[1] + colorsDetectedOnSecondPicture[4].`val`[1])/2
+                var averageWhiteB = (colorsDetectedOnFirstPicture[4].`val`[2] + colorsDetectedOnSecondPicture[4].`val`[2])/2
+
+                val rounding = 5.0
+
+                averageWhiteL = ((averageWhiteL/rounding).toInt())*rounding
+                averageWhiteA = ((averageWhiteA/rounding).toInt())*rounding
+                averageWhiteB = ((averageWhiteB/rounding).toInt())*rounding
+
+                filePath += "$averageWhiteL/$averageWhiteA/$averageWhiteB/"
             }
-            else
-            {
-                // Si la couleur de la première face vérifiée n'est pas égale à la première couleur repérée
-                if(!colorOne.equals(cornerIdentityToColor.get(c)!!.elementAt(0)))
-                {
-                    solved = false
+
+            var finalColorsResolved = ArrayList<Color>()
+            var colorsDetectedOnFirstPicture = ArrayList<Color>()
+            var colorsDetectedOnSecondPicture = ArrayList<Color>()
+
+            // The arms at TOP and BOTTOM are getting outside, in order to be able to detect these colors
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.OUTSIDE, false)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.OUTSIDE, true)
+
+            // Taking a picture, and getting an array of detected colors
+            colorsDetectedOnFirstPicture.addAll(colorResolver.resolveColors(filePath,"temp.jpg", true, color))
+
+            // Arms at top and bottom are coming back to hold the cube, LEFT and RIGHT arms are going out
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.INSIDE, false)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.INSIDE, true)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.OUTSIDE, false)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.OUTSIDE, true)
+
+            // Taking another picture
+            colorsDetectedOnSecondPicture.addAll(colorResolver.resolveColors(filePath, "temp2.jpg", true, color))
+
+            // Arms RIGHT and LEFT are coming back to hold the cube (initial position)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.INSIDE, false)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.INSIDE, true)
+
+
+
+            for (i in 0 until 9) {
+                if (i == 3 || i == 5) {
+                    finalColorsResolved.add(colorsDetectedOnSecondPicture[i])
+                } else if (i == 1 || i == 7) {
+                    finalColorsResolved.add(colorsDetectedOnFirstPicture[i])
+                } else {
+                    if (colorsDetectedOnFirstPicture[i] != colorsDetectedOnSecondPicture[i]) {
+                        println("Two differents colors have been detected on two different pictures.")
+                    }
+                    // In case the two pictures have detected different colors, we choose the one of the first picture (arbitrary choice)
+                    finalColorsResolved.add(colorsDetectedOnFirstPicture[i])
                 }
             }
 
-            corners += Corner(cornerName, c, solved, colorOne, colorTwo, colorThree)
-        }
+            if (finalColorsResolved[4] != color) {
+                println("The color detected for the center is wrong.")
+            }
 
-        return corners
+            println("Final face $color :")
+            for (elem in finalColorsResolved) {
+                println(elem)
+            }
+            println()
+
+            cubeInformationService.initSideByColor(cube, color, finalColorsResolved)
+        }
     }
 
-    // Todo Trouver un système de vérification d'unicité
-    fun initEdge(sides : HashMap<Color, Side>) : Array<Edge>
-    {
-        var edges = arrayOf<Edge>()
+    fun processColorsAndSaveLab() {
 
-        initMaps()
+        var finalColorsResolved = ArrayList<Scalar>()
+        var whiteColorComparison = ArrayList<Scalar>()
+        var colorsDetectedOnFirstPicture = ArrayList<Scalar>()
+        var colorsDetectedOnSecondPicture = ArrayList<Scalar>()
 
-        var solved : Boolean
+        var averageWhiteL = 0.0
+        var averageWhiteA = 0.0
+        var averageWhiteB = 0.0
 
-        var colorOne : Color
-        var colorTwo : Color
+        var filePath = "colors/"
 
-        var mapKey : Set<Color>
+        for(color in Color.values()) {
 
-        var edgeIdentity = EdgePosition.A
+            finalColorsResolved = ArrayList()
+            colorsDetectedOnFirstPicture = ArrayList()
+            colorsDetectedOnSecondPicture = ArrayList()
 
-        for(position in EdgePosition.values())
-        {
-            solved = true
 
-            colorOne = sideService.getColor(sides.get(edgeIdentityToColor.get(position)!!.elementAt(0))!!, edgeIdentityToCoordinates.get(position)!![0], edgeIdentityToCoordinates.get(position)!![1])
-            colorTwo = sideService.getColor(sides.get(edgeIdentityToColor.get(position)!!.elementAt(1))!!, edgeIdentityToCoordinates.get(position)!![2],edgeIdentityToCoordinates.get(position)!![3])
-            mapKey = setOf(colorOne, colorTwo)
-
-            try
-            {
-                edgeIdentity = edgeColorToIdentity[mapKey]!!
+            when (color) {
+                Color.WHITE -> {
+                    motionService.turnCube(RelativePosition.TOP)
+                }
+                Color.ORANGE -> {
+                    motionService.turnCube(RelativePosition.BOTTOM)
+                    motionService.turnCube(RelativePosition.RIGHT)
+                }
+                Color.GREEN -> motionService.turnCube(RelativePosition.LEFT)
+                Color.RED -> motionService.turnCube(RelativePosition.LEFT)
+                Color.YELLOW -> {
+                    motionService.turnCube(RelativePosition.RIGHT)
+                    motionService.turnCube(RelativePosition.BOTTOM)
+                }
+                Color.BLUE -> motionService.turnCube(RelativePosition.BOTTOM)
             }
-            catch (e : KotlinNullPointerException)
+
+            // The arms at TOP and BOTTOM are getting outside, in order to be able to detect these colors
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.OUTSIDE, false)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.OUTSIDE, true)
+
+            // Taking a picture, and getting an array of detected colors
+            colorsDetectedOnFirstPicture.addAll(colorResolver.processColorLabs())
+
+            // Arms at top and bottom are coming back to hold the cube, LEFT and RIGHT arms are going out
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.INSIDE, false)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.INSIDE, true)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.OUTSIDE, false)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.OUTSIDE, true)
+
+            // Taking another picture
+            colorsDetectedOnSecondPicture.addAll(colorResolver.processColorLabs())
+
+            // Arms RIGHT and LEFT are coming back to hold the cube (initial position)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.INSIDE, false)
+            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.INSIDE, true)
+
+            if(color == Color.WHITE)
             {
-                println()
-                println("Arête anormale détectée")
-                println("Position : $position")
-                println("Couleurs :")
-                println(colorOne)
-                println(colorTwo)
+                averageWhiteL = (colorsDetectedOnFirstPicture[4].`val`[0] + colorsDetectedOnSecondPicture[4].`val`[0])/2
+                averageWhiteA = (colorsDetectedOnFirstPicture[4].`val`[1] + colorsDetectedOnSecondPicture[4].`val`[1])/2
+                averageWhiteB = (colorsDetectedOnFirstPicture[4].`val`[2] + colorsDetectedOnSecondPicture[4].`val`[2])/2
+
+                val rounding = 1.0
+
+                /*averageWhiteL = ((averageWhiteL/rounding).toInt())*rounding
+                averageWhiteA = ((averageWhiteA/rounding).toInt())*rounding
+                averageWhiteB = ((averageWhiteB/rounding).toInt())*rounding*/
             }
 
-            // Si le nom de l'arête n'est pas égal au code de sa position
-            if(edgeIdentity != position)
-            {
-                solved = false
-            }
-            else
-            {
-                // Si la couleur de la première face vérifiée n'est pas égale à la première couleur repérée
-                if(edgeIdentityToColor.get(position)!!.elementAt(0) != (colorOne))
-                {
-                    solved = false
+            whiteColorComparison.add(Scalar(averageWhiteL, averageWhiteA, averageWhiteB))
+
+            for (i in 0 until 9) {
+                if (i == 3 || i == 5) {
+                    finalColorsResolved.add(colorsDetectedOnSecondPicture[i])
+                } else if (i == 1 || i == 7) {
+                    finalColorsResolved.add(colorsDetectedOnFirstPicture[i])
+                } else {
+                    finalColorsResolved.add(colorsDetectedOnFirstPicture[i])
+                    finalColorsResolved.add(colorsDetectedOnSecondPicture[i])
                 }
             }
-
-            var toAdd = Edge(edgeIdentity, colorOne, colorTwo)
-            toAdd.setPosition(position)
-            toAdd.setSolved(solved)
-            edges += toAdd
+            filePath == "$color"
+            appendLabDataInCsvFile(filePath, color.name, whiteColorComparison, finalColorsResolved)
         }
 
-        return edges
+
+        motionService.turnCube(RelativePosition.TOP)
+        motionService.turnCube(RelativePosition.TOP)
     }
 
-    fun initMaps()
+    fun appendLabDataInCsvFile(filePath : String, fileName : String, whiteData : List<Scalar>, labData : List<Scalar>)
     {
-        cornerColorToIdentity = HashMap()
-        cornerIdentityToColor = HashMap()
-        cornerIdentityToCoordinates = HashMap()
+        var firstRow = listOf<Any>()
+        var secondRow = listOf<Any>()
+        var thirdRow = listOf<Any>()
+        var fourthRow = listOf<Any>()
+        var fifthRow = listOf<Any>()
+        var sixthRow = listOf<Any>()
 
-        // On va de la première face à la dernière pour entrer les couleurs
-        cornerColorToIdentity[setOf(Color.BLUE, Color.ORANGE, Color.WHITE)] = CornerPosition.A
-        cornerColorToIdentity[setOf(Color.BLUE, Color.RED, Color.WHITE)] = CornerPosition.B
-        cornerColorToIdentity[setOf(Color.GREEN, Color.ORANGE, Color.WHITE)] = CornerPosition.C
-        cornerColorToIdentity[setOf(Color.GREEN, Color.RED, Color.WHITE)] = CornerPosition.D
-        cornerColorToIdentity[setOf(Color.BLUE, Color.ORANGE, Color.YELLOW)] = CornerPosition.E
-        cornerColorToIdentity[setOf(Color.BLUE, Color.RED, Color.YELLOW)] = CornerPosition.F
-        cornerColorToIdentity[setOf(Color.GREEN, Color.ORANGE, Color.YELLOW)] = CornerPosition.G
-        cornerColorToIdentity[setOf(Color.GREEN, Color.RED, Color.YELLOW)] = CornerPosition.H
+        firstRow = listOf()
+        secondRow = listOf()
+        thirdRow = listOf()
+        fourthRow = listOf()
+        fifthRow = listOf()
+        sixthRow = listOf()
+
+        var folder = File("$filePath")
+        var file = File("$filePath$fileName.csv")
+
+        folder.mkdirs()
+
+        if(file.exists())
+        {
+            val oldRows: List<List<String>> = csvReader().readAll(file)
+
+            firstRow+=oldRows[0]
+            secondRow+=oldRows[1]
+            thirdRow+=oldRows[2]
+            fourthRow +=oldRows[3]
+            fifthRow +=oldRows[4]
+            sixthRow +=oldRows[5]
+        }
+        file.createNewFile()
+
+        for(elem in labData)
+        {
+            firstRow+=whiteData[0].`val`[0].toInt()
+            secondRow+=whiteData[0].`val`[1].toInt()
+            thirdRow+=whiteData[0].`val`[2].toInt()
+            fourthRow+=elem.`val`[0].toInt()
+            fifthRow+=elem.`val`[1].toInt()
+            sixthRow+=elem.`val`[2].toInt()
+        }
 
 
-        cornerIdentityToColor[CornerPosition.A] = setOf(Color.BLUE, Color.ORANGE, Color.WHITE)
-        cornerIdentityToColor[CornerPosition.B] = setOf(Color.BLUE, Color.RED, Color.WHITE)
-        cornerIdentityToColor[CornerPosition.C] = setOf(Color.GREEN, Color.ORANGE, Color.WHITE)
-        cornerIdentityToColor[CornerPosition.D] = setOf(Color.GREEN, Color.RED, Color.WHITE)
-        cornerIdentityToColor[CornerPosition.E] = setOf(Color.BLUE, Color.ORANGE, Color.YELLOW)
-        cornerIdentityToColor[CornerPosition.F] = setOf(Color.BLUE, Color.RED, Color.YELLOW)
-        cornerIdentityToColor[CornerPosition.G] = setOf(Color.GREEN, Color.ORANGE, Color.YELLOW)
-        cornerIdentityToColor[CornerPosition.H] = setOf(Color.GREEN, Color.RED, Color.YELLOW)
-
-        // Les nombres correspondent aux coordonnées des couleurs des angles sur les faces
-        // Les faces sont dans l'ordre alphabétique, c'est à dire telles que recensées dans la map ci-dessus
-        // Ligne, colonne, ligne, colonne, ligne, colonne
-        cornerIdentityToCoordinates[CornerPosition.A] = arrayOf(2, 0, 0, 0, 0, 0)
-        cornerIdentityToCoordinates[CornerPosition.B] = arrayOf(2, 2, 0, 2, 0, 2)
-        cornerIdentityToCoordinates[CornerPosition.C] = arrayOf(0, 0, 0, 2, 2, 0)
-        cornerIdentityToCoordinates[CornerPosition.D] = arrayOf(0, 2, 0, 0, 2, 2)
-        cornerIdentityToCoordinates[CornerPosition.E] = arrayOf(0, 0, 2, 0, 2, 0)
-        cornerIdentityToCoordinates[CornerPosition.F] = arrayOf(0, 2, 2, 2, 2, 2)
-        cornerIdentityToCoordinates[CornerPosition.G] = arrayOf(2, 0, 2, 2, 0, 0)
-        cornerIdentityToCoordinates[CornerPosition.H] = arrayOf(2, 2, 2, 0, 0, 2)
-
-        edgeColorToIdentity = HashMap()
-        edgeIdentityToColor = HashMap()
-        edgeIdentityToCoordinates = HashMap()
-
-        // On va de la première face à la dernière pour entrer les couleurs
-        edgeColorToIdentity[setOf(Color.BLUE, Color.WHITE)] = EdgePosition.A
-        edgeColorToIdentity[setOf(Color.ORANGE, Color.WHITE)] = EdgePosition.B
-        edgeColorToIdentity[setOf(Color.RED, Color.WHITE)] = EdgePosition.C
-        edgeColorToIdentity[setOf(Color.GREEN, Color.WHITE)] = EdgePosition.D
-        edgeColorToIdentity[setOf(Color.BLUE, Color.ORANGE)] = EdgePosition.E
-        edgeColorToIdentity[setOf(Color.BLUE, Color.RED)] = EdgePosition.F
-        edgeColorToIdentity[setOf(Color.GREEN, Color.ORANGE)] = EdgePosition.G
-        edgeColorToIdentity[setOf(Color.GREEN, Color.RED)] = EdgePosition.H
-        edgeColorToIdentity[setOf(Color.BLUE, Color.YELLOW)] = EdgePosition.I
-        edgeColorToIdentity[setOf(Color.ORANGE, Color.YELLOW)] = EdgePosition.J
-        edgeColorToIdentity[setOf(Color.RED, Color.YELLOW)] = EdgePosition.K
-        edgeColorToIdentity[setOf(Color.GREEN, Color.YELLOW)] = EdgePosition.L
-
-        edgeIdentityToColor[EdgePosition.A] = setOf(Color.BLUE, Color.WHITE)
-        edgeIdentityToColor[EdgePosition.B] = setOf(Color.ORANGE, Color.WHITE)
-        edgeIdentityToColor[EdgePosition.C] = setOf(Color.RED, Color.WHITE)
-        edgeIdentityToColor[EdgePosition.D] = setOf(Color.GREEN, Color.WHITE)
-        edgeIdentityToColor[EdgePosition.E] = setOf(Color.BLUE, Color.ORANGE)
-        edgeIdentityToColor[EdgePosition.F] = setOf(Color.BLUE, Color.RED)
-        edgeIdentityToColor[EdgePosition.G] = setOf(Color.GREEN, Color.ORANGE)
-        edgeIdentityToColor[EdgePosition.H] = setOf(Color.GREEN, Color.RED)
-        edgeIdentityToColor[EdgePosition.I] = setOf(Color.BLUE, Color.YELLOW)
-        edgeIdentityToColor[EdgePosition.J] = setOf(Color.ORANGE, Color.YELLOW)
-        edgeIdentityToColor[EdgePosition.K] = setOf(Color.RED, Color.YELLOW)
-        edgeIdentityToColor[EdgePosition.L] = setOf(Color.GREEN, Color.YELLOW)
-
-        // Les nombres correspondent aux coordonnées des couleurs des angles sur les faces
-        // Les faces sont dans l'ordre alphabétique, c'est à dire telles que recensées dans la map ci-dessus
-        // Ligne, colonne, ligne, colonne
-        edgeIdentityToCoordinates[EdgePosition.A] = arrayOf(2, 1, 0, 1)
-        edgeIdentityToCoordinates[EdgePosition.B] = arrayOf(0, 1, 1, 0)
-        edgeIdentityToCoordinates[EdgePosition.C] = arrayOf(0, 1, 1, 2)
-        edgeIdentityToCoordinates[EdgePosition.D] = arrayOf(0, 1, 2, 1)
-        edgeIdentityToCoordinates[EdgePosition.E] = arrayOf(1, 0, 1, 0)
-        edgeIdentityToCoordinates[EdgePosition.F] = arrayOf(1, 2, 1, 2)
-        edgeIdentityToCoordinates[EdgePosition.G] = arrayOf(1, 0, 1, 2)
-        edgeIdentityToCoordinates[EdgePosition.H] = arrayOf(1, 2, 1, 0)
-        edgeIdentityToCoordinates[EdgePosition.I] = arrayOf(0, 1, 2, 1)
-        edgeIdentityToCoordinates[EdgePosition.J] = arrayOf(2, 1, 1, 0)
-        edgeIdentityToCoordinates[EdgePosition.K] = arrayOf(2, 1, 1, 2)
-        edgeIdentityToCoordinates[EdgePosition.L] = arrayOf(2, 1, 0, 1)
+        var rows = listOf(firstRow, secondRow, thirdRow, fourthRow, fifthRow, sixthRow)
+        csvWriter().open(file) { writeAll(rows) }
     }
-
 
 
 }

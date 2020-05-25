@@ -23,9 +23,8 @@ class CubeInformationService {
         var toReturn = ArrayList<Color>()
 
         var sortedKeys = cube.positions.keys.filter { it.possessColor(color) }
-            .sortedBy { it.cubeCoordinates.getSideCoordinate(color, cube.cubeSize).coordX }
-            .sortedBy { it.cubeCoordinates.getSideCoordinate(color, cube.cubeSize).coordY }
-
+            .sortedBy { it.cubeCoordinates.getSideCoordinate(color, cube.cubeSize)!!.coordX }
+            .sortedBy { it.cubeCoordinates.getSideCoordinate(color, cube.cubeSize)!!.coordY }
 
         for(elem in sortedKeys)
         {
@@ -35,17 +34,17 @@ class CubeInformationService {
         return toReturn
     }
 
-    fun initSideByColor(cube : Cube, color : Color, colors : ArrayList<Color>)  {
+    fun initSideByColor(cube : Cube, sideColor : Color, colors : ArrayList<Color>)  {
 
-        var sortedKeys = cube.positions.keys.filter { it.possessColor(color) }
-            .sortedBy { it.cubeCoordinates.getSideCoordinate(color, cube.cubeSize).coordX }
-            .sortedBy { it.cubeCoordinates.getSideCoordinate(color, cube.cubeSize).coordY }
+        var sortedKeys = cube.positions.keys.filter { it.possessColor(sideColor) }
+            .sortedBy { it.cubeCoordinates.getSideCoordinate(sideColor, cube.cubeSize)!!.coordX }
+            .sortedBy { it.cubeCoordinates.getSideCoordinate(sideColor, cube.cubeSize)!!.coordY }
 
         var i = 0
 
         for(elem in sortedKeys)
         {
-            cube.positions[elem]!!.setColorAtPosition(elem.positionOfColor(color), colors[i])
+            cube.positions[elem]!!.setColorAtPosition(elem.positionOfColor(sideColor), colors[i])
             i++
         }
     }
@@ -60,19 +59,29 @@ class CubeInformationService {
         return cube.positions.filter { it.key.possessColor(color) && it.key is EdgePosition && it.key.matches(it.value)}.size
     }
 
-    fun numberOfEdgesOfAColorSolved(cube : Cube, colorOne : Color, colorTwo : Color) : Int
+    fun getNumberOfEdgesOfAColorSolved(cube : Cube, colorOne : Color, colorTwo : Color) : Int
     {
         return cube.positions.filter { it.key.possessColor(colorOne) && it.key.possessColor(colorTwo) && it.key is EdgePosition && it.key.matches(it.value)}.size
     }
 
+    fun getNumberOfPiecesOfAColorSolved(cube : Cube, color : Color) : Int
+    {
+        return cube.positions.filter { it.key.possessColor(color) && it.key.matches(it.value) }.size
+    }
+
+    fun getNumberOfPiecesOfAColorBySide(cube : Cube, color : Color) : Int
+    {
+        return cube.positions.filter { it.value.getColorAtPosition(it.key.positionOfColor(color)) == color }.size
+    }
+
     fun isCornerOfAColorSolved(cube : Cube, colorOne : Color, colorTwo : Color, colorThree : Color) : Boolean
     {
-        return !cube.positions.none{ it.key.possessColor(colorOne) && it.key.possessColor(colorTwo) && it.key.possessColor(colorThree) && it.key.matches(it.value)}
+        return cube.positions.any { it.key.matches(it.value) && it.key.possessColor(colorOne) && it.key.possessColor(colorTwo) && it.key.possessColor(colorThree)}
     }
 
     fun getPositionsOfEdges(cube : Cube, colorOne : Color, colorTwo : Color) : Set<Position>
     {
-        return cube.positions.filter { it.value.containsColor(colorOne) && it.value.containsColor(colorTwo) && it.key is EdgePosition }.keys
+        return cube.positions.filter { it.key is EdgePosition && it.value.containsColor(colorOne) && it.value.containsColor(colorTwo) }.keys
     }
 
 }

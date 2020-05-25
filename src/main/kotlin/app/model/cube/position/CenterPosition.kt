@@ -6,16 +6,8 @@ import app.model.cube.piece.Center
 import app.model.cube.piece.Piece
 import java.lang.UnsupportedOperationException
 
-class CenterPosition : Position
+class CenterPosition(override var cubeCoordinates: CubeCoordinates, var colorOne : Color) : Position()
 {
-    lateinit var colorOne : Color
-
-    constructor(cubeCoordinates: CubeCoordinates, color : Color)
-    {
-        this.cubeCoordinates = cubeCoordinates
-        this.colorOne = color
-    }
-
     override fun matches(piece : Piece) : Boolean
     {
         if(piece !is Center) throw UnsupportedOperationException()
