@@ -26,11 +26,6 @@ class GeometryUtils : KoinComponent {
         return true
     }
 
-    fun getDistance(a : Scalar, b : Scalar) : Double
-    {
-        return kotlin.math.sqrt(((a.`val`[0] - b.`val`[0]) * (a.`val`[0] - b.`val`[0])) + ((a.`val`[1] - b.`val`[1]) * (a.`val`[1] - b.`val`[1])) + ((a.`val`[2] - b.`val`[2]) * (a.`val`[2] - b.`val`[2])))
-    }
-
     fun resolveAngleByThreePoints(a : Point, b : Point, c : Point) : Double
     {
         return acos((pow(getDistance(a, b), 2.0) + pow(getDistance(a, c), 2.0) - pow(getDistance(b, c), 2.0)) / (2 * getDistance(a, b) * getDistance(a, c)))
@@ -44,8 +39,6 @@ class GeometryUtils : KoinComponent {
         var distance30 = getDistance(points[3], points[0])
 
         var averageDist = (distance01 + distance12 + distance23 + distance30)/4
-
-
 
         var acceptanceCriteria = 0.2
 

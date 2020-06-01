@@ -7,6 +7,7 @@ import app.model.robot.constants.ServoState
 import app.model.robot.constants.ServoIdentity
 import app.service.cube.CubeInformationService
 import app.service.robot.RobotMotionService
+import app.service.robot.RobotSequenceService
 import app.vision.ColorResolver
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
@@ -21,7 +22,8 @@ class InitHelper : KoinComponent {
 
     var colorResolver = ColorResolver()
     val cubeInformationService: CubeInformationService by inject()
-    val motionService: RobotMotionService by inject()
+    val robotMotionService: RobotMotionService by inject()
+    val robotSequenceService : RobotSequenceService by inject()
 
     fun initSolvedCube(cube: Cube) {
         for (color in Color.values()) {
@@ -37,24 +39,24 @@ class InitHelper : KoinComponent {
         val input = Scanner(System.`in`)
 
         for (color in Color.values()) {
-            var toAdd = ArrayList<Color>()
+            var sideColors = ArrayList<Color>()
 
             println("Please enter the colors of the $color side")
 
             for (i in 0 until 3) {
                 for (j in 0 until 3) {
                     when (input.next()[0]) {
-                        'W' -> toAdd.add(Color.WHITE)
-                        'O' -> toAdd.add(Color.ORANGE)
-                        'G' -> toAdd.add(Color.GREEN)
-                        'R' -> toAdd.add(Color.RED)
-                        'Y' -> toAdd.add(Color.YELLOW)
-                        'B' -> toAdd.add(Color.BLUE)
+                        'W' -> sideColors.add(Color.WHITE)
+                        'O' -> sideColors.add(Color.ORANGE)
+                        'G' -> sideColors.add(Color.GREEN)
+                        'R' -> sideColors.add(Color.RED)
+                        'Y' -> sideColors.add(Color.YELLOW)
+                        'B' -> sideColors.add(Color.BLUE)
                     }
                 }
             }
 
-            cubeInformationService.initSideByColor(cube, color, toAdd)
+            cubeInformationService.initSideByColor(cube, color, sideColors)
         }
     }
 
@@ -62,22 +64,24 @@ class InitHelper : KoinComponent {
 
         var filePath = "colors/"
 
-        for (color in Color.values()) {
+        var whiteLab = Scalar(0.0,0.0,0.0)
+
+            for (color in Color.values()) {
             when (color) {
                 Color.WHITE -> {
-                    motionService.turnCube(RelativePosition.TOP)
+                    robotMotionService.turnCube(RelativePosition.TOP)
                 }
                 Color.ORANGE -> {
-                    motionService.turnCube(RelativePosition.BOTTOM)
-                    motionService.turnCube(RelativePosition.RIGHT)
+                    robotMotionService.turnCube(RelativePosition.BOTTOM)
+                    robotMotionService.turnCube(RelativePosition.RIGHT)
                 }
-                Color.GREEN -> motionService.turnCube(RelativePosition.LEFT)
-                Color.RED -> motionService.turnCube(RelativePosition.LEFT)
+                Color.GREEN -> robotMotionService.turnCube(RelativePosition.LEFT)
+                Color.RED -> robotMotionService.turnCube(RelativePosition.LEFT)
                 Color.YELLOW -> {
-                    motionService.turnCube(RelativePosition.RIGHT)
-                    motionService.turnCube(RelativePosition.BOTTOM)
+                    robotMotionService.turnCube(RelativePosition.RIGHT)
+                    robotMotionService.turnCube(RelativePosition.BOTTOM)
                 }
-                Color.BLUE -> motionService.turnCube(RelativePosition.BOTTOM)
+                Color.BLUE -> robotMotionService.turnCube(RelativePosition.BOTTOM)
             }
 
             if(color == Color.WHITE)
@@ -94,13 +98,7 @@ class InitHelper : KoinComponent {
                 var averageWhiteA = (colorsDetectedOnFirstPicture[4].`val`[1] + colorsDetectedOnSecondPicture[4].`val`[1])/2
                 var averageWhiteB = (colorsDetectedOnFirstPicture[4].`val`[2] + colorsDetectedOnSecondPicture[4].`val`[2])/2
 
-                val rounding = 5.0
-
-                averageWhiteL = ((averageWhiteL/rounding).toInt())*rounding
-                averageWhiteA = ((averageWhiteA/rounding).toInt())*rounding
-                averageWhiteB = ((averageWhiteB/rounding).toInt())*rounding
-
-                filePath += "$averageWhiteL/$averageWhiteA/$averageWhiteB/"
+                whiteLab = Scalar(averageWhiteL, averageWhiteA, averageWhiteB)
             }
 
             var finalColorsResolved = ArrayList<Color>()
@@ -108,24 +106,24 @@ class InitHelper : KoinComponent {
             var colorsDetectedOnSecondPicture = ArrayList<Color>()
 
             // The arms at TOP and BOTTOM are getting outside, in order to be able to detect these colors
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.OUTSIDE, false)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.OUTSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.OUTSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.OUTSIDE, true)
 
             // Taking a picture, and getting an array of detected colors
-            colorsDetectedOnFirstPicture.addAll(colorResolver.resolveColors(filePath,"temp.jpg", true, color))
+            colorsDetectedOnFirstPicture.addAll(colorResolver.resolveColors(whiteLab,"temp.jpg", true, color))
 
             // Arms at top and bottom are coming back to hold the cube, LEFT and RIGHT arms are going out
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.INSIDE, false)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.INSIDE, true)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.OUTSIDE, false)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.OUTSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.INSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.INSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.OUTSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.OUTSIDE, true)
 
             // Taking another picture
-            colorsDetectedOnSecondPicture.addAll(colorResolver.resolveColors(filePath, "temp2.jpg", true, color))
+            colorsDetectedOnSecondPicture.addAll(colorResolver.resolveColors(whiteLab, "temp2.jpg", true, color))
 
             // Arms RIGHT and LEFT are coming back to hold the cube (initial position)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.INSIDE, false)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.INSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.INSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.INSIDE, true)
 
 
 
@@ -176,55 +174,51 @@ class InitHelper : KoinComponent {
             colorsDetectedOnFirstPicture = ArrayList()
             colorsDetectedOnSecondPicture = ArrayList()
 
-
             when (color) {
                 Color.WHITE -> {
-                    motionService.turnCube(RelativePosition.TOP)
+                    robotMotionService.turnCube(RelativePosition.TOP)
                 }
                 Color.ORANGE -> {
-                    motionService.turnCube(RelativePosition.BOTTOM)
-                    motionService.turnCube(RelativePosition.RIGHT)
+                    robotMotionService.turnCube(RelativePosition.BOTTOM)
+                    robotMotionService.turnCube(RelativePosition.RIGHT)
                 }
-                Color.GREEN -> motionService.turnCube(RelativePosition.LEFT)
-                Color.RED -> motionService.turnCube(RelativePosition.LEFT)
+                Color.GREEN -> robotMotionService.turnCube(RelativePosition.LEFT)
+                Color.RED -> robotMotionService.turnCube(RelativePosition.LEFT)
                 Color.YELLOW -> {
-                    motionService.turnCube(RelativePosition.RIGHT)
-                    motionService.turnCube(RelativePosition.BOTTOM)
+                    robotMotionService.turnCube(RelativePosition.RIGHT)
+                    robotMotionService.turnCube(RelativePosition.BOTTOM)
                 }
-                Color.BLUE -> motionService.turnCube(RelativePosition.BOTTOM)
+                Color.BLUE -> robotMotionService.turnCube(RelativePosition.BOTTOM)
             }
 
+            //robotSequenceService.showSideToCamera(color)
+
             // The arms at TOP and BOTTOM are getting outside, in order to be able to detect these colors
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.OUTSIDE, false)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.OUTSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.OUTSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.OUTSIDE, true)
 
             // Taking a picture, and getting an array of detected colors
-            colorsDetectedOnFirstPicture.addAll(colorResolver.processColorLabs())
+            //colorsDetectedOnFirstPicture.addAll(colorResolver.processColorLabs())
 
             // Arms at top and bottom are coming back to hold the cube, LEFT and RIGHT arms are going out
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.INSIDE, false)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.INSIDE, true)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.OUTSIDE, false)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.OUTSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.INSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.INSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.OUTSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.OUTSIDE, true)
 
             // Taking another picture
-            colorsDetectedOnSecondPicture.addAll(colorResolver.processColorLabs())
+            //colorsDetectedOnSecondPicture.addAll(colorResolver.processColorLabs())
 
             // Arms RIGHT and LEFT are coming back to hold the cube (initial position)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.INSIDE, false)
-            motionService.executeCommand(motionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.INSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.INSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.INSIDE, true)
 
-            if(color == Color.WHITE)
+            /*if(color == Color.WHITE)
             {
                 averageWhiteL = (colorsDetectedOnFirstPicture[4].`val`[0] + colorsDetectedOnSecondPicture[4].`val`[0])/2
                 averageWhiteA = (colorsDetectedOnFirstPicture[4].`val`[1] + colorsDetectedOnSecondPicture[4].`val`[1])/2
                 averageWhiteB = (colorsDetectedOnFirstPicture[4].`val`[2] + colorsDetectedOnSecondPicture[4].`val`[2])/2
 
-                val rounding = 1.0
-
-                /*averageWhiteL = ((averageWhiteL/rounding).toInt())*rounding
-                averageWhiteA = ((averageWhiteA/rounding).toInt())*rounding
-                averageWhiteB = ((averageWhiteB/rounding).toInt())*rounding*/
             }
 
             whiteColorComparison.add(Scalar(averageWhiteL, averageWhiteA, averageWhiteB))
@@ -239,13 +233,13 @@ class InitHelper : KoinComponent {
                     finalColorsResolved.add(colorsDetectedOnSecondPicture[i])
                 }
             }
-            filePath == "$color"
-            appendLabDataInCsvFile(filePath, color.name, whiteColorComparison, finalColorsResolved)
+            filePath == "$color"*/
+            //appendLabDataInCsvFile(filePath, color.name, whiteColorComparison, finalColorsResolved)
         }
 
 
-        motionService.turnCube(RelativePosition.TOP)
-        motionService.turnCube(RelativePosition.TOP)
+        robotMotionService.turnCube(RelativePosition.TOP)
+        robotMotionService.turnCube(RelativePosition.TOP)
     }
 
     fun appendLabDataInCsvFile(filePath : String, fileName : String, whiteData : List<Scalar>, labData : List<Scalar>)

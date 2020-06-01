@@ -23,6 +23,10 @@ class Edge(var colorOne : Color, var colorTwo : Color) : Piece() {
         return (colorOne==color || colorTwo == color)
     }
 
+    override fun getColors(): Set<Color> {
+        return setOf(colorOne, colorTwo)
+    }
+
     override fun clone(): Piece {
         return Edge(colorOne, colorTwo)
     }

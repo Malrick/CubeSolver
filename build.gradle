@@ -23,6 +23,9 @@ dependencies {
     implementation 'com.github.ajalt:mordant:1.2.1'
     implementation 'com.github.IAmContent:public:master-SNAPSHOT'
     implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:0.7.3'
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-core', version: '1.0.0-beta7'
+    implementation "org.nd4j:nd4j-native-platform:1.0.0-beta7"
+    implementation "org.tensorflow:tensorflow:1.14.0"
     compile files('libs/opencv/opencv-420.jar')
 }
 

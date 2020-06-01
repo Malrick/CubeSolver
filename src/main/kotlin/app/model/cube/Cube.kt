@@ -10,6 +10,7 @@ import app.model.cube.position.CenterPosition
 import app.model.cube.position.CornerPosition
 import app.model.cube.position.EdgePosition
 import app.model.cube.position.Position
+import it.unimi.dsi.fastutil.Hash
 import kotlin.properties.Delegates
 
 class Cube {
@@ -88,4 +89,51 @@ class Cube {
         return clone
     }
 
+    // A cube is said to be "integre" if it is valid, and solvable.
+    // Many different tests will be made :
+    // - Each color is appearing the same number of times on the cube
+    // - Each piece exists, and exists only once
+    // - The parity of the number of edge swaps required to solve the cube's edges is equal to
+    //   the parity of the number of corners swaps required to solve the cube's corners
+    // - The orientations of the different pieces are coherent with each other
+    // Thanks to all these tests, we can guarantee that our cube is valid, and can be solved.
+    fun integrityCheck() : Boolean
+    {
+        // Initializing
+        var colorCounters = HashMap<Color, Int>()
+        for(color in Color.values())
+        {
+            colorCounters[color] = 0
+        }
+
+        // Counting
+        for((position, piece) in positions)
+        {
+            for(color in piece.getColors())
+            {
+                colorCounters[color]?.plus(1)
+            }
+        }
+
+        // Checking
+        for(color in Color.values())
+        {
+            if(colorCounters[color]!=9) return false
+        }
+
+        var positionsColorSets = mutableSetOf(setOf<Color>())
+        var piecesColorSets = mutableSetOf(setOf<Color>())
+
+        for((position, piece) in positions)
+        {
+           positionsColorSets.add(position.getColors())
+           piecesColorSets.add(piece.getColors())
+        }
+
+        if(positionsColorSets != piecesColorSets) return false
+
+
+
+        return true
+    }
 }

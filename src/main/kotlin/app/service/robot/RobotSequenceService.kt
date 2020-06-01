@@ -36,6 +36,23 @@ class RobotSequenceService : KoinComponent {
         robotMotionService.turnCube(positionOfCubeEnum)
     }
 
+    fun showSideToCamera(sideColor : Color)
+    {
+        when(orientation.getPositionOfColor(sideColor))
+        {
+            RelativePosition.TOP -> robotMotionService.turnCube(RelativePosition.TOP)
+            RelativePosition.LEFT -> robotMotionService.turnCube(RelativePosition.LEFT)
+            RelativePosition.BOTTOM -> robotMotionService.turnCube(RelativePosition.BOTTOM)
+            RelativePosition.RIGHT -> robotMotionService.turnCube(RelativePosition.RIGHT)
+            RelativePosition.FRONT -> {
+                robotMotionService.turnCube(RelativePosition.TOP)
+                robotMotionService.turnCube(RelativePosition.TOP)
+            }
+        }
+    }
+
+
+
     fun applySequence(sequence : Array<Movement>)
     {
         robotMotionService.welcomePosition()

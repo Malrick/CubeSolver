@@ -17,7 +17,6 @@ abstract class PopulationSolver : Solver, KoinComponent {
     // TODO : reformater les solutions
 
     // Services / Helpers
-    protected val initHelper  : InitHelper  by inject()
     protected val cubeInformationService : CubeInformationService by inject()
     protected val cubeMotionService : CubeMotionService by inject()
     private var random = Random()
@@ -62,11 +61,14 @@ abstract class PopulationSolver : Solver, KoinComponent {
 
         // General initialization of the solver (maybe it is used to do more than one solving, needs to re-init)
         solved = (gradeSequence(cube, arrayOf()) == maxScore)
+
+        // If the cube is already solved, set the grade of empty solution to max and return
         if(solved)
         {
             population[arrayOf()] = maxScore
             return
         }
+
         population = HashMap()
         survivingPopulation = HashMap()
 

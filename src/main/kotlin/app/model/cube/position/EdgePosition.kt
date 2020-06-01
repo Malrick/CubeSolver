@@ -18,6 +18,10 @@ class EdgePosition(override var cubeCoordinates: CubeCoordinates, var colorOne :
         return (colorOne == color || colorTwo == color)
     }
 
+    override fun getColors(): Set<Color> {
+        return setOf(colorOne, colorTwo)
+    }
+
     override fun positionOfColor(color: Color): Int {
         return when (color) {
             colorOne -> 1

@@ -163,7 +163,7 @@ class RobotMotionService : KoinComponent {
     fun executeCommand(servo : Servo, positionOfServo: ServoState, wait : Boolean)
     {
         servoControler.moveServo(servo, positionOfServo)
-        if(wait) Thread.sleep(350)
+        if(wait) Thread.sleep(500)
     }
 
     fun isEveryHandHolding() : Boolean

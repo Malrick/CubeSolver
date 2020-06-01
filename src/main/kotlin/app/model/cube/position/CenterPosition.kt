@@ -14,6 +14,10 @@ class CenterPosition(override var cubeCoordinates: CubeCoordinates, var colorOne
         else return piece.colorOne == colorOne
     }
 
+    override fun getColors(): Set<Color> {
+        return setOf(colorOne)
+    }
+
     override fun possessColor(color: Color) : Boolean{
         return this.colorOne==color
     }

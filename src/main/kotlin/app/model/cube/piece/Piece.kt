@@ -10,6 +10,8 @@ abstract class Piece {
 
     abstract fun containsColor(color : Color) : Boolean
 
+    abstract fun getColors() : Set<Color>
+
     abstract fun clone() : Piece
 
 }

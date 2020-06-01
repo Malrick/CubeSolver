@@ -25,6 +25,10 @@ class Corner(var colorOne : Color, var colorTwo : Color, var colorThree : Color)
         return (colorOne == color || colorTwo == color || colorThree == color)
     }
 
+    override fun getColors(): Set<Color> {
+        return setOf(colorOne, colorTwo, colorThree)
+    }
+
     override fun clone(): Piece {
         return Corner(colorOne, colorTwo, colorThree)
     }

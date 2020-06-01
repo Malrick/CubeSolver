@@ -21,6 +21,10 @@ class Center(var colorOne : Color) : Piece() {
         return (colorOne==color)
     }
 
+    override fun getColors(): Set<Color> {
+        return setOf(colorOne)
+    }
+
     override fun clone(): Piece {
         return Center(colorOne)
     }

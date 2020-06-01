@@ -15,6 +15,8 @@ abstract class Position {
 
     abstract fun matches(piece : Piece) : Boolean
 
+    abstract fun getColors() : Set<Color>
+
     fun isAdjacent(position : Position) : Boolean
     {
         var numberOfEqualCoordinates =0

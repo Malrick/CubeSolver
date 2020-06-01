@@ -18,6 +18,10 @@ class CornerPosition(override var cubeCoordinates: CubeCoordinates, var colorOne
         return (colorOne == color || colorTwo == color || colorThree == color)
     }
 
+    override fun getColors(): Set<Color> {
+        return setOf(colorOne, colorTwo, colorThree)
+    }
+
     override fun positionOfColor(color: Color): Int {
         return when (color) {
             colorOne -> 1

@@ -21,8 +21,6 @@ class ColorResolver : KoinComponent {
     val geometryUtils : GeometryUtils by inject()
     val colorUtils : ColorUtils by inject()
 
-    var colorsAndPoints = HashMap<Color, Array<Scalar>>()
-
     val showPictures = false
 
     fun takePictureAndSave(pathName : String)
@@ -36,8 +34,8 @@ class ColorResolver : KoinComponent {
     fun initFixContours() : Array<MatOfPoint>
     {
         var toReturn = arrayOf<MatOfPoint>()
-        var diffY = 5.0
-        var diffX = - 23.0
+        var diffY = 10.0
+        var diffX = - 25.0
         toReturn += (MatOfPoint(Point(162.0+diffX,11.0+diffY), Point(223.0+diffX,10.0+diffY), Point(224.0+diffX,67.0+diffY), Point(163.0+diffX,68.0+diffY)))
         toReturn += (MatOfPoint(Point(318.0+diffX,15.0+diffY), Point(371.0+diffX,14.0+diffY), Point(372.0+diffX,67.0+diffY), Point(319.0+diffX,68.0+diffY)))
         toReturn += (MatOfPoint(Point(444.0+diffX,25.0+diffY), Point(501.0+diffX,24.0+diffY), Point(502.0+diffX,79.0+diffY), Point(445.0+diffX,80.0+diffY)))
@@ -61,15 +59,13 @@ class ColorResolver : KoinComponent {
     // Init les contours mieux que ça
     // Détecter les couleurs en LAB ou en HSV
 
-    fun resolveColors(filepath : String, filename : String, takePicture : Boolean, color : Color) : Array<Color>
+    fun resolveColors(whiteLab : Scalar, filename : String, takePicture : Boolean, color : Color) : Array<Color>
     {
         val contoursFinaux = initFixContours()
 
         var results = arrayOf<Color>()
 
         if(takePicture) takePictureAndSave(filename)
-
-        initColorsAndPoints(filepath)
 
         var original = Imgcodecs.imread(filename, 1)
         var originalAvecContours = original.clone()
@@ -91,8 +87,7 @@ class ColorResolver : KoinComponent {
 
             var dominantColor = colorUtils.KnnClustering(ROI, 10)
             var labDominantColor = colorUtils.scalarBGR2Lab(dominantColor.`val`[2], dominantColor.`val`[1], dominantColor.`val`[0])
-
-            var resolvedColor = colorUtils.resolveColorsByPoints(labDominantColor, colorsAndPoints)
+            var resolvedColor = colorUtils.resolveColorNN(whiteLab, labDominantColor)
             //var resolvedColor = colorUtils.resolveColor(dominantColor)
             results += resolvedColor
 
@@ -104,9 +99,7 @@ class ColorResolver : KoinComponent {
             HighGui.imshow(i.toString(), ROI)
 
             print(i.toString() +" : " + resolvedColor.name)
-            println("  " + dominantColor.`val`[0] + "  " + dominantColor.`val`[1] + "  " + dominantColor.`val`[2])
-
-
+            println("  " + labDominantColor.`val`[0] + "  " + labDominantColor.`val`[1] + "  " + labDominantColor.`val`[2])
 
         }
 

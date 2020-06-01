@@ -7,13 +7,10 @@ import app.service.cube.CubeMotionService
 import app.service.robot.RobotSequenceService
 import app.service.robot.ServoService
 import app.service.robot.RobotMotionService
-import app.solver.bruteforceSolver.BruteforceOLLSolver
-import app.solver.bruteforceSolver.BruteforcePLLSolver
-import app.solver.populationSolver.*
 import app.vision.ColorResolver
 import app.vision.utils.ColorUtils
 import app.vision.utils.GeometryUtils
-import app.vision.utils.PictureProcessingUtils
+import app.vision.utils.ContoursUtils
 import org.koin.dsl.module
 
 val helperModule = module{
@@ -39,5 +36,5 @@ val visionModule = module {
     single{ ColorResolver()}
     single{ ColorUtils()}
     single{ GeometryUtils()}
-    single{ PictureProcessingUtils()}
+    single{ ContoursUtils()}
 }

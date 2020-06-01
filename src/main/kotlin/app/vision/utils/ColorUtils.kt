@@ -1,49 +1,17 @@
 package app.vision.utils
 
 import app.model.cubeUtils.Color
+import org.deeplearning4j.nn.modelimport.keras.KerasModelImport
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import org.nd4j.linalg.factory.Nd4j
 import org.opencv.core.*
 import org.opencv.imgproc.Imgproc
 import java.util.ArrayList
 import java.util.HashMap
 
+
 class ColorUtils : KoinComponent {
-
-    val geometryUtils : GeometryUtils by inject()
-
-    var colorLabs = HashMap<Color, Scalar>()
-
-    init{
-        colorLabs[Color.WHITE] = Scalar(70.0, -5.0, 15.0 )
-        colorLabs[Color.ORANGE] = Scalar(65.0 , 55.0 , 45.0)
-        colorLabs[Color.GREEN] = Scalar(50.0, -55.0 , 40.0 )
-        colorLabs[Color.RED] = Scalar(45.0 , 50.00 , 30.0 )
-        colorLabs[Color.YELLOW] = Scalar(60.0,-25.0, 40.0)
-        colorLabs[Color.BLUE] = Scalar(50.0,-30.0,-30.0)
-    }
-
-    fun resolveColorsByPoints(color : Scalar, points : HashMap<Color, Array<Scalar>>) : Color
-    {
-
-        var closestPointDistanceWhite = points[Color.WHITE]!!.minBy { geometryUtils.getDistance(color, it) }
-        var closestPointDistanceOrange = points[Color.ORANGE]!!.minBy { geometryUtils.getDistance(color, it) }
-        var closestPointDistanceGreen = points[Color.GREEN]!!.minBy { geometryUtils.getDistance(color, it) }
-        var closestPointDistanceRed = points[Color.RED]!!.minBy { geometryUtils.getDistance(color, it) }
-        var closestPointDistanceYellow = points[Color.YELLOW]!!.minBy { geometryUtils.getDistance(color, it) }
-        var closestPointDistanceBlue = points[Color.BLUE]!!.minBy { geometryUtils.getDistance(color, it) }
-
-        return when(arrayOf(geometryUtils.getDistance(closestPointDistanceWhite!!, color), geometryUtils.getDistance(closestPointDistanceOrange!!, color), geometryUtils.getDistance(closestPointDistanceGreen!!, color), geometryUtils.getDistance(closestPointDistanceRed!!, color), geometryUtils.getDistance(closestPointDistanceYellow!!, color), geometryUtils.getDistance(closestPointDistanceBlue!!, color)).min())
-        {
-            geometryUtils.getDistance(closestPointDistanceWhite, color) -> Color.WHITE
-            geometryUtils.getDistance(closestPointDistanceOrange, color) -> Color.ORANGE
-            geometryUtils.getDistance(closestPointDistanceGreen, color) -> Color.GREEN
-            geometryUtils.getDistance(closestPointDistanceRed, color) -> Color.RED
-            geometryUtils.getDistance(closestPointDistanceYellow, color) -> Color.YELLOW
-            geometryUtils.getDistance(closestPointDistanceBlue, color) -> Color.BLUE
-            else -> Color.BLUE
-        }
-    }
 
     fun scalarBGR2Lab(B : Double, G : Double, R : Double) : Scalar
     {
@@ -53,19 +21,38 @@ class ColorUtils : KoinComponent {
         return Scalar(lab[0,0][0]/255.0*100.0, lab[0,0][1]-128.0, lab[0,0][2]-128.0)
     }
 
-    // Partira avec le NN
-    fun resolveColor(dominantColor: Scalar) : Color {
+    fun resolveColorNN(WhiteColorLab : Scalar, DetectedColorLab : Scalar) : Color
+    {
+        var model = KerasModelImport.importKerasSequentialModelAndWeights("models/colorModel.h5")
 
-        var labDominantColor = scalarBGR2Lab(dominantColor.`val`[2], dominantColor.`val`[1], dominantColor.`val`[0])
+        val array3d = arrayOf(arrayOf(
+            floatArrayOf(WhiteColorLab.`val`[0].toFloat(), WhiteColorLab.`val`[1].toFloat(), WhiteColorLab.`val`[2].toFloat(), DetectedColorLab.`val`[0].toFloat(), DetectedColorLab.`val`[1].toFloat(), DetectedColorLab.`val`[2].toFloat())
+        ))
+        val input = Nd4j.createFromArray(array3d)
 
-        var similarities = HashMap<Color, Double>()
+        var output = model.output(input)
 
-        for((color, lab) in colorLabs)
+        var argmax = 0
+
+        for(i in output.data().asFloat().indices)
         {
-            similarities[color] = geometryUtils.getDistance(labDominantColor, lab)
+            if(output.data().asFloat()[i] > output.data().asFloat()[argmax])
+            {
+                argmax = i
+            }
         }
 
-        return similarities.minBy { it.value }!!.key
+        return when(argmax)
+        {
+            0 -> Color.WHITE
+            1 -> Color.ORANGE
+            2 -> Color.GREEN
+            3 -> Color.RED
+            4 -> Color.YELLOW
+            5 -> Color.BLUE
+            else -> Color.WHITE
+        }
+
     }
 
     // Boite noire

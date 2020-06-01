@@ -27,7 +27,7 @@ class OrientationService {
         toReturn[lastPositions[0]] = lastColors[0]
         toReturn[opposite(lastPositions[0])] = opposite((lastColors[0]))
 
-        if(!isIntegre(toReturn))
+        if(!integrityCheck(toReturn))
         {
             toReturn[opposite(lastPositions[0])] = lastColors[0]
             toReturn[lastPositions[0]] = opposite((lastColors[0]))
@@ -36,7 +36,7 @@ class OrientationService {
         return toReturn
     }
 
-    fun isIntegre(toCheck : HashMap<RelativePosition, Color>) : Boolean
+    fun integrityCheck(toCheck : HashMap<RelativePosition, Color>) : Boolean
     {
         var topBottom = toCheck.filter { (it.key == RelativePosition.BOTTOM || it.key == RelativePosition.TOP) && (it.value == Color.BLUE || it.value == Color.WHITE || it.value == Color.RED)}.toList().first()
         var leftRight = toCheck.filter { (it.key == RelativePosition.LEFT || it.key == RelativePosition.RIGHT) && (it.value == Color.BLUE || it.value == Color.WHITE || it.value == Color.RED)}.toList().first()
