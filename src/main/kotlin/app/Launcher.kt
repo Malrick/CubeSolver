@@ -7,18 +7,15 @@ import app.model.cubeUtils.Movement
 import app.service.cube.CubeMotionService
 import app.service.robot.RobotSequenceService
 import app.solver.bruteforceSolver.BruteforceOLLSolver
+import app.solver.Solver
 import app.solver.bruteforceSolver.BruteforcePLLSolver
 import app.solver.populationSolver.PopulationCornerSolver
 import app.solver.populationSolver.PopulationCrossSolver
 import app.solver.populationSolver.PopulationSecondFloorSolver
-import app.solver.Solver
-import org.deeplearning4j.nn.modelimport.keras.KerasModelImport
 import org.koin.core.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.core.inject
-import org.nd4j.linalg.factory.Nd4j
 import org.opencv.core.Core
-import java.util.*
 
 fun main()
 {
@@ -35,7 +32,6 @@ class Launcher : KoinComponent {
 
     //TODO Robot ENUM / fails
     //TODO Refacto motion
-    //TODO Refacto vision
 
     val cubeMotionService : CubeMotionService by inject()
     val consoleUI : ConsoleUI by inject()
@@ -54,35 +50,22 @@ class Launcher : KoinComponent {
         robotMotionService.init()
 
         robotMotionService.welcome()
+
         //initHelper.initCubeByKeyboard(cube)
         //initHelper.initCubeWithRobot(cube)
-
-        //consoleUI.displayCube(cube)
-
-        var i = 0
-
-        while(true)
-        {
-            i+=1
-            initHelper.processColorsAndSaveLab()
-            if(i%5==0)
-            {
-                println("Appuyez sur une touche pour continuer.")
-                Scanner(System.`in`).nextLine()
-            }
-        }
+        initHelper.initCubeWithRobot(cube)
 
         consoleUI.displayCube(cube)
 
         robotMotionService.release()
 
 
-        /*var solvers = arrayOf<Solver>(
-            PopulationCrossSolver(1000, 0.01f, 4, true),
-                                      PopulationCornerSolver(1000, 0.01f, 3, true),
-                                      PopulationSecondFloorSolver(1000, 0.01f, 3, true),
-                                      BruteforceOLLSolver(),
-                                      BruteforcePLLSolver()
+        var solvers = arrayOf<Solver>(
+            PopulationCrossSolver(10000, 0.001f, 5, true),
+            PopulationCornerSolver(10000, 0.001f, 5, true),
+            PopulationSecondFloorSolver(10000, 0.001f, 5, true),
+            BruteforceOLLSolver(),
+            BruteforcePLLSolver()
         )
 
 
@@ -105,8 +88,8 @@ class Launcher : KoinComponent {
             totalSolution = totalSolution.plus(solution)
         }
 
-        println(totalSolution.size)*/
+        println(totalSolution.size)
 
-        //robotMotionService.applySequence(totalSolution)
+        robotMotionService.applySequence(totalSolution)
     }
 }

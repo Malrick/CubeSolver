@@ -23,11 +23,7 @@ class Mat2Image {
 
     fun getSpace(mat: Mat) {
         var type = 0
-        if (mat.channels() == 1) {
-            type = BufferedImage.TYPE_BYTE_GRAY
-        } else if (mat.channels() == 3) {
-            type = BufferedImage.TYPE_3BYTE_BGR
-        }
+        type = BufferedImage.TYPE_3BYTE_BGR
         this.mat = mat
         val w = mat.cols()
         val h = mat.rows()

@@ -1,160 +1,167 @@
 package app.vision
 
 import app.model.cubeUtils.Color
+import app.model.vision.ColorProcessing
 import app.vision.utils.ColorUtils
-import app.vision.utils.GeometryUtils
-import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import it.unimi.dsi.fastutil.Hash
+import org.deeplearning4j.nn.modelimport.keras.KerasModelImport
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import org.nd4j.linalg.factory.Nd4j
 import org.opencv.core.*
-import org.opencv.highgui.HighGui
-import org.opencv.imgcodecs.Imgcodecs
-import org.opencv.imgproc.Imgproc
-import org.opencv.photo.Photo
-import java.io.File
-import java.util.*
-import javax.imageio.ImageIO
-import kotlin.math.roundToInt
+import java.lang.Math.sqrt
+import java.util.ArrayList
+import java.util.HashMap
+import kotlin.math.pow
 
 class ColorResolver : KoinComponent {
 
-    val geometryUtils : GeometryUtils by inject()
-    val colorUtils : ColorUtils by inject()
+    private val colorUtils : ColorUtils by inject()
 
-    val showPictures = false
-
-    fun takePictureAndSave(pathName : String)
+    fun resolve(detectedColors : HashMap<Color, Array<Mat>>, method : ColorProcessing) : HashMap<Color, Array<Color>>
     {
-        var videoCap = VideoCap()
-        videoCap.openCam()
-        val outputfile = File(pathName)
-        ImageIO.write(videoCap.getOneFrame(), "jpg", outputfile)
-    }
+        var resolvedColors = HashMap<Color, Array<Color>>()
 
-    fun initFixContours() : Array<MatOfPoint>
-    {
-        var toReturn = arrayOf<MatOfPoint>()
-        var diffY = 10.0
-        var diffX = - 25.0
-        toReturn += (MatOfPoint(Point(162.0+diffX,11.0+diffY), Point(223.0+diffX,10.0+diffY), Point(224.0+diffX,67.0+diffY), Point(163.0+diffX,68.0+diffY)))
-        toReturn += (MatOfPoint(Point(318.0+diffX,15.0+diffY), Point(371.0+diffX,14.0+diffY), Point(372.0+diffX,67.0+diffY), Point(319.0+diffX,68.0+diffY)))
-        toReturn += (MatOfPoint(Point(444.0+diffX,25.0+diffY), Point(501.0+diffX,24.0+diffY), Point(502.0+diffX,79.0+diffY), Point(445.0+diffX,80.0+diffY)))
-        toReturn += (MatOfPoint(Point(173.0+diffX,136.0+diffY), Point(232.0+diffX,137.0+diffY), Point(231.0+diffX,202.0+diffY), Point(172.0+diffX,201.0+diffY)))
-        toReturn += (MatOfPoint(Point(302.0+diffX,141.0+diffY), Point(369.0+diffX,140.0+diffY), Point(370.0+diffX,207.0+diffY), Point(303.0+diffX,208.0+diffY)))
-        toReturn += (MatOfPoint(Point(445.0+diffX,152.0+diffY), Point(508.0+diffX,153.0+diffY), Point(507.0+diffX,220.0+diffY), Point(444.0+diffX,219.0+diffY)))
-        toReturn += (MatOfPoint(Point(163.0+diffX,270.0+diffY), Point(226.0+diffX,271.0+diffY), Point(225.0+diffX,342.0+diffY), Point(162.0+diffX,341.0+diffY)))
-        toReturn += (MatOfPoint(Point(309.0+diffX,284.0+diffY), Point(370.0+diffX,285.0+diffY), Point(369.0+diffX,348.0+diffY), Point(308.0+diffX,347.0+diffY)))
-        toReturn += (MatOfPoint(Point(448.0+diffX,293.0+diffY), Point(511.0+diffX,292.0+diffY), Point(512.0+diffX,355.0+diffY), Point(449.0+diffX,356.0+diffY)))
-        return toReturn
-    }
-
-    /*
-    Take picture
-    Resolve contours of ROIs
-    For each ROI
-        Get dominant color
-     */
-
-    // Virer l'affichage de 10 000 photos
-    // Init les contours mieux que ça
-    // Détecter les couleurs en LAB ou en HSV
-
-    fun resolveColors(whiteLab : Scalar, filename : String, takePicture : Boolean, color : Color) : Array<Color>
-    {
-        val contoursFinaux = initFixContours()
-
-        var results = arrayOf<Color>()
-
-        if(takePicture) takePictureAndSave(filename)
-
-        var original = Imgcodecs.imread(filename, 1)
-        var originalAvecContours = original.clone()
-        var toExamine = original.clone()
-
-        Imgproc.drawContours(originalAvecContours, contoursFinaux.toList(), -1, Scalar(0.0, 0.0, 0.0), -1)
-        Photo.fastNlMeansDenoisingColored(toExamine, toExamine)
-
-        println(filename)
-
-        for(i in 0..8)
+        when(method)
         {
-            // INIT ROI
-            // Est-ce qu'on peut pas faire la ROI plus rapidement ?
-            var mask = Mat.zeros(toExamine.size(), CvType.CV_8UC1)
-            Imgproc.drawContours(mask, contoursFinaux.toList(), i, Scalar(255.0), -1)
-            var ROI = Mat()
-            toExamine.copyTo(ROI, mask)
-
-            var dominantColor = colorUtils.KnnClustering(ROI, 10)
-            var labDominantColor = colorUtils.scalarBGR2Lab(dominantColor.`val`[2], dominantColor.`val`[1], dominantColor.`val`[0])
-            var resolvedColor = colorUtils.resolveColorNN(whiteLab, labDominantColor)
-            //var resolvedColor = colorUtils.resolveColor(dominantColor)
-            results += resolvedColor
-
-            // UI
-            // On dessine le contour rempli de la couleur détectée
-            Imgproc.drawContours(originalAvecContours, contoursFinaux.toList(), i, Scalar(dominantColor.`val`[2], dominantColor.`val`[1], dominantColor.`val`[0]),-1)
-            // On entoure cette zone d'un contour parce que c'est plus visible
-            Imgproc.drawContours(originalAvecContours, contoursFinaux.toList(), i, Scalar(0.0, 0.0, 0.0))
-            HighGui.imshow(i.toString(), ROI)
-
-            print(i.toString() +" : " + resolvedColor.name)
-            println("  " + labDominantColor.`val`[0] + "  " + labDominantColor.`val`[1] + "  " + labDominantColor.`val`[2])
-
+            ColorProcessing.NeuralNetwork -> {
+                for((sideColor, colors) in detectedColors)
+                {
+                    resolvedColors[sideColor] = resolveColorNN(detectedColors[Color.WHITE]?.get(4)!!, colors)
+                }
+            }
+            ColorProcessing.ClosestDistance -> {
+                resolvedColors = resolveClosestDistance(detectedColors)
+            }
         }
 
-        println()
-
-        HighGui.imshow("Original avec contours", originalAvecContours)
-        HighGui.imshow("Examiné", toExamine)
-        HighGui.imshow("Original", original)
-
-        if(showPictures) HighGui.waitKey(0)
-
-        return results
+        return resolvedColors
     }
 
-    fun processColorLabs() : Array<Scalar>
+    fun getDistance(a : Scalar, b : Scalar) : Double
     {
-        val contoursFinaux = initFixContours()
+        return sqrt((a.`val`[0] - b.`val`[0]).pow(2) + (a.`val`[1] - b.`val`[1]).pow(2) + (a.`val`[2] - b.`val`[2]).pow(2) )
+    }
 
-        takePictureAndSave("tempColors.jpg")
+    fun resolveClosestDistance(detectedColors: HashMap<Color, Array<Mat>>) : HashMap<Color, Array<Color>>
+    {
+        var centerColors = HashMap<Color, Scalar>()
+        var resolvedColor = HashMap<Color, Array<Color>>()
 
-        var original = Imgcodecs.imread("tempColors.jpg", 1)
-        var originalAvecContours = original.clone()
-
-        var tempMeanL = arrayOf<Scalar>()
-
-        for(i in 0..8)
+        for(color in Color.values())
         {
-            // INIT ROI
-            // Est-ce qu'on peut pas faire la ROI plus rapidement ?
-            var mask = Mat.zeros(original.size(), CvType.CV_8UC1)
-            Imgproc.drawContours(mask, contoursFinaux.toList(), i, Scalar(255.0), -1)
-            var ROI = Mat()
-            original.copyTo(ROI, mask)
-            var dominantColor = colorUtils.KnnClustering(ROI, 10)
-
-            // UI
-            // On dessine le contour rempli de la couleur détectée
-            Imgproc.drawContours(originalAvecContours, contoursFinaux.toList(), i, Scalar(dominantColor.`val`[2], dominantColor.`val`[1], dominantColor.`val`[0]),-1)
-            // On entoure cette zone d'un contour parce que c'est plus visible
-            Imgproc.drawContours(originalAvecContours, contoursFinaux.toList(), i, Scalar(0.0, 0.0, 0.0))
-
-            tempMeanL += colorUtils.scalarBGR2Lab(dominantColor.`val`[2], dominantColor.`val`[1], dominantColor.`val`[0])
+            resolvedColor[color] = Array(9) { Color.WHITE}
         }
 
-        HighGui.imshow("Original", original)
-        HighGui.imshow("Original avec contours", originalAvecContours)
+        for((sideColor, colors) in detectedColors)
+        {
+            centerColors[sideColor] = colorUtils.scalarBGR2Lab(KnnClustering(colors[4], 30))
+        }
 
-        if(showPictures) HighGui.waitKey(0)
+        for(color in detectedColors.keys)
+        {
+            for(i in 0 until 9)
+            {
+                var distances = HashMap<Color, Double>()
+                for(color2 in Color.values())
+                {
+                    distances[color2] = getDistance(colorUtils.scalarBGR2Lab(KnnClustering(detectedColors[color]!![i], 30)), centerColors[color2]!!)
+                }
+                resolvedColor[color]!![i] = distances.minBy { it.value }!!.key
+            }
+        }
 
-        return tempMeanL
+        return resolvedColor
     }
 
-    fun normalizeLab(scalar : Scalar) : Scalar
+
+    fun resolveColorNN(whiteMat : Mat, detectedColors: Array<Mat>) : Array<Color>
     {
-        return Scalar((scalar.`val`[0]/255.0) * 100, scalar.`val`[1]-128.0, scalar.`val`[2]-128.0)
+        var returnedColors = arrayOf<Color>()
+        var whiteLab = colorUtils.scalarBGR2Lab(KnnClustering(whiteMat, 10))
+        for(mat in detectedColors)
+        {
+            returnedColors += resolveColorNN(whiteLab, colorUtils.scalarBGR2Lab(KnnClustering(mat, 10)))
+        }
+        return returnedColors
+    }
+
+    fun resolveColorNN(whiteLab : Scalar, DetectedColorLab : Scalar) : Color
+    {
+        var model = KerasModelImport.importKerasSequentialModelAndWeights("models/colorModel.h5")
+
+        val array3d = arrayOf(arrayOf(
+            floatArrayOf(whiteLab.`val`[0].toFloat(), whiteLab.`val`[1].toFloat(), whiteLab.`val`[2].toFloat(), DetectedColorLab.`val`[0].toFloat(), DetectedColorLab.`val`[1].toFloat(), DetectedColorLab.`val`[2].toFloat())
+        ))
+        val input = Nd4j.createFromArray(array3d)
+
+        var output = model.output(input)
+
+        var argmax = 0
+
+        for(i in output.data().asFloat().indices)
+        {
+            if(output.data().asFloat()[i] > output.data().asFloat()[argmax])
+            {
+                argmax = i
+            }
+        }
+
+        return when(argmax)
+        {
+            0 -> Color.WHITE
+            1 -> Color.ORANGE
+            2 -> Color.GREEN
+            3 -> Color.RED
+            4 -> Color.YELLOW
+            5 -> Color.BLUE
+            else -> Color.WHITE
+        }
+
+    }
+
+    // Boite noire
+    // TODO : blanchir
+    fun KnnClustering(cutout: Mat, k: Int): Scalar {
+        val samples = cutout.reshape(1, cutout.cols() * cutout.rows())
+        val samples32f = Mat()
+        samples.convertTo(samples32f, CvType.CV_32F, 1.0 / 255.0)
+        val labels = Mat()
+        val criteria = TermCriteria(TermCriteria.COUNT, 100, 1.0)
+        val centers = Mat()
+        Core.kmeans(samples32f, k, labels, criteria, 1, Core.KMEANS_PP_CENTERS, centers)
+        centers.convertTo(centers, CvType.CV_8UC1, 255.0)
+        centers.reshape(3)
+
+        val clusters= ArrayList<Mat>()
+        for (i in 0 until centers.rows()) {
+            clusters.add(Mat.zeros(cutout.size(), cutout.type()))
+        }
+        val counts: MutableMap<Int, Int> = HashMap()
+        for (i in 0 until centers.rows()) counts[i] = 0
+        var rows = 0
+        for (y in 0 until cutout.rows()) {
+            for (x in 0 until cutout.cols()) {
+                val label = labels[rows, 0][0].toInt()
+                val r = centers[label, 2][0].toInt()
+                val g = centers[label, 1][0].toInt()
+                val b = centers[label, 0][0].toInt()
+                counts[label] = counts[label]!! + 1
+                clusters[label].put(y, x, b.toDouble(), g.toDouble(), r.toDouble())
+                rows++
+            }
+        }
+        for(i in 0 until centers.rows())
+        {
+            var r = centers[i, 0][0]
+            var g = centers[i, 1][0]
+            var b = centers[i, 2][0]
+        }
+
+        var maxCountIndex = counts.filter { it != counts.maxBy { it.value } }.maxBy { it.value }!!.key
+
+
+        return Scalar(centers[maxCountIndex, 0][0], centers[maxCountIndex, 1][0], centers[maxCountIndex, 2][0])
     }
 
 

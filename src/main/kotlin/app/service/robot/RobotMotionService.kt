@@ -15,6 +15,8 @@ class RobotMotionService : KoinComponent {
 
     val servoControler : ServoService by inject()
 
+    val movementSpeed : Long = 375
+
     fun init()
     {
         servos = servoControler.initServos()
@@ -163,7 +165,7 @@ class RobotMotionService : KoinComponent {
     fun executeCommand(servo : Servo, positionOfServo: ServoState, wait : Boolean)
     {
         servoControler.moveServo(servo, positionOfServo)
-        if(wait) Thread.sleep(500)
+        if(wait) Thread.sleep(movementSpeed)
     }
 
     fun isEveryHandHolding() : Boolean

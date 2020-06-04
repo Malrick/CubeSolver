@@ -64,11 +64,6 @@ class Cube {
                 }
             }
         }
-        initAdjacency()
-    }
-
-    fun initAdjacency()
-    {
         for(elem in positions.keys)
         {
             adjacencyList[elem] = positions.keys.filter { it.isAdjacent(elem) }

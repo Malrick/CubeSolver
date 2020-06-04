@@ -12,6 +12,8 @@ class Orientation{
         colorPositions[RelativePosition.RIGHT] = Color.RED
         colorPositions[RelativePosition.BOTTOM] = Color.YELLOW
         colorPositions[RelativePosition.BACK] = Color.BLUE
+        turnCube(RelativePosition.LEFT)
+        turnCube(RelativePosition.LEFT)
     }
 
     fun turnCube(direction: RelativePosition)

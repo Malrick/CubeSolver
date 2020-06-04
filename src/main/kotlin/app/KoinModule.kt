@@ -8,9 +8,8 @@ import app.service.robot.RobotSequenceService
 import app.service.robot.ServoService
 import app.service.robot.RobotMotionService
 import app.vision.ColorResolver
+import app.vision.VideoManager
 import app.vision.utils.ColorUtils
-import app.vision.utils.GeometryUtils
-import app.vision.utils.ContoursUtils
 import org.koin.dsl.module
 
 val helperModule = module{
@@ -33,8 +32,7 @@ val servoModule = module {
 }
 
 val visionModule = module {
-    single{ ColorResolver()}
+    single{ VideoManager() }
     single{ ColorUtils()}
-    single{ GeometryUtils()}
-    single{ ContoursUtils()}
+    single{ ColorResolver()}
 }

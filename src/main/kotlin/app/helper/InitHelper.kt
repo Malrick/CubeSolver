@@ -2,28 +2,29 @@ package app.helper
 
 import app.model.cube.Cube
 import app.model.cubeUtils.Color
-import app.model.cubeUtils.RelativePosition
-import app.model.robot.constants.ServoState
-import app.model.robot.constants.ServoIdentity
+import app.model.cubeUtils.Movement
+import app.model.vision.ColorProcessing
 import app.service.cube.CubeInformationService
-import app.service.robot.RobotMotionService
+import app.service.cube.CubeMotionService
 import app.service.robot.RobotSequenceService
 import app.vision.ColorResolver
-import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
-import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import org.opencv.core.Scalar
-import java.io.File
+import org.opencv.core.Core.hconcat
+import org.opencv.core.Core.vconcat
+import org.opencv.core.Mat
+import org.opencv.highgui.HighGui
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class InitHelper : KoinComponent {
 
-    var colorResolver = ColorResolver()
     val cubeInformationService: CubeInformationService by inject()
-    val robotMotionService: RobotMotionService by inject()
     val robotSequenceService : RobotSequenceService by inject()
+    val colorResolver : ColorResolver by inject()
+    val cubeMotionService : CubeMotionService by inject()
+
 
     fun initSolvedCube(cube: Cube) {
         for (color in Color.values()) {
@@ -34,6 +35,18 @@ class InitHelper : KoinComponent {
             cubeInformationService.initSideByColor(cube, color, toAdd)
         }
     }
+
+    fun initScrambledCube(cube : Cube){
+        initSolvedCube(cube)
+
+        var randomMovements = listOf<Movement>()
+        for(i in 0..50)
+        {
+            randomMovements += Movement.values().random()
+        }
+        cubeMotionService.applySequence(cube, randomMovements.toTypedArray())
+    }
+
 
     fun initCubeByKeyboard(cube: Cube) {
         val input = Scanner(System.`in`)
@@ -60,236 +73,70 @@ class InitHelper : KoinComponent {
         }
     }
 
-    fun initCubeWithRobot(cube: Cube) {
+    fun displayMats(colors : HashMap<Color, Array<Mat>>, myNumber : Int)
+    {
+        var concatenatedMats = listOf<Mat>()
+        var superConcatenation = Mat()
+        for(color in Color.values())
+        {
+            var mat = Mat()
+            hconcat(colors[color]?.asList(), mat)
+            concatenatedMats += mat
+        }
+        vconcat(concatenatedMats, superConcatenation)
+        HighGui.imshow("couleurs concaténées", superConcatenation)
 
-        var filePath = "colors/"
+        if(myNumber!=0) {
+            concatenatedMats = listOf<Mat>()
+            var dominantColors = HashMap<Color, MutableList<Mat>>()
+            superConcatenation = Mat()
+            var colorResolver = ColorResolver()
 
-        var whiteLab = Scalar(0.0,0.0,0.0)
+            for ((sideColor, colors) in colors) {
+                dominantColors[sideColor] = mutableListOf()
+                for (elem in colors) {
+                    dominantColors[sideColor]?.plusAssign(elem.clone().setTo(colorResolver.KnnClustering(elem, myNumber)))
+                }
+            }
 
             for (color in Color.values()) {
-            when (color) {
-                Color.WHITE -> {
-                    robotMotionService.turnCube(RelativePosition.TOP)
-                }
-                Color.ORANGE -> {
-                    robotMotionService.turnCube(RelativePosition.BOTTOM)
-                    robotMotionService.turnCube(RelativePosition.RIGHT)
-                }
-                Color.GREEN -> robotMotionService.turnCube(RelativePosition.LEFT)
-                Color.RED -> robotMotionService.turnCube(RelativePosition.LEFT)
-                Color.YELLOW -> {
-                    robotMotionService.turnCube(RelativePosition.RIGHT)
-                    robotMotionService.turnCube(RelativePosition.BOTTOM)
-                }
-                Color.BLUE -> robotMotionService.turnCube(RelativePosition.BOTTOM)
+                var mat = Mat()
+
+                hconcat(dominantColors[color], mat)
+                concatenatedMats += mat
             }
-
-            if(color == Color.WHITE)
-            {
-                var colorsDetectedOnFirstPicture = ArrayList<Scalar>()
-                var colorsDetectedOnSecondPicture = ArrayList<Scalar>()
-                // Taking a picture, and getting an array of detected colors
-                colorsDetectedOnFirstPicture.addAll(colorResolver.processColorLabs())
-
-                // Taking another picture
-                colorsDetectedOnSecondPicture.addAll(colorResolver.processColorLabs())
-
-                var averageWhiteL = (colorsDetectedOnFirstPicture[4].`val`[0] + colorsDetectedOnSecondPicture[4].`val`[0])/2
-                var averageWhiteA = (colorsDetectedOnFirstPicture[4].`val`[1] + colorsDetectedOnSecondPicture[4].`val`[1])/2
-                var averageWhiteB = (colorsDetectedOnFirstPicture[4].`val`[2] + colorsDetectedOnSecondPicture[4].`val`[2])/2
-
-                whiteLab = Scalar(averageWhiteL, averageWhiteA, averageWhiteB)
-            }
-
-            var finalColorsResolved = ArrayList<Color>()
-            var colorsDetectedOnFirstPicture = ArrayList<Color>()
-            var colorsDetectedOnSecondPicture = ArrayList<Color>()
-
-            // The arms at TOP and BOTTOM are getting outside, in order to be able to detect these colors
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.OUTSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.OUTSIDE, true)
-
-            // Taking a picture, and getting an array of detected colors
-            colorsDetectedOnFirstPicture.addAll(colorResolver.resolveColors(whiteLab,"temp.jpg", true, color))
-
-            // Arms at top and bottom are coming back to hold the cube, LEFT and RIGHT arms are going out
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.INSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.INSIDE, true)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.OUTSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.OUTSIDE, true)
-
-            // Taking another picture
-            colorsDetectedOnSecondPicture.addAll(colorResolver.resolveColors(whiteLab, "temp2.jpg", true, color))
-
-            // Arms RIGHT and LEFT are coming back to hold the cube (initial position)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.INSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.INSIDE, true)
-
-
-
-            for (i in 0 until 9) {
-                if (i == 3 || i == 5) {
-                    finalColorsResolved.add(colorsDetectedOnSecondPicture[i])
-                } else if (i == 1 || i == 7) {
-                    finalColorsResolved.add(colorsDetectedOnFirstPicture[i])
-                } else {
-                    if (colorsDetectedOnFirstPicture[i] != colorsDetectedOnSecondPicture[i]) {
-                        println("Two differents colors have been detected on two different pictures.")
-                    }
-                    // In case the two pictures have detected different colors, we choose the one of the first picture (arbitrary choice)
-                    finalColorsResolved.add(colorsDetectedOnFirstPicture[i])
-                }
-            }
-
-            if (finalColorsResolved[4] != color) {
-                println("The color detected for the center is wrong.")
-            }
-
-            println("Final face $color :")
-            for (elem in finalColorsResolved) {
-                println(elem)
-            }
-            println()
-
-            cubeInformationService.initSideByColor(cube, color, finalColorsResolved)
-        }
-    }
-
-    fun processColorsAndSaveLab() {
-
-        var finalColorsResolved = ArrayList<Scalar>()
-        var whiteColorComparison = ArrayList<Scalar>()
-        var colorsDetectedOnFirstPicture = ArrayList<Scalar>()
-        var colorsDetectedOnSecondPicture = ArrayList<Scalar>()
-
-        var averageWhiteL = 0.0
-        var averageWhiteA = 0.0
-        var averageWhiteB = 0.0
-
-        var filePath = "colors/"
-
-        for(color in Color.values()) {
-
-            finalColorsResolved = ArrayList()
-            colorsDetectedOnFirstPicture = ArrayList()
-            colorsDetectedOnSecondPicture = ArrayList()
-
-            when (color) {
-                Color.WHITE -> {
-                    robotMotionService.turnCube(RelativePosition.TOP)
-                }
-                Color.ORANGE -> {
-                    robotMotionService.turnCube(RelativePosition.BOTTOM)
-                    robotMotionService.turnCube(RelativePosition.RIGHT)
-                }
-                Color.GREEN -> robotMotionService.turnCube(RelativePosition.LEFT)
-                Color.RED -> robotMotionService.turnCube(RelativePosition.LEFT)
-                Color.YELLOW -> {
-                    robotMotionService.turnCube(RelativePosition.RIGHT)
-                    robotMotionService.turnCube(RelativePosition.BOTTOM)
-                }
-                Color.BLUE -> robotMotionService.turnCube(RelativePosition.BOTTOM)
-            }
-
-            //robotSequenceService.showSideToCamera(color)
-
-            // The arms at TOP and BOTTOM are getting outside, in order to be able to detect these colors
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.OUTSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.OUTSIDE, true)
-
-            // Taking a picture, and getting an array of detected colors
-            //colorsDetectedOnFirstPicture.addAll(colorResolver.processColorLabs())
-
-            // Arms at top and bottom are coming back to hold the cube, LEFT and RIGHT arms are going out
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.INSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.INSIDE, true)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.OUTSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.OUTSIDE, true)
-
-            // Taking another picture
-            //colorsDetectedOnSecondPicture.addAll(colorResolver.processColorLabs())
-
-            // Arms RIGHT and LEFT are coming back to hold the cube (initial position)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.INSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.INSIDE, true)
-
-            /*if(color == Color.WHITE)
-            {
-                averageWhiteL = (colorsDetectedOnFirstPicture[4].`val`[0] + colorsDetectedOnSecondPicture[4].`val`[0])/2
-                averageWhiteA = (colorsDetectedOnFirstPicture[4].`val`[1] + colorsDetectedOnSecondPicture[4].`val`[1])/2
-                averageWhiteB = (colorsDetectedOnFirstPicture[4].`val`[2] + colorsDetectedOnSecondPicture[4].`val`[2])/2
-
-            }
-
-            whiteColorComparison.add(Scalar(averageWhiteL, averageWhiteA, averageWhiteB))
-
-            for (i in 0 until 9) {
-                if (i == 3 || i == 5) {
-                    finalColorsResolved.add(colorsDetectedOnSecondPicture[i])
-                } else if (i == 1 || i == 7) {
-                    finalColorsResolved.add(colorsDetectedOnFirstPicture[i])
-                } else {
-                    finalColorsResolved.add(colorsDetectedOnFirstPicture[i])
-                    finalColorsResolved.add(colorsDetectedOnSecondPicture[i])
-                }
-            }
-            filePath == "$color"*/
-            //appendLabDataInCsvFile(filePath, color.name, whiteColorComparison, finalColorsResolved)
+            vconcat(concatenatedMats, superConcatenation)
+            HighGui.imshow("couleurs dominantes", superConcatenation)
         }
 
-
-        robotMotionService.turnCube(RelativePosition.TOP)
-        robotMotionService.turnCube(RelativePosition.TOP)
+        HighGui.waitKey(0)
     }
 
-    fun appendLabDataInCsvFile(filePath : String, fileName : String, whiteData : List<Scalar>, labData : List<Scalar>)
+    fun initCubeWithRobot(cube : Cube)
     {
-        var firstRow = listOf<Any>()
-        var secondRow = listOf<Any>()
-        var thirdRow = listOf<Any>()
-        var fourthRow = listOf<Any>()
-        var fifthRow = listOf<Any>()
-        var sixthRow = listOf<Any>()
+        val showPictures = true
 
-        firstRow = listOf()
-        secondRow = listOf()
-        thirdRow = listOf()
-        fourthRow = listOf()
-        fifthRow = listOf()
-        sixthRow = listOf()
+        var detectedColors = HashMap<Color, Array<Mat>>()
 
-        var folder = File("$filePath")
-        var file = File("$filePath$fileName.csv")
-
-        folder.mkdirs()
-
-        if(file.exists())
+        for(color in Color.values())
         {
-            val oldRows: List<List<String>> = csvReader().readAll(file)
+            robotSequenceService.prepareCubeToPicture(color)
 
-            firstRow+=oldRows[0]
-            secondRow+=oldRows[1]
-            thirdRow+=oldRows[2]
-            fourthRow +=oldRows[3]
-            fifthRow +=oldRows[4]
-            sixthRow +=oldRows[5]
-        }
-        file.createNewFile()
-
-        for(elem in labData)
-        {
-            firstRow+=whiteData[0].`val`[0].toInt()
-            secondRow+=whiteData[0].`val`[1].toInt()
-            thirdRow+=whiteData[0].`val`[2].toInt()
-            fourthRow+=elem.`val`[0].toInt()
-            fifthRow+=elem.`val`[1].toInt()
-            sixthRow+=elem.`val`[2].toInt()
+            detectedColors[color] = robotSequenceService.takePicturesAndGetColors()
         }
 
+        robotSequenceService.temp()
 
-        var rows = listOf(firstRow, secondRow, thirdRow, fourthRow, fifthRow, sixthRow)
-        csvWriter().open(file) { writeAll(rows) }
+        if(showPictures) displayMats(detectedColors, 30)
+
+        var resolvedColors = colorResolver.resolve(detectedColors, ColorProcessing.ClosestDistance)
+
+        for((sideColor, colors) in resolvedColors)
+        {
+            cubeInformationService.initSideByColor(cube, sideColor, ArrayList(colors.toMutableList()))
+        }
+
+        robotSequenceService.closeCam()
     }
-
 
 }
