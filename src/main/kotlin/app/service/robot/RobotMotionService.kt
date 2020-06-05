@@ -1,7 +1,7 @@
 package app.service.robot
 
 import app.model.robot.Servo
-import app.model.cubeUtils.RelativePosition
+import app.model.movement.RelativePosition
 import app.model.robot.constants.ServoState
 import app.model.robot.constants.ServoIdentity
 import org.koin.core.KoinComponent

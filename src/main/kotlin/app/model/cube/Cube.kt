@@ -1,6 +1,6 @@
 package app.model.cube
 
-import app.model.cubeUtils.Color
+import app.model.Color
 import app.model.cube.coordinates.CubeCoordinates
 import app.model.cube.piece.Center
 import app.model.cube.piece.Corner
@@ -10,7 +10,6 @@ import app.model.cube.position.CenterPosition
 import app.model.cube.position.CornerPosition
 import app.model.cube.position.EdgePosition
 import app.model.cube.position.Position
-import it.unimi.dsi.fastutil.Hash
 import kotlin.properties.Delegates
 
 class Cube {

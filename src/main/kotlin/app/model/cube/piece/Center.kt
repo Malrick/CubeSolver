@@ -1,6 +1,6 @@
 package app.model.cube.piece
 
-import app.model.cubeUtils.Color
+import app.model.Color
 
 class Center(var colorOne : Color) : Piece() {
 

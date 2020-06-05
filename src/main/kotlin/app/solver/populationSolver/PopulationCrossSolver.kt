@@ -1,10 +1,8 @@
 package app.solver.populationSolver
 
-import app.UI.ConsoleUI
 import app.model.cube.Cube
-import app.model.cubeUtils.Color
-import app.model.cubeUtils.Movement
-import org.koin.core.inject
+import app.model.Color
+import app.model.movement.Movement
 
 class PopulationCrossSolver(
     override val populationMaxSize: Int,
@@ -88,39 +86,55 @@ class PopulationCrossSolver(
         score = cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.WHITE) * 100
 
         // BLUE
-        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.BLUE).elementAt(0).possessColor(Color.BLUE)
-            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.BLUE).elementAt(0).possessColor(Color.ORANGE)
+        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.BLUE).elementAt(0).possessColor(
+                Color.BLUE)
+            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.BLUE).elementAt(0).possessColor(
+                Color.ORANGE)
             && cubeInformationService.getSideByColor(cubeExperiment, Color.ORANGE)[4] == Color.WHITE) score = score + 50
 
-        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.BLUE).elementAt(0).possessColor(Color.BLUE)
-            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.BLUE).elementAt(0).possessColor(Color.RED)
+        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.BLUE).elementAt(0).possessColor(
+                Color.BLUE)
+            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.BLUE).elementAt(0).possessColor(
+                Color.RED)
             && cubeInformationService.getSideByColor(cubeExperiment, Color.RED)[6] == Color.WHITE) score = score + 50
 
         // RED
-        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.RED).elementAt(0).possessColor(Color.RED)
-            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.RED).elementAt(0).possessColor(Color.GREEN)
+        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.RED).elementAt(0).possessColor(
+                Color.RED)
+            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.RED).elementAt(0).possessColor(
+                Color.GREEN)
             && cubeInformationService.getSideByColor(cubeExperiment, Color.GREEN)[6] == Color.WHITE) score = score + 50
 
-        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.RED).elementAt(0).possessColor(Color.BLUE)
-            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.RED).elementAt(0).possessColor(Color.RED)
+        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.RED).elementAt(0).possessColor(
+                Color.BLUE)
+            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.RED).elementAt(0).possessColor(
+                Color.RED)
             && cubeInformationService.getSideByColor(cubeExperiment, Color.RED)[6] == Color.RED) score = score + 50
 
         // GREEN
-        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.GREEN).elementAt(0).possessColor(Color.RED)
-            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.GREEN).elementAt(0).possessColor(Color.GREEN)
+        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.GREEN).elementAt(0).possessColor(
+                Color.RED)
+            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.GREEN).elementAt(0).possessColor(
+                Color.GREEN)
             && cubeInformationService.getSideByColor(cubeExperiment, Color.GREEN)[6] == Color.GREEN) score = score + 50
 
-        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.GREEN).elementAt(0).possessColor(Color.ORANGE)
-            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.GREEN).elementAt(0).possessColor(Color.GREEN)
+        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.GREEN).elementAt(0).possessColor(
+                Color.ORANGE)
+            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.GREEN).elementAt(0).possessColor(
+                Color.GREEN)
             && cubeInformationService.getSideByColor(cubeExperiment, Color.GREEN)[4] == Color.GREEN) score = score + 50
 
         // ORANGE
-        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.ORANGE).elementAt(0).possessColor(Color.ORANGE)
-            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.ORANGE).elementAt(0).possessColor(Color.GREEN)
+        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.ORANGE).elementAt(0).possessColor(
+                Color.ORANGE)
+            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.ORANGE).elementAt(0).possessColor(
+                Color.GREEN)
             && cubeInformationService.getSideByColor(cubeExperiment, Color.ORANGE)[6] == Color.ORANGE) score = score + 50
 
-        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.ORANGE).elementAt(0).possessColor(Color.ORANGE)
-            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.ORANGE).elementAt(0).possessColor(Color.BLUE)
+        if(cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.ORANGE).elementAt(0).possessColor(
+                Color.ORANGE)
+            && cubeInformationService.getPositionsOfEdges(cubeExperiment, Color.WHITE, Color.ORANGE).elementAt(0).possessColor(
+                Color.BLUE)
             && cubeInformationService.getSideByColor(cubeExperiment, Color.ORANGE)[4] == Color.ORANGE) score = score + 50
 
         if(score == 400)

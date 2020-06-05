@@ -1,6 +1,6 @@
 package app.model.cube.position
 
-import app.model.cubeUtils.Color
+import app.model.Color
 import app.model.cube.coordinates.CubeCoordinates
 import app.model.cube.piece.Corner
 import app.model.cube.piece.Piece

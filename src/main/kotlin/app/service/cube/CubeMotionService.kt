@@ -1,7 +1,7 @@
 package app.service.cube
 
-import app.model.cubeUtils.Color
-import app.model.cubeUtils.Movement
+import app.model.Color
+import app.model.movement.Movement
 import app.model.cube.Cube
 import app.model.cube.piece.Corner
 import app.model.cube.piece.Edge

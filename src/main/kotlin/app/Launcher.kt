@@ -1,9 +1,9 @@
 package app
 
 import app.UI.ConsoleUI
-import app.helper.InitHelper
 import app.model.cube.Cube
-import app.model.cubeUtils.Movement
+import app.model.movement.Movement
+import app.service.cube.CubeInitializationService
 import app.service.cube.CubeMotionService
 import app.service.robot.RobotSequenceService
 import app.solver.bruteforceSolver.BruteforceOLLSolver
@@ -19,7 +19,7 @@ import org.opencv.core.Core
 
 fun main()
 {
-    startKoin{modules(listOf(serviceModule, helperModule, displayModule, visionModule, servoModule))}
+    startKoin{modules(listOf(serviceModule, displayModule, visionModule))}
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
     Launcher().launch()
 }
@@ -33,9 +33,9 @@ class Launcher : KoinComponent {
     //TODO Robot ENUM / fails
     //TODO Refacto motion
 
+    val cubeInitializationService : CubeInitializationService by inject()
     val cubeMotionService : CubeMotionService by inject()
     val consoleUI : ConsoleUI by inject()
-    val initHelper : InitHelper by inject()
     val robotMotionService : RobotSequenceService by inject()
 
     fun launch() {
@@ -53,7 +53,7 @@ class Launcher : KoinComponent {
 
         //initHelper.initCubeByKeyboard(cube)
         //initHelper.initCubeWithRobot(cube)
-        initHelper.initCubeWithRobot(cube)
+        cubeInitializationService.initCubeWithRobot(cube)
 
         consoleUI.displayCube(cube)
 

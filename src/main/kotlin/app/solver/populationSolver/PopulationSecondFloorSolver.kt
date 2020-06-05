@@ -1,7 +1,12 @@
 package app.solver.populationSolver
 
+import app.model.Color
 import app.model.cube.Cube
-import app.model.cubeUtils.*
+import app.model.movement.Movement
+import app.model.movement.RELATIVE_EDGE_INSERTION_1
+import app.model.movement.RELATIVE_EDGE_INSERTION_2
+import app.model.movement.RelativePosition
+import app.service.orientation.OrientationService
 
 class PopulationSecondFloorSolver(
     override val populationMaxSize: Int,
@@ -16,11 +21,14 @@ class PopulationSecondFloorSolver(
 
     init{
         var orientationService = OrientationService()
-        for(relativeSequence in arrayOf(RELATIVE_EDGE_INSERTION_1, RELATIVE_EDGE_INSERTION_2))
+        for(relativeSequence in arrayOf(
+            RELATIVE_EDGE_INSERTION_1,
+            RELATIVE_EDGE_INSERTION_2
+        ))
         {
             for(orientation in orientationService.getOrientations(Pair(RelativePosition.TOP, Color.YELLOW)))
             {
-                listOfMovements = listOfMovements.plus(arrayOf(orientationService.convertSequenceOfRelativeMovements(relativeSequence, orientation)))
+                listOfMovements = listOfMovements.plus(arrayOf(movementService.convertSequenceOfRelativeMovements(relativeSequence, orientation)))
             }
         }
 

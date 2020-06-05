@@ -1,7 +1,6 @@
 package app.model.cube.coordinates
 
-import app.model.cubeUtils.Color
-import java.lang.Exception
+import app.model.Color
 
 class CubeCoordinates(var height : Int, var depht : Int, var width : Int) {
 

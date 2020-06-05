@@ -1,6 +1,6 @@
 package app.service.cube
 
-import app.model.cubeUtils.Color
+import app.model.Color
 import app.model.cube.Cube
 import app.model.cube.position.CornerPosition
 import app.model.cube.position.EdgePosition
@@ -83,5 +83,6 @@ class CubeInformationService {
     {
         return cube.positions.filter { it.key is EdgePosition && it.value.containsColor(colorOne) && it.value.containsColor(colorTwo) }.keys
     }
+
 
 }

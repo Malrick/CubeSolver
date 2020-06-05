@@ -33,16 +33,6 @@ class Servo {
         this.channel = channel
     }
 
-    fun setCalibrationValueNotTurned(value : Double)
-    {
-        this.calibrationValueNotTurned = value
-    }
-
-    fun setCalibrationValueTurned(value : Double)
-    {
-        this.calibrationValueTurned = value
-    }
-
     fun getServoPosition() : ServoState
     {
         return servoPosition
@@ -66,6 +56,16 @@ class Servo {
     fun getCalibrationValueNotTurned() : Double
     {
         return calibrationValueNotTurned
+    }
+
+    fun setCalibrationValueNotTurned(value : Double)
+    {
+        this.calibrationValueNotTurned = value
+    }
+
+    fun setCalibrationValueTurned(value : Double)
+    {
+        this.calibrationValueTurned = value
     }
 
     fun getCalibrationValueTurned() : Double

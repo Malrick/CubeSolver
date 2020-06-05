@@ -1,7 +1,9 @@
 package app.solver.populationSolver
 
+import app.model.Color
 import app.model.cube.Cube
-import app.model.cubeUtils.*
+import app.model.movement.*
+import app.service.orientation.OrientationService
 
 class PopulationCornerSolver(
     override val populationMaxSize: Int,
@@ -16,11 +18,16 @@ class PopulationCornerSolver(
 
     init{
         var orientationService = OrientationService()
-        for(relativeSequence in arrayOf(RELATIVE_CORNER_INSERTION_1, RELATIVE_CORNER_INSERTION_2, RELATIVE_CORNER_INSERTION_3, RELATIVE_CORNER_INSERTION_4))
+        for(relativeSequence in arrayOf(
+            RELATIVE_CORNER_INSERTION_1,
+            RELATIVE_CORNER_INSERTION_2,
+            RELATIVE_CORNER_INSERTION_3,
+            RELATIVE_CORNER_INSERTION_4
+        ))
         {
             for(orientation in orientationService.getOrientations(Pair(RelativePosition.TOP, Color.YELLOW)))
             {
-                listOfMovements = listOfMovements.plus(arrayOf(orientationService.convertSequenceOfRelativeMovements(relativeSequence, orientation)))
+                listOfMovements = listOfMovements.plus(arrayOf(movementService.convertSequenceOfRelativeMovements(relativeSequence, orientation)))
             }
         }
 

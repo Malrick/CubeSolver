@@ -1,7 +1,7 @@
 package app.UI
 
 import app.model.cube.Cube
-import app.model.cubeUtils.Color
+import app.model.Color
 import app.service.cube.CubeInformationService
 import com.github.ajalt.mordant.TermColors
 import org.koin.core.KoinComponent

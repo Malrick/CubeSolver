@@ -1,12 +1,11 @@
 package app.service.robot
 
-import app.model.cubeUtils.Color
-import app.model.cubeUtils.Movement
-import app.model.cubeUtils.Orientation
-import app.model.cubeUtils.RelativePosition
+import app.model.Color
+import app.model.movement.Movement
+import app.model.orientation.Orientation
+import app.model.movement.RelativePosition
 import app.model.robot.constants.ServoIdentity
 import app.model.robot.constants.ServoState
-import app.vision.VideoManager
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.opencv.core.Mat
@@ -15,7 +14,7 @@ import java.util.*
 class RobotSequenceService : KoinComponent {
 
     private val robotMotionService : RobotMotionService by inject()
-    private val videoManager : VideoManager by inject()
+    private val videoManager : RobotVisionService by inject()
 
     private val orientation = Orientation()
 

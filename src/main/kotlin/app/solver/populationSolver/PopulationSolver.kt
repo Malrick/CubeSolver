@@ -1,11 +1,10 @@
 package app.solver.populationSolver
 
-import app.UI.ConsoleUI
-import app.helper.InitHelper
 import app.model.cube.Cube
-import app.model.cubeUtils.Movement
+import app.model.movement.Movement
 import app.service.cube.CubeInformationService
 import app.service.cube.CubeMotionService
+import app.service.movement.MovementService
 import app.solver.Solver
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -19,6 +18,7 @@ abstract class PopulationSolver : Solver, KoinComponent {
     // Services / Helpers
     protected val cubeInformationService : CubeInformationService by inject()
     protected val cubeMotionService : CubeMotionService by inject()
+    protected val movementService : MovementService by inject()
     private var random = Random()
 
     // Studied set
