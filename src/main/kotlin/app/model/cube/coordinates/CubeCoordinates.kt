@@ -1,38 +1,42 @@
 package app.model.cube.coordinates
 
 import app.model.Color
+import app.model.cube.Cube
+import app.model.movement.RelativePosition
+import app.model.orientation.Orientation
 
 class CubeCoordinates(var height : Int, var depht : Int, var width : Int) {
 
-    fun getSideCoordinate(color : Color, cubeSize : Int) : SideCoordinate?
+    fun getSideCoordinate(color : Color, cube : Cube) : SideCoordinate?
     {
         when(color)
         {
-            Color.WHITE -> {
-                if(height!=cubeSize-1) return null
-                else return SideCoordinate(width, cubeSize-depht-1)
+            cube.orientation.colorPositions[RelativePosition.TOP] -> {
+                if(height!=cube.cubeSize-1) return null
+                else return SideCoordinate(width, cube.cubeSize-depht-1)
             }
-            Color.YELLOW -> {
+            cube.orientation.colorPositions[RelativePosition.BOTTOM] -> {
                 if(height!=0) return null
                 else return SideCoordinate(width, depht)
             }
-            Color.ORANGE -> {
+            cube.orientation.colorPositions[RelativePosition.LEFT] -> {
                 if(width!=0) return null
-                else return SideCoordinate(cubeSize-depht-1, cubeSize-height-1)
+                else return SideCoordinate(cube.cubeSize-depht-1, cube.cubeSize-height-1)
             }
-            Color.RED -> {
-                if(width!=cubeSize-1) return null
-                else return SideCoordinate(depht, cubeSize-height-1)
+            cube.orientation.colorPositions[RelativePosition.RIGHT] -> {
+                if(width!=cube.cubeSize-1) return null
+                else return SideCoordinate(depht, cube.cubeSize-height-1)
             }
-            Color.BLUE -> {
-                if(depht!=cubeSize-1) return null
+            cube.orientation.colorPositions[RelativePosition.BACK] -> {
+                if(depht!=cube.cubeSize-1) return null
                 else return SideCoordinate(width, height)
             }
-            Color.GREEN -> {
+            cube.orientation.colorPositions[RelativePosition.FRONT] -> {
                 if(depht!=0) return null
-                else return SideCoordinate(width, cubeSize-height-1)
+                else return SideCoordinate(width, cube.cubeSize-height-1)
             }
         }
+        return null
     }
 
 }

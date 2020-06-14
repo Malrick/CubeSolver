@@ -17,6 +17,16 @@ class ColorSpaceUtils : KoinComponent {
         return LabColors
     }
 
+    fun scalarsBGR2Lab(scalars : Array<Scalar>) : Array<Scalar>
+    {
+        var results = arrayOf<Scalar>()
+        for(elem in scalars)
+        {
+            results += scalarBGR2Lab(elem)
+        }
+        return results
+    }
+
     fun scalarBGR2Lab(scalar: Scalar) : Scalar
     {
         var bgr = Mat(1,1, CvType.CV_8UC3, Scalar(scalar.`val`[0], scalar.`val`[1], scalar.`val`[2]))

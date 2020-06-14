@@ -4,13 +4,14 @@ import app.model.Color
 import app.model.movement.Movement
 import app.model.movement.RelativeMovement
 import app.model.movement.RelativePosition
+import app.model.orientation.Orientation
 import org.koin.core.KoinComponent
 
 class OrientationService : KoinComponent {
 
-    fun getOrientations(constraintOne : Pair<RelativePosition, Color>) : List<HashMap<RelativePosition, Color>>
+    fun getOrientations(constraintOne : Pair<RelativePosition, Color>) : List<Orientation>
     {
-        var toReturn = listOf<HashMap<RelativePosition, Color>>()
+        var toReturn = listOf<Orientation>()
 
         for(color in adjacentColors(constraintOne.second))
         {
@@ -20,7 +21,7 @@ class OrientationService : KoinComponent {
         return toReturn
     }
 
-    fun getOrientation(constraintOne : Pair<RelativePosition, Color>, constraintTwo : Pair<RelativePosition, Color>) : HashMap<RelativePosition, Color> {
+    fun getOrientation(constraintOne : Pair<RelativePosition, Color>, constraintTwo : Pair<RelativePosition, Color>) : Orientation {
         val toReturn = HashMap<RelativePosition, Color>()
         toReturn[constraintOne.first] = constraintOne.second
         toReturn[opposite(constraintOne.first)] = opposite(constraintOne.second)
@@ -39,7 +40,7 @@ class OrientationService : KoinComponent {
             toReturn[lastPositions[0]] = opposite((lastColors[0]))
         }
 
-        return toReturn
+        return Orientation(toReturn)
     }
 
     private fun integrityCheck(toCheck : HashMap<RelativePosition, Color>) : Boolean

@@ -25,8 +25,8 @@ class CubeMotionService {
         var clockwise = !movement.name.endsWith("REVERSE")
 
         var side = cube.positions.keys.filter {it.possessColor(colorOfMovement)}
-            .sortedBy { it.cubeCoordinates.getSideCoordinate(colorOfMovement, cube.cubeSize)!!.coordX }
-            .sortedBy { it.cubeCoordinates.getSideCoordinate(colorOfMovement, cube.cubeSize)!!.coordY }
+            .sortedBy { it.cubeCoordinates.getSideCoordinate(colorOfMovement, cube)!!.coordX }
+            .sortedBy { it.cubeCoordinates.getSideCoordinate(colorOfMovement, cube)!!.coordY }
 
         var newSide = HashMap<Position, Piece>()
 

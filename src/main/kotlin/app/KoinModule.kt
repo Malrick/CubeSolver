@@ -7,11 +7,18 @@ import app.service.cube.CubeInitializationService
 import app.service.cube.CubeMotionService
 import app.service.movement.MovementService
 import app.service.orientation.OrientationService
-import app.service.robot.RobotSequenceService
+import app.service.robot.RobotOtvintaService
 import app.service.robot.ServoService
 import app.service.robot.RobotMotionService
-import app.service.robot.ColorService
+import app.service.robot.RobotColorService
 import app.service.robot.RobotVisionService
+import app.utils.algorithms.BFS
+import app.utils.algorithms.KNN
+import app.utils.database.DatabaseUtils
+import app.utils.files.CsvUtils
+import app.utils.indexing.LehmerRanker
+import app.utils.maths.MathUtils
+import app.utils.types.TypeUtils
 import app.utils.vision.ColorSpaceUtils
 import app.utils.vision.GeometryUtils
 import org.koin.dsl.module
@@ -28,7 +35,7 @@ val serviceModule = module {
 
     single { ServoService() }
     single { RobotMotionService() }
-    single { RobotSequenceService() }
+    single { RobotOtvintaService() }
     single { RobotVisionService() }
 
     single { MovementService() }
@@ -39,5 +46,15 @@ val serviceModule = module {
 val visionModule = module {
     single { ColorSpaceUtils() }
     single { GeometryUtils() }
-    single { ColorService() }
+    single { RobotColorService() }
+}
+
+val utilsModule = module {
+    single { LehmerRanker() }
+    single { DatabaseUtils() }
+    single { MathUtils() }
+    single { TypeUtils() }
+    single { CsvUtils() }
+    single { KNN() }
+    single { BFS() }
 }

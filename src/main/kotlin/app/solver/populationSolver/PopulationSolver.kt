@@ -6,14 +6,18 @@ import app.service.cube.CubeInformationService
 import app.service.cube.CubeMotionService
 import app.service.movement.MovementService
 import app.solver.Solver
+import app.utils.AlgorithmUtils
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import org.slf4j.LoggerFactory
 import java.util.*
 import kotlin.collections.HashMap
 
 abstract class PopulationSolver : Solver, KoinComponent {
 
     // TODO : reformater les solutions
+
+    val logger = LoggerFactory.getLogger(PopulationSolver::class.java)
 
     // Services / Helpers
     protected val cubeInformationService : CubeInformationService by inject()
@@ -45,21 +49,23 @@ abstract class PopulationSolver : Solver, KoinComponent {
 
             gradeIndividuals(cube)
 
+            if(population.keys.any { it.equals(maxScore) }) break
+
             selectBestIndividuals()
 
             repopulate()
 
-            println(population.values.max()!!)
+            logger.debug("Best individual reached " + population.values.max().toString() + " out of " + maxScore)
 
         }
 
-        return population.filter { it.value == maxScore }.keys.minBy { it.size }!!
+        return movementService.convertToOptimalSequence(population.filter { it.value == maxScore }.keys.minBy { it.size }!!)
 
     }
 
     private fun init(cube : Cube) {
 
-        // General initialization of the solver (maybe it is used to do more than one solving, needs to re-init)
+        // General initialization of the solver (maybe it is used to do more than one solving, need to re-init)
         solved = (gradeSequence(cube, arrayOf()) == maxScore)
 
         // If the cube is already solved, set the grade of empty solution to max and return
@@ -69,49 +75,13 @@ abstract class PopulationSolver : Solver, KoinComponent {
             return
         }
 
-        population = HashMap()
         survivingPopulation = HashMap()
 
-        // Initialization of the population : BFS
-        var currentPosition = arrayOf(0)
-
-        while (population.size < populationMaxSize) {
-
-            //add an element at coordinates [currentDepth, currentBreath]
-            var elementToAdd = arrayOf<Movement>()
-
-            for (current: Int in currentPosition) {
-                var toAdd = listOfMovements.elementAt(current)
-                elementToAdd = elementToAdd.plus(toAdd)
-            }
-
-            population.put(elementToAdd, -1)
-
-            // TODO simplifier
-            currentPosition[currentPosition.size - 1]++
-            if (currentPosition[currentPosition.size - 1] > listOfMovements.size - 1) {
-                currentPosition[currentPosition.size - 1] = 0
-                var machin = currentPosition.size - 1
-                if (machin == 0) {
-                    currentPosition += 0
-                }
-                if (machin > 0) {
-                    currentPosition[machin - 1]++
-
-                    while (machin >= 0) {
-                        if (currentPosition[machin] > listOfMovements.size - 1) {
-                            currentPosition[machin] = 0
-                            if (machin > 0) {
-                                currentPosition[machin - 1]++
-                            } else {
-                                currentPosition += 0
-                            }
-                        }
-                        machin--
-                    }
-                }
-            }
+        for(elem in AlgorithmUtils().BFS(populationMaxSize, 0, listOfMovements))
+        {
+            population.put(elem, -1)
         }
+
     }
 
     private fun gradeIndividuals(cube: Cube) {
@@ -171,7 +141,7 @@ abstract class PopulationSolver : Solver, KoinComponent {
             }
 
             // Add an individual with these mutations to the population
-            population[selectedParent.plus(listOfAddedMovements)] = -1
+            population[movementService.convertToOptimalSequence(selectedParent.plus(listOfAddedMovements))] = -1
 
             listOfAddedMovements = arrayOf()
         }

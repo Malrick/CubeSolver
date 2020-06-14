@@ -8,7 +8,7 @@ import app.solver.Solver
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-abstract class BruteforceSolver : Solver, KoinComponent {
+abstract class BruteforceSolver(cube : Cube) : Solver, KoinComponent {
 
     val movementService : MovementService by inject()
 

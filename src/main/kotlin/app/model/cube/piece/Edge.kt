@@ -19,7 +19,16 @@ class Edge(var colorOne : Color, var colorTwo : Color) : Piece() {
         }
     }
 
-    override fun containsColor(color: Color): Boolean {
+    override fun getPositionOfColor(color: Color): Int? {
+        return when(color)
+        {
+            colorOne -> 1
+            colorTwo -> 2
+            else -> null
+        }
+    }
+
+    override fun possessColor(color: Color): Boolean {
         return (colorOne==color || colorTwo == color)
     }
 

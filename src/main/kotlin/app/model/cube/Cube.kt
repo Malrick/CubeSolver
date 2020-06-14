@@ -10,6 +10,9 @@ import app.model.cube.position.CenterPosition
 import app.model.cube.position.CornerPosition
 import app.model.cube.position.EdgePosition
 import app.model.cube.position.Position
+import app.model.movement.RelativePosition
+import app.model.orientation.Orientation
+import app.service.cube.CubeInformationService
 import kotlin.properties.Delegates
 
 class Cube {
@@ -17,10 +20,12 @@ class Cube {
     var cubeSize : Int by Delegates.notNull()
     var positions = HashMap<Position, Piece>()
     var adjacencyList = HashMap<Position, List<Position>>()
+    var orientation : Orientation by Delegates.notNull()
 
-    constructor(cubeSize : Int)
+    constructor(cubeSize : Int, orientation : Orientation)
     {
         this.cubeSize = cubeSize
+        this.orientation = orientation
 
         for(height in 0 until cubeSize)
         {
@@ -30,14 +35,14 @@ class Cube {
                 {
                     var colorsToAddOnPosition = ArrayList<Color>()
 
-                    if(height == 0)          colorsToAddOnPosition.add(Color.YELLOW)
-                    if(height == cubeSize-1) colorsToAddOnPosition.add(Color.WHITE)
+                    if(height == 0)          colorsToAddOnPosition.add(orientation.colorPositions[RelativePosition.BOTTOM]!!)
+                    if(height == cubeSize-1) colorsToAddOnPosition.add(orientation.colorPositions[RelativePosition.TOP]!!)
 
-                    if(depht == 0)           colorsToAddOnPosition.add(Color.GREEN)
-                    if(depht == cubeSize-1)  colorsToAddOnPosition.add(Color.BLUE)
+                    if(depht == 0)           colorsToAddOnPosition.add(orientation.colorPositions[RelativePosition.FRONT]!!)
+                    if(depht == cubeSize-1)  colorsToAddOnPosition.add(orientation.colorPositions[RelativePosition.BACK]!!)
 
-                    if(width == 0)           colorsToAddOnPosition.add(Color.ORANGE)
-                    if(width == cubeSize-1)  colorsToAddOnPosition.add(Color.RED)
+                    if(width == 0)           colorsToAddOnPosition.add(orientation.colorPositions[RelativePosition.LEFT]!!)
+                    if(width == cubeSize-1)  colorsToAddOnPosition.add(orientation.colorPositions[RelativePosition.RIGHT]!!)
 
                     when(colorsToAddOnPosition.size)
                     {
@@ -63,6 +68,11 @@ class Cube {
                 }
             }
         }
+        initAdjacency()
+    }
+
+    fun initAdjacency()
+    {
         for(elem in positions.keys)
         {
             adjacencyList[elem] = positions.keys.filter { it.isAdjacent(elem) }
@@ -71,8 +81,7 @@ class Cube {
 
     fun clone() : Cube
     {
-        var clone = Cube(cubeSize)
-
+        var clone = Cube(cubeSize, orientation)
         clone.positions.clear()
 
         for((key, elem) in positions)
@@ -80,54 +89,8 @@ class Cube {
             clone.positions[key] = elem.clone()
         }
 
+        clone.initAdjacency()
         return clone
     }
 
-    // A cube is said to be "integre" if it is valid, and solvable.
-    // Many different tests will be made :
-    // - Each color is appearing the same number of times on the cube
-    // - Each piece exists, and exists only once
-    // - The parity of the number of edge swaps required to solve the cube's edges is equal to
-    //   the parity of the number of corners swaps required to solve the cube's corners
-    // - The orientations of the different pieces are coherent with each other
-    // Thanks to all these tests, we can guarantee that our cube is valid, and can be solved.
-    fun integrityCheck() : Boolean
-    {
-        // Initializing
-        var colorCounters = HashMap<Color, Int>()
-        for(color in Color.values())
-        {
-            colorCounters[color] = 0
-        }
-
-        // Counting
-        for((position, piece) in positions)
-        {
-            for(color in piece.getColors())
-            {
-                colorCounters[color]?.plus(1)
-            }
-        }
-
-        // Checking
-        for(color in Color.values())
-        {
-            if(colorCounters[color]!=9) return false
-        }
-
-        var positionsColorSets = mutableSetOf(setOf<Color>())
-        var piecesColorSets = mutableSetOf(setOf<Color>())
-
-        for((position, piece) in positions)
-        {
-           positionsColorSets.add(position.getColors())
-           piecesColorSets.add(piece.getColors())
-        }
-
-        if(positionsColorSets != piecesColorSets) return false
-
-
-
-        return true
-    }
 }

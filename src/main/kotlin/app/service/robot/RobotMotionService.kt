@@ -15,7 +15,7 @@ class RobotMotionService : KoinComponent {
 
     val servoControler : ServoService by inject()
 
-    val movementSpeed : Long = 375
+    val movementSpeed : Long = 500
 
     fun init()
     {

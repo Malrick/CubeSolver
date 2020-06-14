@@ -23,64 +23,65 @@ class PopulationCrossSolver(
         cubeMotionService.applySequence(cubeExperiment, sequence)
 
         var score : Int
-        var scoreA = 0
-        var scoreB = 0
-        var scoreC = 0
-        var scoreD = 0
         /*
-        var numberOfWhiteEdges = cubeService.getNumberOfEdgeOfAColorBySide(cubeExperiment, "White", "White")
-        var numberOfSolvedEdges = cubeService.getNumberOfSolvedEdgesBySide(cubeExperiment, "White")
+var scoreA = 0
+var scoreB = 0
+var scoreC = 0
+var scoreD = 0
 
-        if(numberOfSolvedEdges==4) // Cross solved
+var numberOfWhiteEdges = cubeService.getNumberOfEdgeOfAColorBySide(cubeExperiment, "White", "White")
+var numberOfSolvedEdges = cubeService.getNumberOfSolvedEdgesBySide(cubeExperiment, "White")
+
+if(numberOfSolvedEdges==4) // Cross solved
+{
+    solved = true
+}
+else if(numberOfWhiteEdges==0) // Cross not started
+{
+}
+else // Cross started
+{
+    // If all the white edges are solved
+    if(numberOfSolvedEdges == numberOfWhiteEdges)
+    {
+    }
+    else // If all the white edges are not solved
+    {
+        // Maybe there is only one edge on the white side ?
+        if(numberOfWhiteEdges == 1)
         {
-            solved = true
         }
-        else if(numberOfWhiteEdges==0) // Cross not started
+        else // If there is more than one edge on the white side
         {
-        }
-        else // Cross started
-        {
-            // If all the white edges are solved
-            if(numberOfSolvedEdges == numberOfWhiteEdges)
+            // Finding edges well placed one another
+            var edgesWellPlacedRelatively = findEdgesWellPlacedRelatively()
+
+            var numberOfEdgeWellPlacedRelatively = edgesWellPlacedRelatively.size
+
+            // If the cross is fully well arranged, but not well placed
+            if(numberOfEdgeWellPlacedRelatively == 4)
             {
+                // Let's get it to it's right position
+                listOfMovements = arrayOf('W')
             }
-            else // If all the white edges are not solved
+            // If edges are all well placed relatively, but the cross is not full
+            else if(numberOfEdgeWellPlacedRelatively == numberOfWhiteEdges)
+            {   // It's a good cross !! Just badly placed
+            }
+            else
             {
-                // Maybe there is only one edge on the white side ?
-                if(numberOfWhiteEdges == 1)
-                {
-                }
-                else // If there is more than one edge on the white side
-                {
-                    // Finding edges well placed one another
-                    var edgesWellPlacedRelatively = findEdgesWellPlacedRelatively()
+                // Some edges are not well placed relatively
 
-                    var numberOfEdgeWellPlacedRelatively = edgesWellPlacedRelatively.size
-
-                    // If the cross is fully well arranged, but not well placed
-                    if(numberOfEdgeWellPlacedRelatively == 4)
-                    {
-                        // Let's get it to it's right position
-                        listOfMovements = arrayOf('W')
-                    }
-                    // If edges are all well placed relatively, but the cross is not full
-                    else if(numberOfEdgeWellPlacedRelatively == numberOfWhiteEdges)
-                    {   // It's a good cross !! Just badly placed
-                    }
-                    else
-                    {
-                        // Some edges are not well placed relatively
-
-                        //  rewarding the edges well placed relatively
-                        //  Giving some rewards to the one which are not well placed
-
-                    }
-
-                }
+                //  rewarding the edges well placed relatively
+                //  Giving some rewards to the one which are not well placed
 
             }
 
         }
+
+    }
+
+}
 */
 
         score = cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.WHITE) * 100

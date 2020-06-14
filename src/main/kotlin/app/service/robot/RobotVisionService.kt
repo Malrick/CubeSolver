@@ -1,6 +1,5 @@
 package app.service.robot
 
-import app.utils.vision.Mat2Image
 import org.koin.core.KoinComponent
 import org.opencv.core.*
 import org.opencv.highgui.HighGui
@@ -9,6 +8,7 @@ import org.opencv.imgproc.Imgproc
 import org.opencv.photo.Photo
 import org.opencv.videoio.VideoCapture
 import java.awt.image.BufferedImage
+import java.awt.image.DataBufferByte
 import java.io.File
 import javax.imageio.ImageIO
 
@@ -28,7 +28,7 @@ class RobotVisionService : KoinComponent {
 
     fun takePictureAndSave(fileName: String)
     {
-        var mat2Image = Mat2Image()
+        var mat = Mat()
         var myPicture : BufferedImage
 
         if(!cam.isOpened)
@@ -36,10 +36,18 @@ class RobotVisionService : KoinComponent {
             cam.open(0)
         }
 
-        cam.read(mat2Image.mat)
-        myPicture = mat2Image.getImage(mat2Image.mat)!!
+        cam.read(mat)
+
+        myPicture = BufferedImage(mat.cols(),mat.rows(), BufferedImage.TYPE_3BYTE_BGR)
+        val raster = myPicture!!.raster
+        val dataBuffer = raster.dataBuffer as DataBufferByte
+        val data = dataBuffer.data
+        mat[0, 0, data]
+
         ImageIO.write(myPicture, "jpg",  File(fileName))
     }
+
+
 
     fun getContours() : Array<MatOfPoint>
     {

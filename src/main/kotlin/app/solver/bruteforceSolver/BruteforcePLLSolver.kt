@@ -7,7 +7,7 @@ import app.service.orientation.OrientationService
 import app.service.cube.CubeInformationService
 import org.koin.core.inject
 
-class BruteforcePLLSolver : BruteforceSolver() {
+class BruteforcePLLSolver(cube: Cube) : BruteforceSolver(cube) {
 
     override var listOfSequences = setOf<Array<Movement>>()
 

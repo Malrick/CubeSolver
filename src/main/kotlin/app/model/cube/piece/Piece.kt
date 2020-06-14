@@ -8,7 +8,9 @@ abstract class Piece {
 
     abstract fun setColorAtPosition(positionOfColor : Int, color : Color)
 
-    abstract fun containsColor(color : Color) : Boolean
+    abstract fun getPositionOfColor(color : Color) : Int?
+
+    abstract fun possessColor(color : Color) : Boolean
 
     abstract fun getColors() : Set<Color>
 

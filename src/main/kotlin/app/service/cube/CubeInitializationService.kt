@@ -4,96 +4,99 @@ import app.UI.MatricesDisplay
 import app.model.cube.Cube
 import app.model.Color
 import app.model.movement.Movement
-import app.model.vision.ColorProcessing
-import app.service.robot.RobotSequenceService
-import app.service.robot.ColorService
+import app.model.robot.vision.ColorProcessing
+import app.service.robot.RobotOtvintaService
+import app.service.robot.RobotColorService
+import app.utils.files.CsvUtils
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.opencv.core.Mat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class CubeInitializationService : KoinComponent {
 
-    val cubeInformationService: CubeInformationService by inject()
-    val robotSequenceService : RobotSequenceService by inject()
-    val colorResolver : ColorService by inject()
-    val cubeMotionService : CubeMotionService by inject()
-    val matricesDisplay : MatricesDisplay by inject()
+    private val cubeInformationService: CubeInformationService by inject()
+    private val robotSequenceService : RobotOtvintaService by inject()
+    private val colorResolver : RobotColorService by inject()
+    private val cubeMotionService : CubeMotionService by inject()
+    private val matricesDisplay : MatricesDisplay by inject()
+    private val csvUtils : CsvUtils by inject()
 
+    private fun initCube(cube : Cube, colors : HashMap<Color, Array<Color>>)  {
+        for((sideColor, colors) in colors)
+        {
+            var sortedKeys = cube.positions.keys.filter { it.possessColor(sideColor) }
+                .sortedBy { it.cubeCoordinates.getSideCoordinate(sideColor, cube)!!.coordX }
+                .sortedBy { it.cubeCoordinates.getSideCoordinate(sideColor, cube)!!.coordY }
 
-    fun initSolvedCube(cube: Cube) {
-        for (color in Color.values()) {
-            var toAdd = ArrayList<Color>()
-            for (i in 0 until 9) {
-                toAdd.add(color)
+            for(i in sortedKeys.indices)
+            {
+                cube.positions[sortedKeys[i]]!!.setColorAtPosition(sortedKeys[i].positionOfColor(sideColor), colors[i])
             }
-            cubeInformationService.initSideByColor(cube, color, toAdd)
         }
     }
 
-    fun initScrambledCube(cube : Cube){
-        initSolvedCube(cube)
-        var randomMovements = listOf<Movement>()
-        for(i in 0..50)
-        {
-            randomMovements += Movement.values().random()
+    fun initSolvedCube(cube: Cube) {
+        var colors = HashMap<Color, Array<Color>>()
+        for (color in Color.values()) {
+            colors[color] = Array(9) {color}
         }
-        cubeMotionService.applySequence(cube, randomMovements.toTypedArray())
+        initCube(cube, colors)
+    }
+
+    fun initScrambledCube(cube : Cube, numberOfMoves : Int){
+        initSolvedCube(cube)
+        for(i in 0 until numberOfMoves) { cubeMotionService.applyMovement(cube, Movement.values().random()) }
     }
 
 
     fun initCubeByKeyboard(cube: Cube) {
         val input = Scanner(System.`in`)
 
+        var colors = HashMap<Color, Array<Color>>()
+
         for (color in Color.values()) {
-            var sideColors = ArrayList<Color>()
+            var sideColors = arrayOf<Color>()
 
             println("Please enter the colors of the $color side")
 
             for (i in 0 until 3) {
                 for (j in 0 until 3) {
                     when (input.next()[0]) {
-                        'W' -> sideColors.add(Color.WHITE)
-                        'O' -> sideColors.add(Color.ORANGE)
-                        'G' -> sideColors.add(Color.GREEN)
-                        'R' -> sideColors.add(Color.RED)
-                        'Y' -> sideColors.add(Color.YELLOW)
-                        'B' -> sideColors.add(Color.BLUE)
+                        'W' -> sideColors += Color.WHITE
+                        'O' -> sideColors += Color.ORANGE
+                        'G' -> sideColors += Color.GREEN
+                        'R' -> sideColors += Color.RED
+                        'Y' -> sideColors += Color.YELLOW
+                        'B' -> sideColors += Color.BLUE
                     }
                 }
             }
-
-            cubeInformationService.initSideByColor(cube, color, sideColors)
+            colors[color] = sideColors
         }
+        initCube(cube, colors)
     }
 
     fun initCubeWithRobot(cube : Cube)
     {
-        val showPictures = false
+        val showPictures = true
+        val saveColors = false
 
         var detectedColors = HashMap<Color, Array<Mat>>()
 
-        for(color in Color.values())
-        {
-            robotSequenceService.prepareCubeToPicture(color)
-
-            detectedColors[color] = robotSequenceService.takePicturesAndGetColors()
-        }
-
-        robotSequenceService.temp()
-
-        if(showPictures) matricesDisplay.displayConcatenatedCube(detectedColors)
+        detectedColors = robotSequenceService.takePicturesAndGetColors()
 
         var resolvedColors = colorResolver.resolve(detectedColors, ColorProcessing.ClosestDistance)
 
-        for((sideColor, colors) in resolvedColors)
-        {
-            cubeInformationService.initSideByColor(cube, sideColor, ArrayList(colors.toMutableList()))
-        }
+        initCube(cube, resolvedColors)
 
-        robotSequenceService.closeCam()
+        if(showPictures) matricesDisplay.displayConcatenatedCube(detectedColors)
+
+        if(saveColors) csvUtils.appendLabDataInCsvFile("colors", detectedColors)
+
+        if(!cubeInformationService.integrityCheck(cube)) throw Exception()
+
     }
 
 

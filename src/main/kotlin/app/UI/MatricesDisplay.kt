@@ -1,13 +1,16 @@
 package app.UI
 
 import app.model.Color
-import app.service.robot.ColorService
+import app.service.robot.RobotColorService
 import org.koin.core.KoinComponent
+import org.koin.core.inject
 import org.opencv.core.Core
 import org.opencv.core.Mat
 import org.opencv.highgui.HighGui
 
 class MatricesDisplay : KoinComponent {
+
+    private val robotColorService : RobotColorService by inject()
 
     fun displayConcatenatedCube(colors : HashMap<Color, Array<Mat>>)
     {
@@ -25,24 +28,22 @@ class MatricesDisplay : KoinComponent {
         var dominantColors = HashMap<Color, MutableList<Mat>>()
         concatenatedMats = listOf()
         superConcatenation = Mat()
-        var colorResolver = ColorService()
 
         for ((sideColor, colors) in colors) {
             dominantColors[sideColor] = mutableListOf()
             for (elem in colors) {
-                dominantColors[sideColor]?.plusAssign(elem.clone().setTo(colorResolver.KnnClustering(elem, 30)))
+                dominantColors[sideColor]?.plusAssign(elem.clone().setTo(robotColorService.getBgrDominantColor(elem)))
             }
-
-            for (color in Color.values()) {
-                var mat = Mat()
-
-                Core.hconcat(dominantColors[color], mat)
-                concatenatedMats += mat
-            }
-            Core.vconcat(concatenatedMats, superConcatenation)
-            HighGui.imshow("couleurs dominantes", superConcatenation)
         }
 
+        for (color in Color.values()) {
+            var mat = Mat()
+
+            Core.hconcat(dominantColors[color], mat)
+            concatenatedMats += mat
+        }
+        Core.vconcat(concatenatedMats, superConcatenation)
+        HighGui.imshow("couleurs dominantes", superConcatenation)
         HighGui.waitKey(0)
     }
 }

@@ -5,124 +5,516 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbc808f7-620a-4633-9f15-3ab5c8ef4675" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileContent/fileContent.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/resourceHashesCache.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.4.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.4.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.4.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.4.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.4.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/META-INF/CubeSolver.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/META-INF/CubeSolver.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewPic.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/META-INF/CubeSolver.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/META-INF/CubeSolver.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$displayModule$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$displayModule$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$displayModule$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$displayModule$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$helperModule$1$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$helperModule$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$serviceModule$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$serviceModule$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$serviceModule$1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$serviceModule$1$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$serviceModule$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$serviceModule$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$servoModule$1$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$servoModule$1$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$servoModule$1$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$servoModule$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$visionModule$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$visionModule$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$visionModule$1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$visionModule$1$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$visionModule$1$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$visionModule$1$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$visionModule$1$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$visionModule$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt$visionModule$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/KoinModuleKt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/Launcher$$special$$inlined$inject$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/Launcher$$special$$inlined$inject$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/Launcher$$special$$inlined$inject$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/Launcher$$special$$inlined$inject$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/Launcher$$special$$inlined$inject$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/Launcher$$special$$inlined$inject$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/Launcher$$special$$inlined$inject$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/Launcher$$special$$inlined$inject$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/Launcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/Launcher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/LauncherKt$main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/LauncherKt$main$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/LauncherKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/LauncherKt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/UI/ConsoleUI$WhenMappings.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/UI/ConsoleUI$WhenMappings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/UI/ConsoleUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/UI/ConsoleUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/helper/InitHelper$$special$$inlined$inject$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/helper/InitHelper$$special$$inlined$inject$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/helper/InitHelper$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/helper/InitHelper$appendLabDataInCsvFile$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/helper/InitHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/Cube.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/Cube.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/coordinates/CubeCoordinates$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/coordinates/CubeCoordinates.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/coordinates/CubeCoordinates.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/piece/Center.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/piece/Center.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/piece/Corner.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/piece/Corner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/piece/Edge.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/piece/Edge.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/piece/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/piece/Piece.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/position/CenterPosition.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/position/CenterPosition.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/position/CornerPosition.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/position/CornerPosition.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/position/EdgePosition.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/position/EdgePosition.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/position/Position.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cube/position/Position.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cubeUtils/Color.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cubeUtils/Movement.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cubeUtils/Orientation$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cubeUtils/Orientation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cubeUtils/OrientationService$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cubeUtils/OrientationService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cubeUtils/RelativeMovement.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cubeUtils/RelativePosition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/cubeUtils/SequencesKt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/robot/Servo.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/model/robot/Servo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeInformationService$getSideByColor$$inlined$sortedBy$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeInformationService$getSideByColor$$inlined$sortedBy$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeInformationService$getSideByColor$$inlined$sortedBy$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeInformationService$getSideByColor$$inlined$sortedBy$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeInformationService$initSideByColor$$inlined$sortedBy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeInformationService$initSideByColor$$inlined$sortedBy$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeInformationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeInformationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeMotionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/cube/CubeMotionService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/robot/RobotMotionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/robot/RobotMotionService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/robot/RobotSequenceService$$special$$inlined$inject$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/robot/RobotSequenceService$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/service/robot/RobotSequenceService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/Solver.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/Solver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforceOLLSolver$$special$$inlined$inject$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforceOLLSolver$$special$$inlined$inject$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforceOLLSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforceOLLSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforcePLLSolver$$special$$inlined$inject$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforcePLLSolver$$special$$inlined$inject$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforcePLLSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforcePLLSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforceSolver$$special$$inlined$inject$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforceSolver$$special$$inlined$inject$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforceSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/bruteforceSolver/BruteforceSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationCornerSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationCornerSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationCrossSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationCrossSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationSecondFloorSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationSecondFloorSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationSolver$$special$$inlined$inject$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationSolver$$special$$inlined$inject$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationSolver$$special$$inlined$inject$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationSolver$$special$$inlined$inject$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationSolver$$special$$inlined$inject$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationSolver$$special$$inlined$inject$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/kotlin/main/app/solver/populationSolver/PopulationSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/ColorResolver$$special$$inlined$inject$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/ColorResolver$$special$$inlined$inject$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/ColorResolver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/Mat2Image$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/Mat2Image.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/VideoCap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/utils/ColorUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/utils/ContoursUtils$$special$$inlined$inject$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/utils/ContoursUtils$filterAndSortApproximations$$inlined$sortByDescending$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/utils/ContoursUtils$sortContours$$inlined$sortBy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/utils/ContoursUtils$sortContours$$inlined$sortedBy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/utils/ContoursUtils$sortContours$$inlined$sortedBy$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/utils/ContoursUtils$sortContours$$inlined$sortedBy$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/utils/ContoursUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/app/vision/utils/GeometryUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/CubeSolver10SNAPSHOTjar-classes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/CubeSolver10SNAPSHOTjar-classes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/build-history.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/build-history.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.values.at" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab.values.at" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/package-parts.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/package-parts.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/package-parts.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/package-parts.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/package-parts.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/package-parts.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/package-parts.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.values" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.values" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.values.at" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.values.s" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab.values.s" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/proto.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab.values.at" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/source-to-classes.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab.values.at" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/subtypes.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab.values.at" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/counters.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/counters.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab.values.at" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/file-to-id.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab.values.at" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/id-to-file.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.keystream" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.keystream" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.keystream.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.keystream.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.len" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.len" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.values" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.values" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.values.at" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.values.at" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.values.s" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab.values.s" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab_i" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/caches-jvm/lookups/lookups.tab_i" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/last-build.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/kotlin/compileKotlin/last-build.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/CubeSolver-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/CubeSolver-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/0.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/0.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/0.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/0.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/0.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/0.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/0.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/0.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/1.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/1.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/1.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/1.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/1.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/1.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/1.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/1.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/1.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/1.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/2.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/2.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/2.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/2.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/2.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/2.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/2.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/2.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/2.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/2.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/3.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/3.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/3.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/3.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/3.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/BLUE/3.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/0.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/0.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/0.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/0.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/0.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/0.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/0.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/1.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/1.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/1.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/1.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/1.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/1.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/1.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/1.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/1.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/1.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/2.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/2.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/2.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/2.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/2.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/2.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/2.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/2.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/2.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/2.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/3.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/3.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/3.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/3.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/3.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/GREEN/3.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/0.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/0.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/0.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/0.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/0.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/0.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/0.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/0.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/1.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/1.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/1.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/1.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/1.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/1.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/1.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/1.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/1.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/1.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/2.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/2.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/2.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/2.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/2.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/2.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/2.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/2.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/2.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/2.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/3.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/3.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/3.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/3.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/3.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/3.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/3.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/ORANGE/3.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/0.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/0.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/0.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/0.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/0.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/0.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/0.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/0.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/1.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/1.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/1.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/1.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/1.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/1.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/1.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/1.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/1.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/1.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/2.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/2.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/2.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/2.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/2.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/2.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/2.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/2.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/2.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/2.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/3.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/3.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/3.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/3.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/RED/3.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/0.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/0.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/0.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/0.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/0.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/0.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/0.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/1.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/1.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/1.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/1.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/1.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/1.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/1.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/1.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/1.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/1.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/2.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/2.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/2.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/2.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/2.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/2.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/2.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/2.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/2.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/2.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/3.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/3.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/3.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/3.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/3.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/3.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/3.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/3.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/WHITE/3.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/0.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/0.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/0.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/0.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/0.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/0.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/1.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/1.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/1.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/1.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/1.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/1.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/1.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/1.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/1.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/2.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/2.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/2.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/2.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/2.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/2.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/2.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/2.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/2.8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/2.9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/3.0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/3.1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/3.2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/3.3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/3.4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/3.5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/3.6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/colorsOLD/YELLOW/3.7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/ROIs.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/Rubik 1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/Rubik 2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/Rubik 3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/Rubik 4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/new.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$displayModule$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$displayModule$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$displayModule$1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$displayModule$1$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$displayModule$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$displayModule$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$helperModule$1$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$helperModule$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1$9.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$servoModule$1$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$servoModule$1$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$servoModule$1$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$servoModule$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$visionModule$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$visionModule$1$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$visionModule$1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$visionModule$1$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$visionModule$1$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$visionModule$1$3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$visionModule$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$visionModule$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/Launcher$$special$$inlined$inject$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/Launcher$$special$$inlined$inject$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/Launcher$$special$$inlined$inject$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/Launcher$$special$$inlined$inject$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/Launcher$$special$$inlined$inject$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/Launcher$$special$$inlined$inject$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/Launcher$$special$$inlined$inject$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/Launcher$$special$$inlined$inject$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/Launcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/Launcher.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/LauncherKt$main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/LauncherKt$main$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/UI/ConsoleUI$WhenMappings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/UI/ConsoleUI$WhenMappings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/LauncherKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/LauncherKt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/UI/ConsoleUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/UI/ConsoleUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/helper/InitHelper$$special$$inlined$inject$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/helper/InitHelper$$special$$inlined$inject$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/helper/InitHelper$$special$$inlined$inject$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/helper/InitHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/UI/MatricesDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/UI/MatricesDisplay.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/Cube.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/Cube.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/coordinates/CubeCoordinates$WhenMappings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/coordinates/CubeCoordinates$WhenMappings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/coordinates/CubeCoordinates$WhenMappings.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/coordinates/CubeCoordinates.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/coordinates/CubeCoordinates.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/piece/Center.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/piece/Center.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/piece/Corner.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/piece/Corner.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/piece/Edge.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/piece/Edge.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/piece/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/piece/Piece.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/position/CenterPosition.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/position/CenterPosition.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/position/CornerPosition.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/position/CornerPosition.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/position/EdgePosition.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/position/EdgePosition.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cube/position/Position.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/cube/position/Position.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cubeUtils/Color.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cubeUtils/Movement.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cubeUtils/Orientation$WhenMappings.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cubeUtils/Orientation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cubeUtils/OrientationService$WhenMappings.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cubeUtils/OrientationService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cubeUtils/RelativeMovement.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cubeUtils/RelativePosition.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/cubeUtils/SequencesKt.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/robot/Servo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/robot/Servo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/orientation/Orientation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/orientation/Orientation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/vision/ColorProcessing.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService$getSideByColor$$inlined$sortedBy$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService$getSideByColor$$inlined$sortedBy$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService$getSideByColor$$inlined$sortedBy$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService$getSideByColor$$inlined$sortedBy$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService$initSideByColor$$inlined$sortedBy$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService$initSideByColor$$inlined$sortedBy$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService$initSideByColor$$inlined$sortedBy$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService$initSideByColor$$inlined$sortedBy$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService$initSideByColor$$inlined$sortedBy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService$initSideByColor$$inlined$sortedBy$2.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInitializationService$$special$$inlined$inject$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInitializationService$$special$$inlined$inject$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInitializationService$$special$$inlined$inject$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInitializationService$$special$$inlined$inject$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInitializationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInitializationService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/movement/MovementService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/movement/MovementService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/orientation/OrientationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/orientation/OrientationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/ColorService$$special$$inlined$inject$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/ColorService$$special$$inlined$inject$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/ColorService$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/ColorService.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotMotionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotMotionService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotSequenceService$$special$$inlined$inject$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotSequenceService$$special$$inlined$inject$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotSequenceService$WhenMappings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotSequenceService$WhenMappings.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotSequenceService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotSequenceService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/Solver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/Solver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotSequenceService$$special$$inlined$inject$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotSequenceService$$special$$inlined$inject$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotSequenceService$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotSequenceService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotVisionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotVisionService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforceOLLSolver$$special$$inlined$inject$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforceOLLSolver$$special$$inlined$inject$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforceOLLSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforceOLLSolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforcePLLSolver$$special$$inlined$inject$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforcePLLSolver$$special$$inlined$inject$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforcePLLSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforcePLLSolver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforceSolver$$special$$inlined$inject$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforceSolver$$special$$inlined$inject$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforceSolver$$special$$inlined$inject$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforceSolver$$special$$inlined$inject$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforceSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforceSolver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationCornerSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationCornerSolver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationCrossSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationCrossSolver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationSecondFloorSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationSecondFloorSolver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationSolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/CsvUtilsKt$appendLabDataInCsvFile$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/CsvUtilsKt.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/vision/ColorResolver$$special$$inlined$inject$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/vision/ColorResolver$WhenMappings.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/vision/ColorResolver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/vision/Mat2Image$Companion.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/vision/Mat2Image.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/vision/VideoManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/vision/utils/ColorUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/files/CsvUtils$appendLabDataInCsvFile$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/utils/files/CsvUtils$appendLabDataInCsvFile$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/files/CsvUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/utils/files/CsvUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/vision/ColorSpaceUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/utils/vision/ColorSpaceUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/vision/Mat2Image$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/vision/Mat2Image.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/KoinModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/KoinModule.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/Launcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/Launcher.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/UI/ConsoleUI.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/UI/ConsoleUI.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/helper/InitHelper.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/UI/MatricesDisplay.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/UI/MatricesDisplay.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/Cube.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/Cube.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/coordinates/CubeCoordinates.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/coordinates/CubeCoordinates.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/piece/Center.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/piece/Center.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/piece/Corner.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/piece/Corner.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/piece/Edge.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/piece/Edge.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/piece/Piece.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/piece/Piece.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/position/CenterPosition.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/position/CenterPosition.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/position/CornerPosition.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/position/CornerPosition.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/position/EdgePosition.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/position/EdgePosition.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/position/Position.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/cube/position/Position.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cubeUtils/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/Color.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cubeUtils/Movement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/Movement.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cubeUtils/Orientation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/orientation/Orientation.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cubeUtils/OrientationService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/orientation/OrientationService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cubeUtils/RelativeMovement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/RelativeMovement.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cubeUtils/RelativePosition.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/RelativePosition.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/cubeUtils/Sequences.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/Sequences.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/robot/Servo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/robot/Servo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/Movement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/Movement.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/RelativeMovement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/RelativeMovement.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/orientation/Orientation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/orientation/Orientation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/vision/ColorProcessing.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/robot/vision/ColorProcessing.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeInformationService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeInformationService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeInitializationService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeInitializationService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeMotionService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeMotionService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/movement/MovementService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/movement/MovementService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/orientation/OrientationService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/orientation/OrientationService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/ColorService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotColorService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotMotionService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotMotionService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotSequenceService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotSequenceService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/Solver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/Solver.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotSequenceService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotOtvintaService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotVisionService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotVisionService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/bruteforceSolver/BruteforceOLLSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/bruteforceSolver/BruteforceOLLSolver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/bruteforceSolver/BruteforcePLLSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/bruteforceSolver/BruteforcePLLSolver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/bruteforceSolver/BruteforceSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/bruteforceSolver/BruteforceSolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationCornerSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationCornerSolver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationCrossSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationCrossSolver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationSecondFloorSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationSecondFloorSolver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationSolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/utils/csvUtils.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/vision/ColorResolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/ColorService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/vision/Mat2Image.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/utils/vision/Mat2Image.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/vision/VideoManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotVisionService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/vision/utils/ColorUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/utils/vision/ColorSpaceUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/utils/files/CsvUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/utils/files/CsvUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/utils/vision/ColorSpaceUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/utils/vision/ColorSpaceUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/utils/vision/Mat2Image.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.csv" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -192,10 +584,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Interface" />
-        <option value="Kotlin Enum" />
         <option value="Python Script" />
         <option value="Kotlin File" />
+        <option value="Kotlin Enum" />
+        <option value="Kotlin Interface" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -216,12 +608,12 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dynamic.classpath" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.45896256" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
@@ -236,6 +628,9 @@
       <recent name="C:\Users\Malrick\IdeaProjects\malrick\CubeSolver\src\main\kotlin" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Malrick\IdeaProjects\malrick\CubeSolver\src\main\resources" />
+      <recent name="C:\Users\Malrick\IdeaProjects\malrick\CubeSolver\src\main" />
+      <recent name="C:\Users\Malrick\IdeaProjects\malrick\CubeSolver\src\main\kotlin\app" />
       <recent name="C:\Users\Malrick\IdeaProjects\malrick\CubeSolver\src\main\kotlin\app\model\movement" />
       <recent name="C:\Users\Malrick\IdeaProjects\malrick\CubeSolver\src\main\kotlin\app\model\cubeUtils" />
     </key>
@@ -257,13 +652,13 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Kotlin.app.LauncherKt">
+  <component name="RunManager" selected="Kotlin.LauncherKt">
     <configuration name="CubeSolver [build]" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
+        <option name="scriptParameters" value="--refresh-dependencies" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -301,7 +696,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
+        <option name="scriptParameters" value="--refresh-dependencies" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -334,7 +729,7 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="app.LauncherKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true" show_console_on_std_out="true">
+    <configuration name="LauncherKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true" show_console_on_std_out="true">
       <module name="CubeSolver.main" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -365,12 +760,12 @@
       <item itemvalue="Gradle.CubeSolver [dependencies]" />
       <item itemvalue="Gradle.CubeSolver [compileKotlin]" />
       <item itemvalue="Gradle.CubeSolver [projects]" />
-      <item itemvalue="Kotlin.app.LauncherKt" />
+      <item itemvalue="Kotlin.LauncherKt" />
       <item itemvalue="Kotlin.app.vision.Cluster" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.app.LauncherKt" />
+        <item itemvalue="Kotlin.LauncherKt" />
         <item itemvalue="Gradle.CubeSolver [projects]" />
         <item itemvalue="Gradle.CubeSolver [compileKotlin]" />
         <item itemvalue="Kotlin.app.vision.Cluster" />
@@ -407,24 +802,39 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/service/robot/ColorService.kt</url>
-          <line>81</line>
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotColorService.kt</url>
+          <line>88</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotSequenceService.kt</url>
-          <line>151</line>
-          <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotSequenceService.kt</url>
-          <line>156</line>
-          <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotSequenceService.kt</url>
-          <line>137</line>
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotOtvintaService.kt</url>
+          <line>143</line>
           <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/solver/bruteforceSolver/BruteforceSolver.kt</url>
+          <line>24</line>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/utils/AlgorithmUtils.kt</url>
+          <line>24</line>
+          <option name="timeStamp" value="142" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/solver/KorfSolver/KorfSolver.kt</url>
+          <line>97</line>
+          <option name="timeStamp" value="223" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeInformationService.kt</url>
+          <line>104</line>
+          <option name="timeStamp" value="241" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://C:/Program Files/Java/jdk1.8.0_212/src.zip!/java/lang/ClassLoader.java</url>
+          <line>1866</line>
+          <option name="timeStamp" value="232" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

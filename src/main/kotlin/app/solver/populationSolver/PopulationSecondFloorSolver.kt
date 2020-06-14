@@ -43,7 +43,7 @@ class PopulationSecondFloorSolver(
 
         cubeMotionService.applySequence(cubeExperiment, sequence)
 
-        var score = 0
+        var score : Int
 
         var numberOfEdgesSolved = (cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.BLUE) -1) + (cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.GREEN) -1) - cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.YELLOW)
 

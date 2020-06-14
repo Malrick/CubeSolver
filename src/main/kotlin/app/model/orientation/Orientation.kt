@@ -3,27 +3,7 @@ package app.model.orientation
 import app.model.Color
 import app.model.movement.RelativePosition
 
-class Orientation{
-
-    var colorPositions = HashMap<RelativePosition, Color>()
-
-    fun init()
-    {
-        colorPositions[RelativePosition.TOP] =
-            Color.WHITE
-        colorPositions[RelativePosition.LEFT] =
-            Color.ORANGE
-        colorPositions[RelativePosition.FRONT] =
-            Color.GREEN
-        colorPositions[RelativePosition.RIGHT] =
-            Color.RED
-        colorPositions[RelativePosition.BOTTOM] =
-            Color.YELLOW
-        colorPositions[RelativePosition.BACK] =
-            Color.BLUE
-        turnCube(RelativePosition.LEFT)
-        turnCube(RelativePosition.LEFT)
-    }
+class Orientation(var colorPositions: HashMap<RelativePosition, Color>) {
 
     fun turnCube(direction: RelativePosition)
     {
@@ -62,6 +42,10 @@ class Orientation{
     fun getPositionOfColor(color : Color) : RelativePosition
     {
         return colorPositions.filter { it.value == color }.keys.first()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return (other is Orientation && other.colorPositions == colorPositions)
     }
 
 }
