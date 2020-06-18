@@ -7,6 +7,7 @@ import app.model.cube.piece.Corner
 import app.model.cube.piece.Edge
 import app.model.cube.piece.Piece
 import app.model.cube.position.Position
+import app.model.movement.RelativePosition
 
 class CubeMotionService {
 
@@ -22,7 +23,8 @@ class CubeMotionService {
     {
         val colorOfMovement = Color.values().first { movement.toString().startsWith(it.toString())}
 
-        var clockwise = !movement.name.endsWith("REVERSE")
+        var antiClockwise = movement.name.endsWith("REVERSE")
+        var double = movement.name.endsWith("DOUBLE")
 
         var side = cube.positions.keys.filter {it.possessColor(colorOfMovement)}
             .sortedBy { it.cubeCoordinates.getSideCoordinate(colorOfMovement, cube)!!.coordX }
@@ -36,12 +38,12 @@ class CubeMotionService {
             for(j in 0 until lengthOfTreatedSquare-1)
             {
 
-                var a = j
-                var b = (j+1)*(lengthOfTreatedSquare)-1
-                var c = side.size-j-1
-                var d = side.size-(j+1)*(lengthOfTreatedSquare)
+                var a = side.size-(j+1)*(lengthOfTreatedSquare)
+                var b = side.size-j-1
+                var c = (j+1)*(lengthOfTreatedSquare)-1
+                var d = j
 
-                if(clockwise)
+                if(antiClockwise)
                 {
                     var temp = a
                     a = d
@@ -55,44 +57,57 @@ class CubeMotionService {
                 newSide[side.elementAt(b)] = cube.positions[side.elementAt(c)]!!
                 newSide[side.elementAt(c)] = cube.positions[side.elementAt(d)]!!
                 newSide[side.elementAt(d)] = cube.positions[side.elementAt(a)]!!
+
+                if(double)
+                {
+                    newSide[side.elementAt(a)] = cube.positions[side.elementAt(c)]!!
+                    newSide[side.elementAt(b)] = cube.positions[side.elementAt(d)]!!
+                    newSide[side.elementAt(c)] = cube.positions[side.elementAt(a)]!!
+                    newSide[side.elementAt(d)] = cube.positions[side.elementAt(b)]!!
+                }
+
             }
             side = side.filterNot { newSide.containsKey(it) }
         }
 
-        for(piece in newSide.values)
-        {
-            if(piece is Edge && (colorOfMovement== Color.GREEN || colorOfMovement== Color.BLUE))
-            {
+        normalizeColors(cube, newSide, colorOfMovement)
+
+        if(double) normalizeColors(cube, newSide, colorOfMovement)
+
+        cube.positions = cube.positions.filterNot { newSide.contains(it.key) } as HashMap<Position, Piece>
+        cube.positions.putAll(newSide)
+    }
+
+    private fun normalizeColors(
+        cube : Cube,
+        newSide: HashMap<Position, Piece>,
+        colorOfMovement: Color
+    ) {
+        for (piece in newSide.values) {
+            if (piece is Edge && (colorOfMovement == cube.orientation.colorPositions[RelativePosition.FRONT] || colorOfMovement == cube.orientation.colorPositions[RelativePosition.BACK])) {
                 var temp = piece.colorOne
                 piece.colorOne = piece.colorTwo
                 piece.colorTwo = temp
             }
 
-            if(piece is Corner)
-            {
-                if(colorOfMovement == Color.YELLOW || colorOfMovement == Color.WHITE)
-                {
+            if (piece is Corner) {
+                if (colorOfMovement == cube.orientation.colorPositions[RelativePosition.TOP] || colorOfMovement == cube.orientation.colorPositions[RelativePosition.BOTTOM]) {
                     var temp = piece.colorTwo
                     piece.colorTwo = piece.colorThree
                     piece.colorThree = temp
                 }
-                if(colorOfMovement == Color.GREEN || colorOfMovement == Color.BLUE)
-                {
+                if (colorOfMovement == cube.orientation.colorPositions[RelativePosition.FRONT] || colorOfMovement == cube.orientation.colorPositions[RelativePosition.BACK]) {
                     var temp = piece.colorOne
                     piece.colorOne = piece.colorThree
                     piece.colorThree = temp
                 }
-                if(colorOfMovement == Color.RED || colorOfMovement == Color.ORANGE)
-                {
+                if (colorOfMovement == cube.orientation.colorPositions[RelativePosition.LEFT] || colorOfMovement == cube.orientation.colorPositions[RelativePosition.RIGHT]) {
                     var temp = piece.colorOne
                     piece.colorOne = piece.colorTwo
                     piece.colorTwo = temp
                 }
             }
         }
-
-        cube.positions = cube.positions.filterNot { newSide.contains(it.key) } as HashMap<Position, Piece>
-        cube.positions.putAll(newSide)
     }
 
 }

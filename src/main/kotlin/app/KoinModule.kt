@@ -12,13 +12,13 @@ import app.service.robot.ServoService
 import app.service.robot.RobotMotionService
 import app.service.robot.RobotColorService
 import app.service.robot.RobotVisionService
-import app.utils.algorithms.BFS
-import app.utils.algorithms.KNN
+import app.utils.algorithms.graphTraversal.BFS
+import app.utils.algorithms.clustering.KNN
+import app.utils.algorithms.graphTraversal.IDDFS
 import app.utils.database.DatabaseUtils
 import app.utils.files.CsvUtils
 import app.utils.indexing.LehmerRanker
 import app.utils.maths.MathUtils
-import app.utils.types.TypeUtils
 import app.utils.vision.ColorSpaceUtils
 import app.utils.vision.GeometryUtils
 import org.koin.dsl.module
@@ -53,8 +53,8 @@ val utilsModule = module {
     single { LehmerRanker() }
     single { DatabaseUtils() }
     single { MathUtils() }
-    single { TypeUtils() }
     single { CsvUtils() }
     single { KNN() }
     single { BFS() }
+    single { IDDFS() }
 }

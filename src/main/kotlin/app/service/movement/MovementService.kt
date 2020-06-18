@@ -16,13 +16,14 @@ class MovementService : KoinComponent {
         for(relativeMovement in relativeSequence)
         {
             var relativeMovementPosition = RelativePosition.values().first { relativeMovement.name.startsWith(it.name) }
-            var clockwise = !relativeMovement.name.endsWith("REVERSE")
-
+            var antiClockwise = relativeMovement.name.endsWith("REVERSE")
+            var double = relativeMovement.name.endsWith("DOUBLE")
             var colorOfMovement = orientation.colorPositions[relativeMovementPosition]!!
 
             var movement : Movement
-            if(clockwise) movement = Movement.values().first { it.name.startsWith(colorOfMovement.name) && !it.name.endsWith("REVERSE") }
-            else movement = Movement.values().first { it.name.startsWith(colorOfMovement.name) && it.name.endsWith("REVERSE") }
+            if(antiClockwise) movement = Movement.values().first { it.name.startsWith(colorOfMovement.name) && it.name.endsWith("REVERSE") }
+            else if(double) movement = Movement.values().first { it.name.startsWith(colorOfMovement.name) && it.name.endsWith("DOUBLE") }
+            else movement = Movement.values().first { it.name.startsWith(colorOfMovement.name) && !it.name.endsWith("REVERSE") && !it.name.endsWith("DOUBLE")}
 
             toReturn = toReturn.plus(movement)
         }
@@ -46,21 +47,12 @@ class MovementService : KoinComponent {
                 {
                     if(i+1 < toTreat.size)
                     {
-                        if(toTreat[i] == getOpposite(toTreat[i+1]))
+                        var colorOfFirstMovement = Color.values().first { toTreat[i].name.startsWith(it.name) }
+                        var colorOfSecondMovement = Color.values().first { toTreat[i+1].name.startsWith(it.name) }
+                        if(colorOfFirstMovement == colorOfSecondMovement)
                         {
                             wasTreated[i] = true
                             wasTreated[i+1] = true
-                            continue
-                        }
-                    }
-                    if(i+2 < toTreat.size)
-                    {
-                        if(toTreat[i] == toTreat[i+1] && toTreat[i] == toTreat[i+2])
-                        {
-                            treatedValues += getOpposite(toTreat[i])
-                            wasTreated[i] = true
-                            wasTreated[i+1] = true
-                            wasTreated[i+2] = true
                             continue
                         }
                     }
@@ -79,14 +71,9 @@ class MovementService : KoinComponent {
         {
             if(i+1 < sequence.size)
             {
-                if(sequence[i] == getOpposite(sequence[i+1]))
-                {
-                    return false
-                }
-            }
-            if(i+2 < sequence.size)
-            {
-                if(sequence[i] == sequence[i+1] && sequence[i] == sequence[i+2])
+                var colorOfFirstMovement = Color.values().first { sequence[i].name.startsWith(it.name) }
+                var colorOfSecondMovement = Color.values().first { sequence[i+1].name.startsWith(it.name) }
+                if(colorOfFirstMovement == colorOfSecondMovement)
                 {
                     return false
                 }
@@ -95,10 +82,28 @@ class MovementService : KoinComponent {
         return true
     }
 
+    fun getSecondNonOptimalIndex(sequence: Array<Movement>) : Int
+    {
+        for(i in sequence.indices)
+        {
+            if(i+1 < sequence.size)
+            {
+                var colorOfFirstMovement = Color.values().first { sequence[i].name.startsWith(it.name) }
+                var colorOfSecondMovement = Color.values().first { sequence[i+1].name.startsWith(it.name) }
+                if(colorOfFirstMovement == colorOfSecondMovement)
+                {
+                    return i+1
+                }
+            }
+        }
+        return 0
+    }
+
     fun getOpposite(movement : Movement) : Movement
     {
         var colorOfMovement = Color.values().first { movement.name.startsWith(it.name) }
-        if(movement.name.endsWith("REVERSE")) return Movement.values().first{ it.name.startsWith(colorOfMovement.name) && !it.name.endsWith("REVERSE")}
+        if(movement.name.endsWith("REVERSE")) return Movement.values().first{ it.name.startsWith(colorOfMovement.name) && !it.name.endsWith("REVERSE") && !it.name.endsWith("DOUBLE")}
+        else if(movement.name.endsWith("DOUBLE")) return movement
         else return Movement.values().first{ it.name.startsWith(colorOfMovement.name) && it.name.endsWith("REVERSE")}
     }
 

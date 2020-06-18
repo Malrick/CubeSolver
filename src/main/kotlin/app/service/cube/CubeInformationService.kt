@@ -58,6 +58,19 @@ class CubeInformationService : KoinComponent{
         return toReturn
     }
 
+    fun getOppositeColor(cube : Cube, color : Color) : Color
+    {
+        return when(cube.orientation.getPositionOfColor(color))
+        {
+            RelativePosition.TOP -> cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
+            RelativePosition.LEFT -> cube.orientation.colorPositions[RelativePosition.RIGHT]!!
+            RelativePosition.BOTTOM -> cube.orientation.colorPositions[RelativePosition.TOP]!!
+            RelativePosition.RIGHT ->  cube.orientation.colorPositions[RelativePosition.LEFT]!!
+            RelativePosition.BACK -> cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
+            RelativePosition.FRONT ->  cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
+        }
+    }
+
     fun getNumberOfCornersSolvedBySide(cube : Cube, color : Color) : Int
     {
         return cube.positions.filter { it.key.possessColor(color) && it.key is CornerPosition && it.key.matches(it.value)}.size
@@ -88,9 +101,9 @@ class CubeInformationService : KoinComponent{
         return cube.positions.any { it.key.matches(it.value) && it.key.possessColor(colorOne) && it.key.possessColor(colorTwo) && it.key.possessColor(colorThree)}
     }
 
-    fun getPositionsOfEdges(cube : Cube, colorOne : Color, colorTwo : Color) : Set<Position>
+    fun getPositionsOfEdge(cube : Cube, colorOne : Color, colorTwo : Color) : Position
     {
-        return cube.positions.filter { it.key is EdgePosition && it.value.possessColor(colorOne) && it.value.possessColor(colorTwo) }.keys
+        return cube.positions.filter { it.key is EdgePosition && it.value.possessColor(colorOne) && it.value.possessColor(colorTwo) }.keys.first()
     }
 
 
@@ -223,26 +236,26 @@ class CubeInformationService : KoinComponent{
 
         for((position, piece) in cube.positions.filter { it.key is EdgePosition })
         {
-            var edgePossessTop = piece.possessColor(cube.orientation.colorPositions[RelativePosition.TOP]!!)
-            var edgePossessBot = piece.possessColor(cube.orientation.colorPositions[RelativePosition.BOTTOM]!!)
+            var edgePossessTop = piece.possessColor(cube.orientation.colorPositions[RelativePosition.FRONT]!!)
+            var edgePossessBot = piece.possessColor(cube.orientation.colorPositions[RelativePosition.BACK]!!)
             var edgePossessLeft = piece.possessColor(cube.orientation.colorPositions[RelativePosition.LEFT]!!)
             var edgePossessRight = piece.possessColor(cube.orientation.colorPositions[RelativePosition.RIGHT]!!)
 
-            var positionPossessTop = position.possessColor(cube.orientation.colorPositions[RelativePosition.TOP]!!)
-            var positionPossessBot = position.possessColor(cube.orientation.colorPositions[RelativePosition.BOTTOM]!!)
+            var positionPossessTop = position.possessColor(cube.orientation.colorPositions[RelativePosition.FRONT]!!)
+            var positionPossessBot = position.possessColor(cube.orientation.colorPositions[RelativePosition.BACK]!!)
             var positionPossessLeft = position.possessColor(cube.orientation.colorPositions[RelativePosition.LEFT]!!)
             var positionPossessRight = position.possessColor(cube.orientation.colorPositions[RelativePosition.RIGHT]!!)
 
             if(edgePossessTop || edgePossessBot)
             {
                 var edgePossessedColor : Color
-                if(edgePossessTop) edgePossessedColor = cube.orientation.colorPositions[RelativePosition.TOP]!!
-                else edgePossessedColor = cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
+                if(edgePossessTop) edgePossessedColor = cube.orientation.colorPositions[RelativePosition.FRONT]!!
+                else edgePossessedColor = cube.orientation.colorPositions[RelativePosition.BACK]!!
 
 
                 var positionPossessedColor : Color
-                if(positionPossessTop) positionPossessedColor = cube.orientation.colorPositions[RelativePosition.TOP]!!
-                else positionPossessedColor = cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
+                if(positionPossessTop) positionPossessedColor = cube.orientation.colorPositions[RelativePosition.FRONT]!!
+                else positionPossessedColor = cube.orientation.colorPositions[RelativePosition.BACK]!!
 
                 if(position.positionOfColor(positionPossessedColor) == piece.getPositionOfColor(edgePossessedColor))
                 {
@@ -273,8 +286,8 @@ class CubeInformationService : KoinComponent{
 
 
                 var positionPossessedColor : Color
-                if(positionPossessTop) positionPossessedColor = cube.orientation.colorPositions[RelativePosition.TOP]!!
-                else positionPossessedColor = cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
+                if(positionPossessTop) positionPossessedColor = cube.orientation.colorPositions[RelativePosition.FRONT]!!
+                else positionPossessedColor = cube.orientation.colorPositions[RelativePosition.BACK]!!
 
                 if(position.positionOfColor(positionPossessedColor) != piece.getPositionOfColor(edgePossessedColor))
                 {
@@ -284,8 +297,8 @@ class CubeInformationService : KoinComponent{
             if((positionPossessLeft || positionPossessRight) && (edgePossessTop || edgePossessBot))
             {
                 var edgePossessedColor : Color
-                if(edgePossessTop) edgePossessedColor = cube.orientation.colorPositions[RelativePosition.TOP]!!
-                else edgePossessedColor = cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
+                if(edgePossessTop) edgePossessedColor = cube.orientation.colorPositions[RelativePosition.FRONT]!!
+                else edgePossessedColor = cube.orientation.colorPositions[RelativePosition.BACK]!!
 
 
                 var positionPossessedColor : Color

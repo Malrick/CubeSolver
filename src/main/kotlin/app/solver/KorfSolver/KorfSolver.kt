@@ -12,7 +12,7 @@ import app.service.cube.CubeInitializationService
 import app.service.cube.CubeMotionService
 import app.service.orientation.OrientationService
 import app.solver.Solver
-import app.utils.algorithms.BFS
+import app.utils.algorithms.graphTraversal.BFS
 import app.utils.database.DatabaseUtils
 import app.utils.indexing.LehmerRanker
 import app.utils.maths.MathUtils

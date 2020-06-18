@@ -1,14 +1,12 @@
 package app.utils.indexing
 
 import app.utils.maths.MathUtils
-import app.utils.types.TypeUtils
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 class LehmerRanker : KoinComponent {
 
     private val mathUtils : MathUtils by inject()
-    private val typeUtils : TypeUtils by inject()
 
     private var lookUpTableCornerOrientation = HashMap<String, Int>()
     private var lookUpTableCornerPosition = HashMap<String, Int>()
@@ -17,12 +15,12 @@ class LehmerRanker : KoinComponent {
 
     fun lookupCornersOrientation(sequence : Array<Int>) : Int
     {
-        var result = lookUpTableCornerOrientation[typeUtils.arrayToString(sequence)]
+        var result = lookUpTableCornerOrientation[sequence.joinToString()]
 
         if(result == null)
         {
             var ranking = this.rankWithReplacement(sequence, 2)
-            lookUpTableCornerOrientation[typeUtils.arrayToString(sequence)] = ranking
+            lookUpTableCornerOrientation[sequence.joinToString()] = ranking
             return ranking
         }
         else
@@ -32,12 +30,12 @@ class LehmerRanker : KoinComponent {
     }
     fun lookupEdgesOrientation(sequence : Array<Int>) : Int
     {
-        var result = lookUpTableEdgeOrientation[typeUtils.arrayToString(sequence)]
+        var result = lookUpTableEdgeOrientation[sequence.joinToString()]
 
         if(result == null)
         {
             var ranking = this.rankWithReplacement(sequence, 2)
-            lookUpTableEdgeOrientation[typeUtils.arrayToString(sequence)] = ranking
+            lookUpTableEdgeOrientation[sequence.joinToString()] = ranking
             return ranking
         }
         else
@@ -48,12 +46,12 @@ class LehmerRanker : KoinComponent {
 
     fun lookupCornersPosition(sequence : Array<Int>) : Int
     {
-        var result = lookUpTableCornerPosition[typeUtils.arrayToString(sequence)]
+        var result = lookUpTableCornerPosition[sequence.joinToString()]
 
         if(result == null)
         {
             var ranking = this.rankWithoutReplacement(sequence, 12, false)
-            lookUpTableCornerPosition[typeUtils.arrayToString(sequence)] = ranking
+            lookUpTableCornerPosition[sequence.joinToString()] = ranking
             return ranking
         }
         else
@@ -64,12 +62,12 @@ class LehmerRanker : KoinComponent {
 
     fun lookupEdgesPosition(sequence : Array<Int>) : Int
     {
-        var result = lookUpTableCornerOrientation[typeUtils.arrayToString(sequence)]
+        var result = lookUpTableCornerOrientation[sequence.joinToString()]
 
         if(result == null)
         {
             var ranking = this.rankWithoutReplacement(sequence, 12, true)
-            lookUpTableEdgePosition[typeUtils.arrayToString(sequence)] = ranking
+            lookUpTableEdgePosition[sequence.joinToString()] = ranking
             return ranking
         }
         else

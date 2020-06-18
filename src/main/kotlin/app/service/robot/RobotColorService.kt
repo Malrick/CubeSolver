@@ -2,7 +2,7 @@ package app.service.robot
 
 import app.model.Color
 import app.model.robot.vision.ColorProcessing
-import app.utils.algorithms.KNN
+import app.utils.algorithms.clustering.KNN
 import app.utils.vision.ColorSpaceUtils
 import app.utils.vision.GeometryUtils
 import org.deeplearning4j.nn.modelimport.keras.KerasModelImport

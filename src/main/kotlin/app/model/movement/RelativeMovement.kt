@@ -3,20 +3,20 @@ package app.model.movement
 enum class RelativeMovement {
     TOP,
     TOP_REVERSE,
-    DOUBLE_TOP,
+    TOP_DOUBLE,
     FRONT,
     FRONT_REVERSE,
-    DOUBLE_FRONT,
+    FRONT_DOUBLE,
     RIGHT,
     RIGHT_REVERSE,
-    DOUBLE_RIGHT,
+    RIGHT_DOUBLE,
     LEFT,
     LEFT_REVERSE,
-    DOUBLE_LEFT,
+    LEFT_DOUBLE,
     BOTTOM,
     BOTTOM_REVERSE,
-    DOUBLE_BOTTOM,
+    BOTTOM_DOUBLE,
     BACK,
     BACK_REVERSE,
-    DOUBLE_BACK
+    BACK_DOUBLE
 }

@@ -48,12 +48,13 @@ class BruteforcePLLSolver(cube: Cube) : BruteforceSolver(cube) {
                     {
                         0 -> toAdd = movementService.convertSequenceOfRelativeMovements(relativeSequence, orientation)
                         1 -> toAdd = arrayOf(Movement.YELLOW).plus(movementService.convertSequenceOfRelativeMovements(relativeSequence, orientation))
-                        2 -> toAdd = arrayOf(Movement.YELLOW, Movement.YELLOW).plus(movementService.convertSequenceOfRelativeMovements(relativeSequence, orientation))
+                        2 -> toAdd = arrayOf(Movement.YELLOW_DOUBLE).plus(movementService.convertSequenceOfRelativeMovements(relativeSequence, orientation))
                         3 -> toAdd = arrayOf(Movement.YELLOW_REVERSE).plus(movementService.convertSequenceOfRelativeMovements(relativeSequence, orientation))
                     }
                     listOfSequences = listOfSequences.plus(arrayOf(toAdd))
                 }
             }
+            listOfSequences += Movement.values().filter { it.name.startsWith("YELLOW") }.map { arrayOf(it) }
         }
     }
 

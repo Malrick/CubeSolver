@@ -6,7 +6,7 @@ import app.service.cube.CubeInformationService
 import app.service.cube.CubeMotionService
 import app.service.movement.MovementService
 import app.solver.Solver
-import app.utils.AlgorithmUtils
+import app.utils.algorithms.graphTraversal.BFS
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.slf4j.LoggerFactory
@@ -24,6 +24,9 @@ abstract class PopulationSolver : Solver, KoinComponent {
     protected val cubeMotionService : CubeMotionService by inject()
     protected val movementService : MovementService by inject()
     private var random = Random()
+
+    //
+    protected val bfs : BFS by inject()
 
     // Studied set
     protected abstract var listOfMovements : Set<Array<Movement>>
@@ -43,6 +46,8 @@ abstract class PopulationSolver : Solver, KoinComponent {
     override fun solve(cube : Cube) : Array<Movement>?
     {
 
+        var i = 0
+
         init(cube)
 
         while(!solved) {
@@ -54,6 +59,8 @@ abstract class PopulationSolver : Solver, KoinComponent {
             selectBestIndividuals()
 
             repopulate()
+
+            i++
 
             logger.debug("Best individual reached " + population.values.max().toString() + " out of " + maxScore)
 
@@ -77,7 +84,9 @@ abstract class PopulationSolver : Solver, KoinComponent {
 
         survivingPopulation = HashMap()
 
-        for(elem in AlgorithmUtils().BFS(populationMaxSize, 0, listOfMovements))
+        bfs.init(listOfMovements.toTypedArray())
+
+        for(elem in bfs.getElements(populationMaxSize))
         {
             population.put(elem, -1)
         }
@@ -116,7 +125,8 @@ abstract class PopulationSolver : Solver, KoinComponent {
         // TODO : Déterminisme : Fouiller dans l'espace de solution sans random ?
 
         var randomMutationSelection : Array<Movement>
-        var listOfAddedMovements : Array<Movement> = arrayOf()
+        var listOfAddedMovements : Array<Movement>
+        var parentPlusChild : Array<Movement> = arrayOf()
         var numberOfMutationsAdded = maxNumberOfMutationsAdded
 
         while (population.size < populationMaxSize) {
@@ -128,20 +138,20 @@ abstract class PopulationSolver : Solver, KoinComponent {
                 numberOfMutationsAdded = random.nextInt(maxNumberOfMutationsAdded)
             }
 
-            // Create a random mutation
-            for(i in 0..numberOfMutationsAdded) {
+            do
+            {
+                listOfAddedMovements = arrayOf()
+                // Create a random mutation
+                for(i in 0 until numberOfMutationsAdded) {
 
-                do{
-                    val suitableToAdd = true
                     randomMutationSelection = listOfMovements.elementAt(random.nextInt(listOfMovements.size))
-
-                } while (!suitableToAdd)
-
-                listOfAddedMovements += randomMutationSelection
-            }
+                    listOfAddedMovements += randomMutationSelection
+                }
+                parentPlusChild = selectedParent.plus(listOfAddedMovements)
+            } while (!movementService.isOptimalSequence(parentPlusChild))
 
             // Add an individual with these mutations to the population
-            population[movementService.convertToOptimalSequence(selectedParent.plus(listOfAddedMovements))] = -1
+            population[parentPlusChild] = -1
 
             listOfAddedMovements = arrayOf()
         }

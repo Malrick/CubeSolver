@@ -4,6 +4,7 @@ import app.UI.ConsoleUI
 import app.model.Color
 import app.model.cube.Cube
 import app.model.movement.Movement
+import app.model.movement.PLL_FIFTEEN
 import app.model.movement.RelativeMovement
 import app.model.movement.RelativePosition
 import app.service.cube.CubeInformationService
@@ -12,6 +13,7 @@ import app.service.cube.CubeMotionService
 import app.service.movement.MovementService
 import app.service.orientation.OrientationService
 import app.service.robot.RobotOtvintaService
+import app.solver.KorfSolver.KorfSolver
 import app.solver.populationSolver.PopulationCrossSolver
 import app.solver.Solver
 import app.solver.ThistlethwaiteSolver.ThistlethwaiteSolver
@@ -19,6 +21,8 @@ import app.solver.bruteforceSolver.BruteforceOLLSolver
 import app.solver.bruteforceSolver.BruteforcePLLSolver
 import app.solver.populationSolver.PopulationCornerSolver
 import app.solver.populationSolver.PopulationSecondFloorSolver
+import app.utils.algorithms.graphTraversal.BFS
+import app.utils.algorithms.graphTraversal.IDDFS
 import org.koin.core.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.core.inject
@@ -39,6 +43,8 @@ class Launcher : KoinComponent {
     //TODO Exceptions
     //TODO Multithreading
     //TODO Refacto motion
+
+    //TODO debug population solver
 
     //TODO RL
     //TODO Kociemba
@@ -61,6 +67,20 @@ class Launcher : KoinComponent {
 
 
     fun launch() {
+
+        /*
+        var a = BFS()
+        var b = IDDFS()
+
+        a.init(Movement.values().map { arrayOf(it) }.toTypedArray())
+        b.init(Movement.values().map { arrayOf(it) }.toTypedArray())
+
+        for(i in 0..500)
+        {
+            var c = a.getElement()
+            var d = b.getElement()
+            print("")
+        }*/
 
         //KorfSolver().populateDatabase()
 
@@ -87,44 +107,12 @@ class Launcher : KoinComponent {
         var solution : Array<Movement>
         var totalSolution = arrayOf<Movement>()
 
-       /* cubeMotionService.applySequence(cube, ThistlethwaiteSolver().stepOne(cube))
-
-        for(i in 0..50)
-        {
-            var movements =          Movement.values().filter { it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(
-                RelativeMovement.FRONT), cube.orientation)[0].name&&
-                    it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT_REVERSE), cube.orientation)[0].name&&
-                    it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK), cube.orientation)[0].name&&
-                    it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK_REVERSE), cube.orientation)[0].name
-            }.map { arrayOf(it) }
-                .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT, RelativeMovement.FRONT), cube.orientation)))
-                .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK, RelativeMovement.BACK), cube.orientation)))
-                .toTypedArray()
-
-            var appliedMovement = movements.random()
-
-            cubeMotionService.applySequence(cube, appliedMovement)
-
-            for(elem in appliedMovement)
-            {
-                println(elem)
-            }
-
-            for((edge, orientation) in cubeInformationService.getEdgeOrientations(cube))
-            {
-                print(orientation)
-            }
-            println()
-
-        }
-*/
-
         var solvers = arrayOf<Solver>(
             ThistlethwaiteSolver()
             //PopulationGroupSolver(100000, 0.001f, 7, true)
-            /*PopulationCrossSolver(1000, 0.01f, 4, true),
-            PopulationCornerSolver(1000, 0.01f, 4, true),
-            PopulationSecondFloorSolver(1000, 0.01f, 4, true),
+            /*PopulationCrossSolver(500, 0.01f, 7, true),
+            PopulationCornerSolver(100, 0.1f, 4, true),
+            PopulationSecondFloorSolver(100, 0.1f, 4, true),
             BruteforceOLLSolver(cube),
             BruteforcePLLSolver(cube)*/
         )
@@ -153,5 +141,6 @@ class Launcher : KoinComponent {
         logger.info("Total length of solution : " + totalSolution.size)
 
         if(useRobot) robotService.applySequence(totalSolution)
+
     }
 }

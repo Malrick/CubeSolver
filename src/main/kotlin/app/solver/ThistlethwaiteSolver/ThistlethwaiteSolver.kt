@@ -10,7 +10,8 @@ import app.service.cube.CubeInformationService
 import app.service.cube.CubeMotionService
 import app.service.movement.MovementService
 import app.solver.Solver
-import app.utils.algorithms.BFS
+import app.utils.algorithms.graphTraversal.BFS
+import app.utils.algorithms.graphTraversal.IDDFS
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.slf4j.LoggerFactory
@@ -22,14 +23,36 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
     private val cubeMotionService : CubeMotionService by inject()
     private val movementService : MovementService by inject()
 
-    private val bfs : BFS by inject()
+    private val iddfs : IDDFS by inject()
 
     private val logger = LoggerFactory.getLogger(ThistlethwaiteSolver::class.java)
 
+    var G1 = Movement.values().map { arrayOf(it) }.toTypedArray()
+
+    var G2 : (Cube) -> Array<Array<Movement>> = { Cube -> Movement.values().filterNot { it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.TOP), Cube.orientation)[0].name         ||
+                                                                                        it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.TOP_REVERSE), Cube.orientation)[0].name ||
+                                                                                        it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BOTTOM), Cube.orientation)[0].name          ||
+                                                                                        it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BOTTOM_REVERSE), Cube.orientation)[0].name
+                                                                                        }.map { arrayOf(it) }
+                                                                                         .toTypedArray()}
+
+    var G3 : (Cube) -> Array<Array<Movement>> = { Cube -> Movement.values().filterNot { it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.TOP), Cube.orientation)[0].name         ||
+                                                                                        it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.TOP_REVERSE), Cube.orientation)[0].name ||
+                                                                                        it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BOTTOM), Cube.orientation)[0].name          ||
+                                                                                        it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BOTTOM_REVERSE), Cube.orientation)[0].name
+                                                                                        it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT), Cube.orientation)[0].name          ||
+                                                                                        it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT_REVERSE), Cube.orientation)[0].name  ||
+                                                                                        it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK), Cube.orientation)[0].name         ||
+                                                                                        it.name == movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK_REVERSE), Cube.orientation)[0].name
+                                                                                        }.map { arrayOf(it) }
+                                                                                         .toTypedArray()}
+
+    var G4 = Movement.values().filter { it.name.endsWith("DOUBLE") }.map { arrayOf(it) }.toTypedArray()
+
     var wellOrientedEdges : (Cube) -> Boolean = { Cube -> cubeInformationService.getEdgeOrientations(Cube).all { it.value == 1 }}
-    var WellOrientedCorners : (Cube) -> Boolean = { Cube -> cubeInformationService.getCornerOrientations(Cube).all { it.value == 0 }}
+    var wellOrientedCorners : (Cube) -> Boolean = { Cube -> cubeInformationService.getCornerOrientations(Cube).all { it.value == 0 }}
     var cornersInOrbits : (Cube) -> Boolean = {Cube -> Cube.positions.keys.filter { it is CornerPosition && cornerIsSuitable(Cube, it)  }.size == 8}
-    var AllEdgeToTheirSlice : (Cube) -> Boolean = { Cube -> allMEdgesInMSlice(Cube) && allEEdgesInESlice(Cube) && allSEdgesInSSlice(Cube) && cornersInOrbits(Cube)}
+    var allEdgeToTheirSlice : (Cube) -> Boolean = { Cube -> allMEdgesInMSlice(Cube) && allEEdgesInESlice(Cube) && allSEdgesInSSlice(Cube) && cornersInOrbits(Cube)}
 
     var trackedPositionsM : (Cube) -> Set<Position> = { Cube -> cubeInformationService.getPositionsOfEdges(Cube, setOf(Pair(Cube.orientation.colorPositions[RelativePosition.TOP]!!, Cube.orientation.colorPositions[RelativePosition.FRONT]!!),
         Pair(Cube.orientation.colorPositions[RelativePosition.FRONT]!!,Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!),
@@ -61,11 +84,6 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
             && trackedPositionsS(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.LEFT]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) }
             && trackedPositionsS(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.RIGHT]!!) }}
 
-    var toCheck : (Cube) -> Boolean = {Cube -> trackedPositionsE    (Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.TOP]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.FRONT]!!)}
-            && trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.FRONT]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) }
-            && trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BACK]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) }
-            && trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BACK]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.TOP]!!) }}
-
     // Studied set
     private lateinit var listOfMovements : Array<Array<Movement>>
 
@@ -76,66 +94,25 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
         var clone = cube.clone()
         var consoleUI = ConsoleUI()
 
-        subSolution = stepOne(cube)
+        for(i in 1..6)
+        {
+            subSolution = when(i)
+            {
+                1-> stepOne(clone)
+                2-> stepTwo(clone)
+                3-> stepThree(clone)
+                4-> stepFour(clone)
+                5-> stepFive(clone)
+                6-> stepSix(clone)
+                else -> throw Exception()
+            }
 
-        logger.info("step one solved")
-
-        solution += subSolution
-
-        cubeMotionService.applySequence(clone, subSolution)
-
-        consoleUI.displayCube(clone)
-
-        subSolution = stepTwo(clone)
-
-        logger.info("step two solved")
-
-        solution += subSolution
-
-        cubeMotionService.applySequence(clone, subSolution)
-
-        consoleUI.displayCube(clone)
-
-        subSolution = stepThree(clone)
-
-        logger.info("step three solved")
-
-        solution += subSolution
-
-        cubeMotionService.applySequence(clone, subSolution)
-
-        consoleUI.displayCube(clone)
-
-        subSolution = stepFour(clone)
-
-        logger.info("step four solved")
-
-
-        solution += subSolution
-
-        cubeMotionService.applySequence(clone, subSolution)
-
-        consoleUI.displayCube(clone)
-
-        subSolution = stepFive(clone)
-
-        logger.info("step five solved")
-
-        solution += subSolution
-
-        cubeMotionService.applySequence(clone, subSolution)
-
-        consoleUI.displayCube(clone)
-
-        subSolution = stepSix(clone)
-
-        logger.info("step six solved")
-
-        solution += subSolution
-
-        cubeMotionService.applySequence(clone, subSolution)
-
-        consoleUI.displayCube(clone)
+            println()
+            logger.info("step $i solved !")
+            solution += subSolution
+            cubeMotionService.applySequence(clone, subSolution)
+            consoleUI.displayCube(clone)
+        }
 
         return solution
     }
@@ -149,16 +126,9 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
 
     fun stepTwo(cube : Cube) : Array<Movement>
     {
-        listOfMovements  = Movement.values().filter { it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT), cube.orientation)[0].name   &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT_REVERSE), cube.orientation)[0].name&&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK), cube.orientation)[0].name&&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK_REVERSE), cube.orientation)[0].name
-        }.map { arrayOf(it) }
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT, RelativeMovement.FRONT), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK, RelativeMovement.BACK), cube.orientation)))
-            .toTypedArray()
+        listOfMovements = G2(cube)
 
-        var goal : (Cube) -> Boolean = {Cube -> wellOrientedEdges(Cube) &&  allEEdgesInESlice(Cube)}
+        var goal : (Cube) -> Boolean = {Cube -> wellOrientedCorners(Cube)}
 
         return findSolution(goal, cube)
 
@@ -166,39 +136,18 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
 
     fun stepThree(cube : Cube) : Array<Movement>
     {
-        listOfMovements = Movement.values().filter { it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(
-            RelativeMovement.FRONT), cube.orientation)[0].name&&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT_REVERSE), cube.orientation)[0].name&&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK), cube.orientation)[0].name&&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK_REVERSE), cube.orientation)[0].name
-        }.map { arrayOf(it) }
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT, RelativeMovement.FRONT), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK, RelativeMovement.BACK), cube.orientation)))
-            .toTypedArray()
+        listOfMovements = G2(cube)
 
-        var goal : (Cube) -> Boolean = {Cube -> wellOrientedEdges(Cube)  &&  allEEdgesInESlice(Cube) && WellOrientedCorners(Cube)}
+        var goal : (Cube) -> Boolean = {Cube -> allMEdgesInMSlice(Cube) && wellOrientedCorners(Cube)}
 
         return findSolution(goal, cube)
     }
 
     fun stepFour(cube : Cube) : Array<Movement>
     {
-        listOfMovements  = Movement.values().filter { it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.LEFT), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.LEFT_REVERSE), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.RIGHT), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.RIGHT_REVERSE), cube.orientation)[0].name&&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT_REVERSE), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK_REVERSE), cube.orientation)[0].name
-        }.map { arrayOf(it) }
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.LEFT, RelativeMovement.LEFT), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.RIGHT, RelativeMovement.RIGHT), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT, RelativeMovement.FRONT), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK, RelativeMovement.BACK), cube.orientation)))
-            .toTypedArray()
+        listOfMovements  = G3(cube)
 
-        var goal : (Cube) -> Boolean = {Cube -> wellOrientedEdges(Cube) && WellOrientedCorners(Cube) && allEEdgesInESlice(Cube) && cornersInOrbits(Cube)}
+        var goal : (Cube) -> Boolean = {Cube -> allMEdgesInMSlice(Cube) && cornersInOrbits(Cube) &&  wellOrientedCorners(Cube)}
 
         return findSolution(goal, cube)
 
@@ -206,22 +155,9 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
 
     fun stepFive(cube : Cube) : Array<Movement>
     {
-        listOfMovements  = Movement.values().filter { it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.RIGHT), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.RIGHT_REVERSE), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.LEFT), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.LEFT_REVERSE), cube.orientation)[0].name&&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT_REVERSE), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK), cube.orientation)[0].name &&
-                it.name != movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK_REVERSE), cube.orientation)[0].name
-        }.map { arrayOf(it) }
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.LEFT, RelativeMovement.LEFT), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.RIGHT, RelativeMovement.RIGHT), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT, RelativeMovement.FRONT), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK, RelativeMovement.BACK), cube.orientation)))
-            .toTypedArray()
+        listOfMovements  = G3(cube)
 
-        var goal : (Cube) -> Boolean = {Cube -> wellOrientedEdges(Cube) && WellOrientedCorners(Cube) && allEEdgesInESlice(Cube) && cornersInOrbits(Cube) && AllEdgeToTheirSlice(Cube)}
+        var goal : (Cube) -> Boolean = {Cube -> cornersInOrbits(Cube) && allEdgeToTheirSlice(Cube)}
 
         return findSolution(goal, cube)
 
@@ -229,50 +165,23 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
 
     fun stepSix(cube : Cube) : Array<Movement>
     {
-        var goal : (Cube) -> Boolean = {Cube -> cubeInformationService.isSolved(Cube)}
+        listOfMovements = G4
 
-        listOfMovements = arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.LEFT, RelativeMovement.LEFT), cube.orientation))
-                .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.RIGHT, RelativeMovement.RIGHT), cube.orientation)))
-                .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.TOP, RelativeMovement.TOP), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BOTTOM, RelativeMovement.BOTTOM), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.FRONT, RelativeMovement.FRONT), cube.orientation)))
-            .plus(arrayOf(movementService.convertSequenceOfRelativeMovements(arrayOf(RelativeMovement.BACK, RelativeMovement.BACK), cube.orientation)))
+        var goal : (Cube) -> Boolean = {Cube -> cubeInformationService.isSolved(Cube)}
 
         return findSolution(goal, cube)
     }
 
     fun cornerIsSuitable(cube : Cube, corner : CornerPosition) : Boolean
     {
-        var newBFS = BFS()
-
-        newBFS.init(arrayOf(arrayOf(Movement.BLUE, Movement.BLUE),
-            arrayOf(Movement.GREEN, Movement.GREEN),
-            arrayOf(Movement.RED, Movement.RED),
-            arrayOf(Movement.ORANGE, Movement.ORANGE),
-            arrayOf(Movement.WHITE, Movement.WHITE),
-            arrayOf(Movement.YELLOW, Movement.YELLOW)))
-
-        var sequence = arrayOf<Movement>()
-
-        if(corner.getColors() == cube.positions[corner]!!.getColors()) {
-            return true
-        }
-        while(sequence.size < 3)
-        {
-            sequence = newBFS.getElement()
-
-            var clone = cube.clone()
-
-            cubeMotionService.applySequence(clone, sequence)
-
-            if(corner.getColors() == clone.positions[corner]!!.getColors()) return true
-        }
+        if(cubeInformationService.isCornerOfAColorSolved(cube, corner.colorOne, corner.colorTwo, corner.colorThree)) return true
+        if(cube.positions[corner]!!.getColors().intersect(corner.getColors().map { cubeInformationService.getOppositeColor(cube, it) }).size ==2) return true
         return false
     }
 
     fun findSolution(finishingCondition: (Cube) -> Boolean, cube: Cube): Array<Movement>
     {
-        bfs.init(listOfMovements)
+        iddfs.init(listOfMovements)
 
         var cubeExperiment = cube.clone()
 
@@ -282,7 +191,7 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
         {
             cubeExperiment = cube.clone()
 
-            sequence = bfs.getElement()
+            sequence = iddfs.getElement()
 
             cubeMotionService.applySequence(cubeExperiment, sequence)
         }

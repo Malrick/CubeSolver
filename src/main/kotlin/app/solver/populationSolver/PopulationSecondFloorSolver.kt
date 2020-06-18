@@ -2,6 +2,7 @@ package app.solver.populationSolver
 
 import app.model.Color
 import app.model.cube.Cube
+import app.model.cube.position.Position
 import app.model.movement.Movement
 import app.model.movement.RELATIVE_EDGE_INSERTION_1
 import app.model.movement.RELATIVE_EDGE_INSERTION_2
@@ -34,6 +35,7 @@ class PopulationSecondFloorSolver(
 
         listOfMovements = listOfMovements.plus(arrayOf(arrayOf(Movement.YELLOW)))
         listOfMovements = listOfMovements.plus(arrayOf(arrayOf(Movement.YELLOW_REVERSE)))
+        listOfMovements = listOfMovements.plus(arrayOf(arrayOf(Movement.YELLOW_DOUBLE)))
     }
 
 
@@ -43,10 +45,11 @@ class PopulationSecondFloorSolver(
 
         cubeMotionService.applySequence(cubeExperiment, sequence)
 
-        var score : Int
+        var score = 0
 
         var numberOfEdgesSolved = (cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.BLUE) -1) + (cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.GREEN) -1) - cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.YELLOW)
 
+        if(cubeInformationService.getNumberOfPiecesOfAColorSolved(cubeExperiment, Color.WHITE) == 9)
         score = numberOfEdgesSolved*100
 
         if(score == maxScore)

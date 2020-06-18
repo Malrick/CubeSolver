@@ -3,20 +3,20 @@ package app.model.movement
 enum class Movement {
     WHITE,
     WHITE_REVERSE,
-    DOUBLE_WHITE,
+    WHITE_DOUBLE,
     ORANGE,
     ORANGE_REVERSE,
-    DOUBLE_ORANGE,
+    ORANGE_DOUBLE,
     GREEN,
     GREEN_REVERSE,
-    DOUBLE_GREEN,
+    GREEN_DOUBLE,
     RED,
     RED_REVERSE,
-    DOUBLE_RED,
+    RED_DOUBLE,
     YELLOW,
     YELLOW_REVERSE,
-    DOUBLE_YELLOW,
+    YELLOW_DOUBLE,
     BLUE,
     BLUE_REVERSE,
-    DOUBLE_BLUE
+    BLUE_DOUBLE
 }
