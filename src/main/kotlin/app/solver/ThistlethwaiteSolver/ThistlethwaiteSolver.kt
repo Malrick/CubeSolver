@@ -11,7 +11,6 @@ import app.service.cube.CubeMotionService
 import app.service.movement.MovementService
 import app.solver.Solver
 import app.utils.algorithms.graphTraversal.BFS
-import app.utils.algorithms.graphTraversal.IDDFS
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.slf4j.LoggerFactory
@@ -23,7 +22,7 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
     private val cubeMotionService : CubeMotionService by inject()
     private val movementService : MovementService by inject()
 
-    private val iddfs : IDDFS by inject()
+    private val bfs : BFS by inject()
 
     private val logger = LoggerFactory.getLogger(ThistlethwaiteSolver::class.java)
 
@@ -55,34 +54,34 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
     var allEdgeToTheirSlice : (Cube) -> Boolean = { Cube -> allMEdgesInMSlice(Cube) && allEEdgesInESlice(Cube) && allSEdgesInSSlice(Cube) && cornersInOrbits(Cube)}
 
     var trackedPositionsM : (Cube) -> Set<Position> = { Cube -> cubeInformationService.getPositionsOfEdges(Cube, setOf(Pair(Cube.orientation.colorPositions[RelativePosition.TOP]!!, Cube.orientation.colorPositions[RelativePosition.FRONT]!!),
-        Pair(Cube.orientation.colorPositions[RelativePosition.FRONT]!!,Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!),
-        Pair(Cube.orientation.colorPositions[RelativePosition.BACK]!!,Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!),
-        Pair(Cube.orientation.colorPositions[RelativePosition.BACK]!!,Cube.orientation.colorPositions[RelativePosition.TOP]!!)))}
+                                                                                                                       Pair(Cube.orientation.colorPositions[RelativePosition.FRONT]!!,Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!),
+                                                                                                                       Pair(Cube.orientation.colorPositions[RelativePosition.BACK]!!,Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!),
+                                                                                                                       Pair(Cube.orientation.colorPositions[RelativePosition.BACK]!!,Cube.orientation.colorPositions[RelativePosition.TOP]!!)))}
 
     var trackedPositionsE : (Cube) -> Set<Position> = { Cube -> cubeInformationService.getPositionsOfEdges(Cube, setOf(Pair(Cube.orientation.colorPositions[RelativePosition.FRONT]!!, Cube.orientation.colorPositions[RelativePosition.LEFT]!!),
-        Pair(Cube.orientation.colorPositions[RelativePosition.FRONT]!!,Cube.orientation.colorPositions[RelativePosition.RIGHT]!!),
-        Pair(Cube.orientation.colorPositions[RelativePosition.BACK]!!,Cube.orientation.colorPositions[RelativePosition.LEFT]!!),
-        Pair(Cube.orientation.colorPositions[RelativePosition.BACK]!!,Cube.orientation.colorPositions[RelativePosition.RIGHT]!!)))}
+                                                                                                                       Pair(Cube.orientation.colorPositions[RelativePosition.FRONT]!!,Cube.orientation.colorPositions[RelativePosition.RIGHT]!!),
+                                                                                                                       Pair(Cube.orientation.colorPositions[RelativePosition.BACK]!!,Cube.orientation.colorPositions[RelativePosition.LEFT]!!),
+                                                                                                                       Pair(Cube.orientation.colorPositions[RelativePosition.BACK]!!,Cube.orientation.colorPositions[RelativePosition.RIGHT]!!)))}
 
     var trackedPositionsS : (Cube) -> Set<Position> = { Cube -> cubeInformationService.getPositionsOfEdges(Cube, setOf(Pair(Cube.orientation.colorPositions[RelativePosition.TOP]!!, Cube.orientation.colorPositions[RelativePosition.LEFT]!!),
-        Pair(Cube.orientation.colorPositions[RelativePosition.TOP]!!,Cube.orientation.colorPositions[RelativePosition.RIGHT]!!),
-        Pair(Cube.orientation.colorPositions[RelativePosition.LEFT]!!,Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!),
-        Pair(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!,Cube.orientation.colorPositions[RelativePosition.RIGHT]!!)))}
+                                                                                                                       Pair(Cube.orientation.colorPositions[RelativePosition.TOP]!!,Cube.orientation.colorPositions[RelativePosition.RIGHT]!!),
+                                                                                                                       Pair(Cube.orientation.colorPositions[RelativePosition.LEFT]!!,Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!),
+                                                                                                                       Pair(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!,Cube.orientation.colorPositions[RelativePosition.RIGHT]!!)))}
 
-    var allMEdgesInMSlice : (Cube) -> Boolean = {Cube -> trackedPositionsM(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.TOP]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.FRONT]!!)}
-            && trackedPositionsM(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.FRONT]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) }
-            && trackedPositionsM(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BACK]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) }
-            && trackedPositionsM(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BACK]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.TOP]!!) }}
+    var allMEdgesInMSlice : (Cube) -> Boolean = {Cube -> trackedPositionsM(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.TOP]!!)    && it.possessColor(Cube.orientation.colorPositions[RelativePosition.FRONT]!!)}
+                                                      && trackedPositionsM(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.FRONT]!!)  && it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) }
+                                                      && trackedPositionsM(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BACK]!!)   && it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) }
+                                                      && trackedPositionsM(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BACK]!!)   && it.possessColor(Cube.orientation.colorPositions[RelativePosition.TOP]!!) }}
 
-    var allEEdgesInESlice : (Cube) -> Boolean = {Cube -> trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.FRONT]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.LEFT]!!)}
-            && trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.FRONT]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.RIGHT]!!) }
-            && trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BACK]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.LEFT]!!) }
-            && trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BACK]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.RIGHT]!!) }}
+    var allEEdgesInESlice : (Cube) -> Boolean = {Cube -> trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.FRONT]!!)  && it.possessColor(Cube.orientation.colorPositions[RelativePosition.LEFT]!!)}
+                                                      && trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.FRONT]!!)  && it.possessColor(Cube.orientation.colorPositions[RelativePosition.RIGHT]!!) }
+                                                      && trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BACK]!!)   && it.possessColor(Cube.orientation.colorPositions[RelativePosition.LEFT]!!) }
+                                                      && trackedPositionsE(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BACK]!!)   && it.possessColor(Cube.orientation.colorPositions[RelativePosition.RIGHT]!!) }}
 
-    var allSEdgesInSSlice : (Cube) -> Boolean = {Cube -> trackedPositionsS(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.TOP]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.LEFT]!!)}
-            && trackedPositionsS(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.TOP]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.RIGHT]!!) }
-            && trackedPositionsS(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.LEFT]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) }
-            && trackedPositionsS(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.RIGHT]!!) }}
+    var allSEdgesInSSlice : (Cube) -> Boolean = {Cube -> trackedPositionsS(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.TOP]!!)    && it.possessColor(Cube.orientation.colorPositions[RelativePosition.LEFT]!!)}
+                                                      && trackedPositionsS(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.TOP]!!)    && it.possessColor(Cube.orientation.colorPositions[RelativePosition.RIGHT]!!) }
+                                                      && trackedPositionsS(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.LEFT]!!)   && it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) }
+                                                      && trackedPositionsS(Cube).any { it.possessColor(Cube.orientation.colorPositions[RelativePosition.BOTTOM]!!) && it.possessColor(Cube.orientation.colorPositions[RelativePosition.RIGHT]!!) }}
 
     // Studied set
     private lateinit var listOfMovements : Array<Array<Movement>>
@@ -100,10 +99,9 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
             {
                 1-> stepOne(clone)
                 2-> stepTwo(clone)
-                3-> stepThree(clone)
-                4-> stepFour(clone)
-                5-> stepFive(clone)
-                6-> stepSix(clone)
+                4-> stepThree(clone)
+                5-> stepFour(clone)
+                6-> stepFive(clone)
                 else -> throw Exception()
             }
 
@@ -119,7 +117,7 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
 
     fun stepOne(cube : Cube) : Array<Movement>
     {
-        listOfMovements = Movement.values().map { arrayOf(it) }.toTypedArray()
+        listOfMovements = G1
 
         return findSolution(wellOrientedEdges, cube)
     }
@@ -128,22 +126,13 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
     {
         listOfMovements = G2(cube)
 
-        var goal : (Cube) -> Boolean = {Cube -> wellOrientedCorners(Cube)}
+        var goal : (Cube) -> Boolean = {Cube -> allMEdgesInMSlice(Cube) && wellOrientedCorners(Cube)}
 
         return findSolution(goal, cube)
 
     }
 
     fun stepThree(cube : Cube) : Array<Movement>
-    {
-        listOfMovements = G2(cube)
-
-        var goal : (Cube) -> Boolean = {Cube -> allMEdgesInMSlice(Cube) && wellOrientedCorners(Cube)}
-
-        return findSolution(goal, cube)
-    }
-
-    fun stepFour(cube : Cube) : Array<Movement>
     {
         listOfMovements  = G3(cube)
 
@@ -153,7 +142,7 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
 
     }
 
-    fun stepFive(cube : Cube) : Array<Movement>
+    fun stepFour(cube : Cube) : Array<Movement>
     {
         listOfMovements  = G3(cube)
 
@@ -163,7 +152,7 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
 
     }
 
-    fun stepSix(cube : Cube) : Array<Movement>
+    fun stepFive(cube : Cube) : Array<Movement>
     {
         listOfMovements = G4
 
@@ -181,7 +170,7 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
 
     fun findSolution(finishingCondition: (Cube) -> Boolean, cube: Cube): Array<Movement>
     {
-        iddfs.init(listOfMovements)
+        bfs.init(listOfMovements)
 
         var cubeExperiment = cube.clone()
 
@@ -191,7 +180,7 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
         {
             cubeExperiment = cube.clone()
 
-            sequence = iddfs.getElement()
+            sequence = bfs.getElement()
 
             cubeMotionService.applySequence(cubeExperiment, sequence)
         }

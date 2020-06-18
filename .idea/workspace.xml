@@ -5,151 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbc808f7-620a-4633-9f15-3ab5c8ef4675" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/app/utils/algorithms/graphTraversal/BFS.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000001b800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000001f000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000002p800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000004t000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000008p800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000008pg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000009j000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000fbo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000fk000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000hd800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000i3g00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000kv800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000la800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000ln800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000mag00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000pg800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000q4800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000000vs800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000012r800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000014go00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000018pg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000019b800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000001ae000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000001bmg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000001co800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000001dvo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000001ejg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000001gug00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000001iig00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000001qn000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000024a000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000027oo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000027p800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000028b800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000002ebo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000002ft800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000002hko00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000002hr000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/00000356000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000003dlg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000003h2800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000003kc000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000003kj800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000003kjg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000003re800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000003rjo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000003rv000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000003s4000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000044qo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/00000463800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000049o000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000004br000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000004c4800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000004c4o00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000004cc000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/0000058ro00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005av000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005c2g00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005dk000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005eco00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005f1000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005fd800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005h7o00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005hao00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005hj800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005hk800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005ju000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005mq000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005mr000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005msg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005n9o00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005nhg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005nu000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005pj800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005pr000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005pt800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005ptg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005q7800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qao00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qb800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qdo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qe000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qf000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qf800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qh800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qho00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qjo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qk000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qk800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qkg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qko00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005ql000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qlo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qm000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qm800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qmg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qmo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qn000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qn800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qng00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qno00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qo000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qo800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qog00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qoo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qp000.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qp800.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qpg00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/000005qpo00.xd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/data/xd.lck" beforeDir="false" afterPath="$PROJECT_DIR$/db/data/xd.lck" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp0.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp10.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp10.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp11.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp11.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp5.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp8.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/temp9.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/temp9.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/waste.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/waste.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$displayModule$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$displayModule$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$serviceModule$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1$7.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$utilsModule$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$visionModule$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/KoinModuleKt$visionModule$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/Launcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/Launcher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/LauncherKt$main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/LauncherKt$main$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/LauncherKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/LauncherKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/movement/Movement.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/movement/Movement.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/model/movement/RelativeMovement.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/model/movement/RelativeMovement.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeInformationService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService$applyMovement$$inlined$sortedBy$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/cube/CubeMotionService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/movement/MovementService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/movement/MovementService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotColorService$$special$$inlined$inject$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotColorService$$special$$inlined$inject$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotColorService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/service/robot/RobotColorService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/KorfSolver/KorfSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/KorfSolver/KorfSolver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$$special$$inlined$inject$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$$special$$inlined$inject$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$AllEdgeToTheirSlice$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$AllEdgeToTheirSlice$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$G2$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$G2$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$G3$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$G3$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$WellOrientedCorners$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$WellOrientedCorners$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$allEEdgesInESlice$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$allEEdgesInESlice$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$allMEdgesInMSlice$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$allMEdgesInMSlice$1.class" afterDir="false" />
@@ -157,44 +23,20 @@
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$cornersInOrbits$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$cornersInOrbits$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepFive$goal$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepFive$goal$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepFour$goal$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepFour$goal$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepSix$goal$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepSix$goal$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepSix$goal$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepThree$goal$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepThree$goal$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepTwo$goal$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$stepTwo$goal$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$toCheck$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$trackedPositionsE$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$trackedPositionsE$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$trackedPositionsM$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$trackedPositionsM$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$trackedPositionsS$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$trackedPositionsS$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$wellOrientedEdges$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver$wellOrientedEdges$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforcePLLSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/bruteforceSolver/BruteforcePLLSolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationCrossSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationCrossSolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationSecondFloorSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationSecondFloorSolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/solver/populationSolver/PopulationSolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/AlgorithmUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/algorithms/BFS.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/algorithms/KNN.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/indexing/LehmerRanker$$special$$inlined$inject$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/indexing/LehmerRanker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/utils/indexing/LehmerRanker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/types/TypeUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/algorithms/graphTraversal/IDDFS$pruning$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/app/utils/algorithms/graphTraversal/IDDFS.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/app/utils/algorithms/graphTraversal/IDDFS.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/KoinModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/KoinModule.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/Launcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/Launcher.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/Movement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/Movement.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/RelativeMovement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/model/movement/RelativeMovement.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeInformationService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeInformationService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeMotionService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/cube/CubeMotionService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/movement/MovementService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/movement/MovementService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotColorService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/service/robot/RobotColorService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/KorfSolver/KorfSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/KorfSolver/KorfSolver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/ThistlethwaiteSolver/ThistlethwaiteSolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/bruteforceSolver/BruteforcePLLSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/bruteforceSolver/BruteforcePLLSolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationCrossSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationCrossSolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationSecondFloorSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationSecondFloorSolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationSolver.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/solver/populationSolver/PopulationSolver.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/utils/AlgorithmUtils.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/utils/algorithms/BFS.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/utils/algorithms/KNN.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/utils/algorithms/clustering/KNN.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/utils/indexing/LehmerRanker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/utils/indexing/LehmerRanker.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/utils/types/TypeUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/app/utils/algorithms/graphTraversal/IDDFS.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/app/utils/algorithms/graphTraversal/IDDFS.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -522,13 +364,8 @@
           <option name="timeStamp" value="311" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/app/Launcher.kt</url>
-          <line>81</line>
-          <option name="timeStamp" value="313" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/app/utils/algorithms/graphTraversal/IDDFS.kt</url>
-          <line>32</line>
+          <line>8</line>
           <option name="timeStamp" value="316" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">

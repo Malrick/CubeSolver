@@ -56,5 +56,4 @@ val utilsModule = module {
     single { CsvUtils() }
     single { KNN() }
     single { BFS() }
-    single { IDDFS() }
 }

@@ -68,20 +68,6 @@ class Launcher : KoinComponent {
 
     fun launch() {
 
-        /*
-        var a = BFS()
-        var b = IDDFS()
-
-        a.init(Movement.values().map { arrayOf(it) }.toTypedArray())
-        b.init(Movement.values().map { arrayOf(it) }.toTypedArray())
-
-        for(i in 0..500)
-        {
-            var c = a.getElement()
-            var d = b.getElement()
-            print("")
-        }*/
-
         //KorfSolver().populateDatabase()
 
         val myOrientation = orientationService.getOrientation(Pair(RelativePosition.TOP, Color.WHITE), Pair(
@@ -112,7 +98,7 @@ class Launcher : KoinComponent {
             //PopulationGroupSolver(100000, 0.001f, 7, true)
             /*PopulationCrossSolver(500, 0.01f, 7, true),
             PopulationCornerSolver(100, 0.1f, 4, true),
-            PopulationSecondFloorSolver(100, 0.1f, 4, true),
+            PopulationSecondFloorSolver(100, 0.1f, 4, tr
             BruteforceOLLSolver(cube),
             BruteforcePLLSolver(cube)*/
         )
