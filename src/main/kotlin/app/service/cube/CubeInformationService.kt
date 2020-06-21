@@ -156,7 +156,11 @@ class CubeInformationService : KoinComponent{
         // Checking
         for(color in Color.values())
         {
-            if(colorCounters[color]!=9) return false
+            if(colorCounters[color]!=9)
+            {
+                println("Wrong number of colors")
+                return false
+            }
         }
 
         var positionsColorSets = mutableSetOf(setOf<Color>())
@@ -168,11 +172,23 @@ class CubeInformationService : KoinComponent{
             piecesColorSets.add(piece.getColors())
         }
 
-        if(positionsColorSets != piecesColorSets) return false
+        if(positionsColorSets != piecesColorSets)
+        {
+            println("not every piece exist")
+            return false
+        }
 
-        if(getCornerOrientations(cube).values.sum()%3 != 0) return false
+        if(getCornerOrientations(cube).values.sum()%3 != 0)
+        {
+            println("Corner orientation is wrong")
+            return false
+        }
 
-        if(getEdgeOrientations(cube).values.sum()%2!=0) return false
+        if(getEdgeOrientations(cube).values.sum()%2!=0)
+        {
+            println("Edge orientation is wrong")
+            return false
+        }
 
         return true
     }

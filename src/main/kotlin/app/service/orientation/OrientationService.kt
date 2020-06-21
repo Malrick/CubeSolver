@@ -133,6 +133,39 @@ class OrientationService : KoinComponent {
         }
     }
 
+    fun turnCube(orientation : Orientation, direction: RelativePosition)
+    {
+        val temp = orientation.colorPositions[RelativePosition.FRONT]
+
+        when(direction)
+        {
+            RelativePosition.RIGHT -> {
+                orientation.colorPositions[RelativePosition.FRONT] = orientation.colorPositions[RelativePosition.LEFT]!!
+                orientation.colorPositions[RelativePosition.LEFT] = orientation.colorPositions[RelativePosition.BACK]!!
+                orientation.colorPositions[RelativePosition.BACK] = orientation.colorPositions[RelativePosition.RIGHT]!!
+                orientation.colorPositions[RelativePosition.RIGHT] = temp!!
+            }
+            RelativePosition.LEFT -> {
+                orientation.colorPositions[RelativePosition.FRONT] = orientation.colorPositions[RelativePosition.RIGHT]!!
+                orientation.colorPositions[RelativePosition.RIGHT] = orientation.colorPositions[RelativePosition.BACK]!!
+                orientation.colorPositions[RelativePosition.BACK] = orientation.colorPositions[RelativePosition.LEFT]!!
+                orientation.colorPositions[RelativePosition.LEFT] = temp!!
+            }
+            RelativePosition.TOP -> {
+                orientation.colorPositions[RelativePosition.FRONT] = orientation.colorPositions[RelativePosition.BOTTOM]!!
+                orientation.colorPositions[RelativePosition.BOTTOM] = orientation.colorPositions[RelativePosition.BACK]!!
+                orientation.colorPositions[RelativePosition.BACK] = orientation.colorPositions[RelativePosition.TOP]!!
+                orientation.colorPositions[RelativePosition.TOP] = temp!!
+            }
+            RelativePosition.BOTTOM -> {
+                orientation.colorPositions[RelativePosition.FRONT] = orientation.colorPositions[RelativePosition.TOP]!!
+                orientation.colorPositions[RelativePosition.TOP] = orientation.colorPositions[RelativePosition.BACK]!!
+                orientation.colorPositions[RelativePosition.BACK] = orientation.colorPositions[RelativePosition.BOTTOM]!!
+                orientation.colorPositions[RelativePosition.BOTTOM] = temp!!
+            }
+        }
+    }
+
     private fun adjacentColors(color : Color) : Set<Color>
     {
         return Color.values().filter { it != color && it != opposite(color) }.toSet()

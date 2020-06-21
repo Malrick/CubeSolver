@@ -93,17 +93,9 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
         var clone = cube.clone()
         var consoleUI = ConsoleUI()
 
-        for(i in 1..6)
+        for(i in 1..5)
         {
-            subSolution = when(i)
-            {
-                1-> stepOne(clone)
-                2-> stepTwo(clone)
-                4-> stepThree(clone)
-                5-> stepFour(clone)
-                6-> stepFive(clone)
-                else -> throw Exception()
-            }
+            subSolution = step(i, cube)
 
             println()
             logger.info("step $i solved !")
@@ -115,48 +107,25 @@ class ThistlethwaiteSolver : Solver, KoinComponent{
         return solution
     }
 
-    fun stepOne(cube : Cube) : Array<Movement>
+    fun step(i : Int, cube:Cube) : Array<Movement>
     {
-        listOfMovements = G1
+        listOfMovements = when(i)
+        {
+            1 -> G1
+            2 -> G2(cube)
+            3 -> G3(cube)
+            4 -> G3(cube)
+            else -> G4
+        }
 
-        return findSolution(wellOrientedEdges, cube)
-    }
-
-    fun stepTwo(cube : Cube) : Array<Movement>
-    {
-        listOfMovements = G2(cube)
-
-        var goal : (Cube) -> Boolean = {Cube -> allMEdgesInMSlice(Cube) && wellOrientedCorners(Cube)}
-
-        return findSolution(goal, cube)
-
-    }
-
-    fun stepThree(cube : Cube) : Array<Movement>
-    {
-        listOfMovements  = G3(cube)
-
-        var goal : (Cube) -> Boolean = {Cube -> allMEdgesInMSlice(Cube) && cornersInOrbits(Cube) &&  wellOrientedCorners(Cube)}
-
-        return findSolution(goal, cube)
-
-    }
-
-    fun stepFour(cube : Cube) : Array<Movement>
-    {
-        listOfMovements  = G3(cube)
-
-        var goal : (Cube) -> Boolean = {Cube -> cornersInOrbits(Cube) && allEdgeToTheirSlice(Cube)}
-
-        return findSolution(goal, cube)
-
-    }
-
-    fun stepFive(cube : Cube) : Array<Movement>
-    {
-        listOfMovements = G4
-
-        var goal : (Cube) -> Boolean = {Cube -> cubeInformationService.isSolved(Cube)}
+        var goal : (Cube) -> Boolean = when(i)
+        {
+            1 -> wellOrientedEdges
+            2 -> {Cube -> allMEdgesInMSlice(Cube) && wellOrientedCorners(Cube)}
+            3 -> {Cube -> allMEdgesInMSlice(Cube) && cornersInOrbits(Cube) &&  wellOrientedCorners(Cube)}
+            4 -> {Cube -> cornersInOrbits(Cube) && allEdgeToTheirSlice(Cube)}
+            else -> {Cube -> cubeInformationService.isSolved(Cube)}
+        }
 
         return findSolution(goal, cube)
     }

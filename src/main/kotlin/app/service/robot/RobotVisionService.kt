@@ -54,7 +54,7 @@ class RobotVisionService : KoinComponent {
         var squareSize = 70
         var squareSpacing = 65
 
-        var topLeftSquareCenterCoordinates = Scalar(180.0, 40.0)
+        var topLeftSquareCenterCoordinates = Scalar(175.0, 35.0)
 
         var squareCenters = arrayOf<Scalar>()
         var squareContours = arrayOf<MatOfPoint>()

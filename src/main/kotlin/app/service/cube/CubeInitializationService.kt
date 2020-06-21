@@ -1,5 +1,6 @@
 package app.service.cube
 
+import app.UI.ConsoleUI
 import app.UI.MatricesDisplay
 import app.model.cube.Cube
 import app.model.Color
@@ -17,7 +18,7 @@ import kotlin.collections.HashMap
 class CubeInitializationService : KoinComponent {
 
     private val cubeInformationService: CubeInformationService by inject()
-    private val robotSequenceService : RobotOtvintaService by inject()
+    private val robotService : RobotOtvintaService by inject()
     private val colorResolver : RobotColorService by inject()
     private val cubeMotionService : CubeMotionService by inject()
     private val matricesDisplay : MatricesDisplay by inject()
@@ -80,12 +81,16 @@ class CubeInitializationService : KoinComponent {
 
     fun initCubeWithRobot(cube : Cube)
     {
-        val showPictures = true
-        val saveColors = false
+        val showPictures = false
+        val saveColors = true
 
         var detectedColors = HashMap<Color, Array<Mat>>()
 
-        detectedColors = robotSequenceService.takePicturesAndGetColors()
+        robotService.welcome()
+
+        detectedColors = robotService.takePicturesAndGetColors()
+
+        robotService.release()
 
         var resolvedColors = colorResolver.resolve(detectedColors, ColorProcessing.ClosestDistance)
 
@@ -95,7 +100,10 @@ class CubeInitializationService : KoinComponent {
 
         if(saveColors) csvUtils.appendLabDataInCsvFile("colors", detectedColors)
 
-        if(!cubeInformationService.integrityCheck(cube)) throw Exception()
+        if(!cubeInformationService.integrityCheck(cube))
+        {
+            throw Exception()
+        }
 
     }
 

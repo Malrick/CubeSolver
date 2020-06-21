@@ -99,12 +99,17 @@ class MovementService : KoinComponent {
         return 0
     }
 
-    fun getOpposite(movement : Movement) : Movement
+    fun getOppositeMovement(movement : Movement) : Movement
     {
         var colorOfMovement = Color.values().first { movement.name.startsWith(it.name) }
         if(movement.name.endsWith("REVERSE")) return Movement.values().first{ it.name.startsWith(colorOfMovement.name) && !it.name.endsWith("REVERSE") && !it.name.endsWith("DOUBLE")}
         else if(movement.name.endsWith("DOUBLE")) return movement
         else return Movement.values().first{ it.name.startsWith(colorOfMovement.name) && it.name.endsWith("REVERSE")}
+    }
+
+    fun getOppositeSequence(sequence : Array<Movement>) : Array<Movement>
+    {
+        return sequence.map{getOppositeMovement(it)}.reversed().toTypedArray()
     }
 
 }

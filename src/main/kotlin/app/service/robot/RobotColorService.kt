@@ -125,7 +125,7 @@ class RobotColorService : KoinComponent {
 
     fun getBgrDominantColor(color : Mat) : Scalar
     {
-        return Knn.KnnClustering(color, 30)
+        return Knn.KnnClustering(color, 20)
     }
 
 }

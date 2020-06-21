@@ -6,6 +6,7 @@ import app.model.orientation.Orientation
 import app.model.movement.RelativePosition
 import app.model.robot.constants.ServoIdentity
 import app.model.robot.constants.ServoState
+import app.service.orientation.OrientationService
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.opencv.core.Mat
@@ -15,6 +16,7 @@ class RobotOtvintaService : RobotService, KoinComponent {
 
     private val robotMotionService : RobotMotionService by inject()
     private val robotVisionService : RobotVisionService by inject()
+    private val orientationService : OrientationService by inject()
 
     private lateinit var orientation : Orientation
 
@@ -65,6 +67,8 @@ class RobotOtvintaService : RobotService, KoinComponent {
     {
         robotMotionService.turnCube(RelativePosition.RIGHT)
         robotMotionService.turnCube(RelativePosition.RIGHT)
+        robotMotionService.turnCube(RelativePosition.TOP)
+        robotMotionService.turnCube(RelativePosition.TOP)
         robotVisionService.closeCam()
     }
 
@@ -141,6 +145,7 @@ class RobotOtvintaService : RobotService, KoinComponent {
         val colorOfMovement = Color.values().first { movement.name.startsWith(it.name) }
         var position = orientation.getPositionOfColor(colorOfMovement)
         val clockwise = !movement.name.endsWith("REVERSE")
+        var double = movement.name.endsWith("DOUBLE")
 
         if(orientation.getPositionOfColor(colorOfMovement).equals(RelativePosition.BACK) || orientation.getPositionOfColor(colorOfMovement).equals(
                 RelativePosition.FRONT))
@@ -157,7 +162,7 @@ class RobotOtvintaService : RobotService, KoinComponent {
             }
 
             robotMotionService.turnCube(rotationDirection)
-            orientation.turnCube(rotationDirection)
+            orientationService.turnCube(orientation, rotationDirection)
             position = orientation.getPositionOfColor(colorOfMovement)
         }
 
@@ -167,6 +172,16 @@ class RobotOtvintaService : RobotService, KoinComponent {
             RelativePosition.LEFT -> robotMotionService.turnHand(ServoIdentity.HAND_LEFT, clockwise)
             RelativePosition.BOTTOM -> robotMotionService.turnHand(ServoIdentity.HAND_BOTTOM, clockwise)
             RelativePosition.RIGHT -> robotMotionService.turnHand(ServoIdentity.HAND_RIGHT, clockwise)
+        }
+        if(double)
+        {
+            when(position)
+            {
+                RelativePosition.TOP -> robotMotionService.turnHand(ServoIdentity.HAND_TOP, clockwise)
+                RelativePosition.LEFT -> robotMotionService.turnHand(ServoIdentity.HAND_LEFT, clockwise)
+                RelativePosition.BOTTOM -> robotMotionService.turnHand(ServoIdentity.HAND_BOTTOM, clockwise)
+                RelativePosition.RIGHT -> robotMotionService.turnHand(ServoIdentity.HAND_RIGHT, clockwise)
+            }
         }
     }
 

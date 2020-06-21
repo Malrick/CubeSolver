@@ -7,16 +7,6 @@ import org.opencv.imgproc.Imgproc
 
 class ColorSpaceUtils : KoinComponent {
 
-    fun BgrToLab(colors : Array<Scalar>) : Array<Scalar>
-    {
-        var LabColors = arrayOf<Scalar>()
-        for(color in colors)
-        {
-            LabColors += scalarBGR2Lab(color)
-        }
-        return LabColors
-    }
-
     fun scalarsBGR2Lab(scalars : Array<Scalar>) : Array<Scalar>
     {
         var results = arrayOf<Scalar>()

@@ -8,26 +8,32 @@ class KNN {
 
     // Boite noire
     // TODO : blanchir
-    fun KnnClustering(cutout: Mat, k: Int): Scalar {
-        val samples = cutout.reshape(1, cutout.cols() * cutout.rows())
+    fun KnnClustering(matrice: Mat, k: Int): Scalar {
+
+        val criteria = TermCriteria(TermCriteria.COUNT, 100, 1.0)
+        val labels = Mat()
+        val centers = Mat()
+        val clusters= ArrayList<Mat>()
+        val counts: MutableMap<Int, Int> = HashMap()
+
+        val samples = matrice.reshape(1, matrice.cols() * matrice.rows())
         val samples32f = Mat()
         samples.convertTo(samples32f, CvType.CV_32F, 1.0 / 255.0)
-        val labels = Mat()
-        val criteria = TermCriteria(TermCriteria.COUNT, 100, 1.0)
-        val centers = Mat()
+
+
         Core.kmeans(samples32f, k, labels, criteria, 1, Core.KMEANS_PP_CENTERS, centers)
         centers.convertTo(centers, CvType.CV_8UC1, 255.0)
         centers.reshape(3)
 
-        val clusters= ArrayList<Mat>()
         for (i in 0 until centers.rows()) {
-            clusters.add(Mat.zeros(cutout.size(), cutout.type()))
+            clusters.add(Mat.zeros(matrice.size(), matrice.type()))
         }
-        val counts: MutableMap<Int, Int> = HashMap()
+
         for (i in 0 until centers.rows()) counts[i] = 0
+
         var rows = 0
-        for (y in 0 until cutout.rows()) {
-            for (x in 0 until cutout.cols()) {
+        for (y in 0 until matrice.rows()) {
+            for (x in 0 until matrice.cols()) {
                 val label = labels[rows, 0][0].toInt()
                 val r = centers[label, 2][0].toInt()
                 val g = centers[label, 1][0].toInt()

@@ -1,5 +1,6 @@
 package app.utils.algorithms.graphTraversal
 
+import app.model.cube.Cube
 import app.model.movement.Movement
 import app.service.movement.MovementService
 
@@ -18,6 +19,7 @@ class BFS {
     // Initialization of the population : BFS
     var currentPosition = arrayOf(0)
     // ,7,2,0,11,9,3,2
+
 
     fun init(listOfMovements : Array<Array<Movement>>)
     {

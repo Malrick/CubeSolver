@@ -2,6 +2,7 @@ package app.UI
 
 import app.model.cube.Cube
 import app.model.Color
+import app.model.movement.Movement
 import app.model.movement.RelativePosition
 import app.service.cube.CubeInformationService
 import com.github.ajalt.mordant.TermColors
@@ -93,6 +94,16 @@ class ConsoleUI : KoinComponent {
         displayEmptyLine()
         displayEmptyLine()
         //print("[" + booleanToString(cube.corners[6].isSolved()) + " - " + booleanToString(cube.edges[11].isSolved()) + " - " + booleanToString(cube.corners[7].isSolved()) + "]")
+        println()
+    }
+
+    fun displaySequence(sequence : Array<Movement>)
+    {
+        for(elem in sequence)
+        {
+            print(elem)
+            print(" ")
+        }
         println()
     }
 
