@@ -80,6 +80,7 @@ class BruteforceOLLSolver(cube: Cube) : BruteforceSolver(cube) {
                 listOfSequences = listOfSequences.plus(arrayOf(movementService.convertSequenceOfRelativeMovements(relativeSequence, orientation)))
             }
         }
+        listOfSequences += Movement.values().filter { it.name.startsWith("YELLOW") }.map { arrayOf(it) }
     }
 
     override fun isSolved(cube: Cube): Boolean {

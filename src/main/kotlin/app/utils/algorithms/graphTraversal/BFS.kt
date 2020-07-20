@@ -1,131 +1,57 @@
 package app.utils.algorithms.graphTraversal
 
+import app.UI.ConsoleUI
 import app.model.cube.Cube
 import app.model.movement.Movement
+import app.service.cube.CubeInformationService
+import app.service.cube.CubeInitializationService
+import app.service.cube.CubeMotionService
 import app.service.movement.MovementService
 
-class BFS {
+data class Node(var movements : Array<Movement>, var parent: Node?);
 
-    val movementService = MovementService()
-
-    var counter = 0
-
-    var wasteCounter = 0
+class newBFS {
 
     var listOfMovements = arrayOf<Array<Movement>>()
 
-    var pruning: () -> Int = {movementService.getSecondNonOptimalIndex(compose())}
+    var position = listOf<Movement>()
 
-    // Initialization of the population : BFS
-    var currentPosition = arrayOf(0)
-    // ,7,2,0,11,9,3,2
-
-
-    fun init(listOfMovements : Array<Array<Movement>>)
+    //
+    fun search(cube : Cube, goal : (Cube)-> Boolean)
     {
-        this.listOfMovements = listOfMovements
-        currentPosition = arrayOf(0)
-    }
+        var flag = false
+        val queue = mutableListOf<Node>()
+        queue.add(Node(arrayOf(), null))
+        listOfMovements = Movement.values().map { arrayOf(it) }.toTypedArray()
+        var i : Short = 0
+        val cubeMotionService = CubeMotionService()
+        val movementService = MovementService()
+        var current : Node
+        while(!flag) {
+             current = queue.removeAt(0)
 
-    fun getElements(numberOfElements : Int) : Array<Array<Movement>>
-    {
-        var toReturn = arrayOf<Array<Movement>>()
-        for(i in 0 until numberOfElements)
-        {
-            toReturn += getElement()
-        }
-        return toReturn
-    }
-
-    fun compose(): Array<Movement> {
-        var toReturn = arrayOf<Movement>()
-        for (position: Int in currentPosition) {
-            try {
-                var toAdd = listOfMovements.elementAt(position)
-                toReturn += toAdd
-            }
-            catch (e : Exception)
+            /*if(!current.movements.isEmpty())
             {
-                print("bonjour")
-            }
-        }
-        return toReturn
-    }
+                var moves = current.movements
+                cubeMotionService.applySequence(cube, moves)
 
-    fun getElement() : Array<Movement>
-    {
-        //add an element at coordinates [currentDepth, currentBreath]
-        var toReturn = arrayOf<Movement>()
-
-        toReturn = compose()
-
-        while(!movementService.isOptimalSequence(toReturn))
-        {
-            toReturn = arrayOf()
-            counter++
-            wasteCounter++
-            iterate()
-            for (position: Int in currentPosition) {
-                var toAdd = listOfMovements.elementAt(position)
-                toReturn += toAdd
-            }
-        }
-
-        iterate()
-
-        counter++
-
-        return toReturn
-    }
-
-    fun iterate()
-    {
-
-        // TODO simplifier
-
-        do{
-            var breadth = currentPosition.size - 1
-
-            if(pruning()!=0 && listOfMovements.all { it.size==1 })
-            {
-                currentPosition[movementService.getSecondNonOptimalIndex(compose())]++
-            }
-            else
-            {
-                currentPosition[breadth]++
-            }
-
-            // If we are arrived to the last element
-            if (currentPosition.any { it >=  listOfMovements.size}) {
-                breadth = currentPosition.indexOfFirst { it >=  listOfMovements.size }
-                // We get back to the first one
-                currentPosition[breadth] = 0
-                // And we add an element if it was the first time
-                if (breadth == 0) {
-                    currentPosition += 0
+                if(goal(cube))
+                {
+                    flag = true
+                    ConsoleUI().displayCube(cube)
                 }
-                // If it was not the first time
-                if (breadth > 0) {
-                    // The position of the element before is increased
-                    currentPosition[breadth - 1]++
-                    // Using breadth as a counter
-                    while (breadth >= 0) {
-                        // If the position of the considered breadth is the end
-                        if (currentPosition[breadth] == listOfMovements.size) {
-                            // We get it back to zero
-                            currentPosition[breadth] = 0
-                            // if there's some stuff to the left, -1
-                            if (breadth > 0) {
-                                currentPosition[breadth - 1]++
-                            } else {
-                                // If not, add an element
-                                currentPosition += 0
-                            }
-                        }
-                        breadth--
-                    }
-                }
+
+                cubeMotionService.applySequence(cube, movementService.getOpposite(moves))
+            }*/
+
+            i++
+
+            listOfMovements.forEach {
+                queue.add(Node(current.movements + it, current))
             }
-        } while(pruning()!=0)
+        }
+
     }
+
+
 }
