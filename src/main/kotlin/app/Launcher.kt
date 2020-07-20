@@ -4,25 +4,23 @@ import app.UI.ConsoleUI
 import app.model.Color
 import app.model.cube.Cube
 import app.model.movement.Movement
-import app.model.movement.RelativePosition
-import app.service.cube.CubeInformationService
+import app.model.orientation.RelativePosition
 import app.service.cube.CubeInitializationService
 import app.service.cube.CubeMotionService
-import app.service.movement.MovementService
 import app.service.orientation.OrientationService
 import app.service.robot.RobotOtvintaService
-import app.solver.bruteforceSolver.BruteforcePLLSolver
+import app.solver.exhaustiveSolver.ExhaustiveOLLSolver
+import app.solver.exhaustiveSolver.ExhaustivePLLSolver
 import app.solver.populationSolver.PopulationCornerSolver
 import app.solver.populationSolver.PopulationCrossSolver
-import app.solver.Solver
-import app.solver.bruteforceSolver.BruteforceOLLSolver
 import app.solver.populationSolver.PopulationSecondFloorSolver
+import app.solver.Solver
+import app.solver.ThistlethwaiteSolver.ThistlethwaiteSolver
 import org.koin.core.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.core.inject
 import org.opencv.core.Core
 import org.slf4j.LoggerFactory
-
 
 fun main()
 {
@@ -33,20 +31,6 @@ fun main()
 
 class Launcher : KoinComponent {
 
-    //TODO Nettoyage / responsabilités
-    //TODO Exceptions
-    //TODO Multithreading
-    //TODO Refacto motion
-
-    //TODO debug population solver
-
-    //TODO RL
-    //TODO Kociemba
-    //TODO korf
-    //TODO Genetic alg
-
-    //TODO integrity check
-
     private val cubeInitializationService : CubeInitializationService by inject()
     private val cubeMotionService : CubeMotionService by inject()
     private val consoleUI : ConsoleUI by inject()
@@ -55,65 +39,66 @@ class Launcher : KoinComponent {
     private val logger = LoggerFactory.getLogger(Launcher::class.java)
 
     val useRobot = false
-    val displayCube = true
-    val displaySolutions = true
-
+    val displayCube = false
+    val displaySolutions = false
 
     fun launch() {
 
-        //KorfSolver().populateDatabase()
-
-        val myOrientation = orientationService.getOrientation(Pair(RelativePosition.TOP, Color.BLUE), Pair(
-            RelativePosition.FRONT, Color.YELLOW))
-
-        val movementService = MovementService()
+        val myOrientation = orientationService.getOrientation(Pair(RelativePosition.TOP, Color.WHITE), Pair(
+            RelativePosition.FRONT, Color.GREEN))
 
         var cube = Cube(3, myOrientation)
 
         if(useRobot) robotService.init(myOrientation)
 
-        //cubeInitializationService.initCubeByKeyboard(cube)
-        cubeInitializationService.initCubeWithRobot(cube)
-        //cubeInitializationService.initSolvedCube(cube)
-        //cubeInitializationService.initScrambledCube(cube, 20)
-
-        if(displayCube) consoleUI.displayCube(cube)
-
-        /*var newBFS = newBFS()
-
-        newBFS.search(cube) { Cube -> cubeInformationService.isSolved(cube)}*/
-
-        var solution : Array<Movement>
-        var totalSolution = arrayOf<Movement>()
-
-        var solvers = arrayOf<Solver>(
-            //ThistlethwaiteSolver()
-            //PopulationGroupSolver(100000, 0.001f, 7, true)
-            PopulationCrossSolver(500, 0.01f, 7, true),
-            PopulationCornerSolver(100, 0.1f, 4, true),
-            PopulationSecondFloorSolver(100, 0.1f, 4, true),
-            BruteforceOLLSolver(cube),
-            BruteforcePLLSolver(cube)
-        )
-
-        for(solver in solvers)
+        for(i in 0..3)
         {
-            logger.info("Using " + solver.toString() + " on cube " + cube.toString())
+            //cubeInitializationService.initCubeByKeyboard(cube)
+            //cubeInitializationService.initCubeWithRobot(cube)
+            //cubeInitializationService.initSolvedCube(cube)
+            cubeInitializationService.initScrambledCube(cube, 500, false)
 
-            solution = solver.solve(cube)!!
+            if (displayCube) consoleUI.displayCube(cube)
 
-            cubeMotionService.applySequence(cube, solution)
+            var solution: Array<Movement>
+            var totalSolution = arrayOf<Movement>()
 
-            totalSolution = totalSolution.plus(solution)
+            var solvers = arrayOf<Solver>(
+                //ThistlethwaiteSolver()
+                PopulationCrossSolver(10000, 0.001f, 9, true),
+                PopulationCornerSolver(10000, 0.001f, 9, true),
+                PopulationSecondFloorSolver(10000, 0.001f, 9, true),
+                ExhaustiveOLLSolver(cube),
+                ExhaustivePLLSolver(cube)
+            )
 
-            if(displaySolutions) consoleUI.displaySequence(solution)
+            for (solver in solvers) {
+                logger.info("Using " + solver.toString() + " on cube " + cube.toString())
 
-            if(displayCube) consoleUI.displayCube(cube)
+                try {
+                    solution = solver.solve(cube)!!
+
+                    cubeMotionService.applySequence(cube, solution)
+
+                    totalSolution = totalSolution.plus(solution)
+
+                    if (displaySolutions) consoleUI.displaySequence(solution)
+
+                    if (displayCube) consoleUI.displayCube(cube)
+                }
+                catch (e : Exception)
+                {
+                    println(solver)
+                    consoleUI.displayCube(cube)
+                }
+            }
+
+            logger.info("Total length of solution : " + totalSolution.size)
+
+            if(useRobot) robotService.applySequence(totalSolution)
+
         }
 
-        logger.info("Total length of solution : " + totalSolution.size)
-
-        if(useRobot) robotService.applySequence(totalSolution)
-
     }
+
 }

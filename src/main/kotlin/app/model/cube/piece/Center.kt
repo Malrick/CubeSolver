@@ -2,7 +2,10 @@ package app.model.cube.piece
 
 import app.model.Color
 
+
 class Center(var colorOne : Color) : Piece() {
+
+    override var identity = getColors().joinToString { it.name }
 
     override fun getColorAtPosition(positionOfColor: Int) : Color? {
         return when (positionOfColor) {

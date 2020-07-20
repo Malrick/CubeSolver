@@ -8,6 +8,8 @@ import java.lang.UnsupportedOperationException
 
 class CenterPosition(override var cubeCoordinates: CubeCoordinates, var colorOne : Color) : Position()
 {
+    override var identity = getColors().joinToString { it.name }
+
     override fun matches(piece : Piece) : Boolean
     {
         if(piece !is Center) throw UnsupportedOperationException()

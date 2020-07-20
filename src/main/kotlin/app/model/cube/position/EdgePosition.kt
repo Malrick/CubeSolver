@@ -8,10 +8,12 @@ import java.lang.UnsupportedOperationException
 
 class EdgePosition(override var cubeCoordinates: CubeCoordinates, var colorOne : Color, var colorTwo : Color) : Position()
 {
+    override var identity = getColors().sorted().joinToString { it.name }
+
     override fun matches(piece : Piece) : Boolean
     {
-        if(piece !is Edge) throw UnsupportedOperationException()
-        else return (piece.colorOne == colorOne && piece.colorTwo == colorTwo)
+        if(piece is Edge) return (piece.colorOne == colorOne && piece.colorTwo == colorTwo)
+        else throw UnsupportedOperationException()
     }
 
     override fun possessColor(color: Color): Boolean {

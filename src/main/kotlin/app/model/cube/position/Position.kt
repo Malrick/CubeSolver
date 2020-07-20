@@ -6,6 +6,8 @@ import app.model.cube.piece.Piece
 
 abstract class Position {
 
+    abstract var identity : String
+
     abstract var cubeCoordinates : CubeCoordinates
 
     abstract fun possessColor(color : Color) : Boolean

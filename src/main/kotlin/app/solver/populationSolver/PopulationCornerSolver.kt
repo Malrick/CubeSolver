@@ -1,8 +1,13 @@
 package app.solver.populationSolver
 
+import app.RELATIVE_CORNER_INSERTION_1
+import app.RELATIVE_CORNER_INSERTION_2
+import app.RELATIVE_CORNER_INSERTION_3
+import app.RELATIVE_CORNER_INSERTION_4
 import app.model.Color
 import app.model.cube.Cube
 import app.model.movement.*
+import app.model.orientation.RelativePosition
 import app.service.orientation.OrientationService
 
 class PopulationCornerSolver(
@@ -33,21 +38,22 @@ class PopulationCornerSolver(
 
         listOfMovements = listOfMovements.plus(arrayOf(arrayOf(Movement.YELLOW)))
         listOfMovements = listOfMovements.plus(arrayOf(arrayOf(Movement.YELLOW_REVERSE)))
+        listOfMovements = listOfMovements.plus(arrayOf(arrayOf(Movement.YELLOW_DOUBLE)))
     }
 
-    override fun gradeSequence(cube: Cube, sequence: Array<Movement>): Int {
+    override fun gradeSequence(cube: Cube, studiedSequence: Array<Movement>): Int {
 
-        var cubeExperiment = cube.clone()
-
-        cubeMotionService.applySequence(cubeExperiment, sequence)
+        cubeMotionService.applySequence(cubeExperimental, studiedSequence)
 
         var score : Int
 
-        score = cubeInformationService.getNumberOfCornersSolvedBySide(cubeExperiment, Color.WHITE) * 100
+        score = cubeInformationService.getNumberOfCornersSolvedBySide(cubeExperimental, Color.WHITE) * 100
 
-        if(cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.WHITE) != 4) score = 0
+        if(cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperimental, Color.WHITE) != 4) score = 0
 
         if(score == 400) solved = true
+
+        cubeMotionService.applySequence(cubeExperimental, movementService.getOppositeSequence(studiedSequence))
 
         return score
     }

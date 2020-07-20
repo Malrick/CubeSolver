@@ -3,12 +3,13 @@ package app.service.movement
 import app.model.Color
 import app.model.movement.Movement
 import app.model.movement.RelativeMovement
-import app.model.movement.RelativePosition
+import app.model.orientation.RelativePosition
 import app.model.orientation.Orientation
 import org.koin.core.KoinComponent
 
 class MovementService : KoinComponent {
 
+    // Convert a sequence of relative movements to a sequence of absolute movements
     fun convertSequenceOfRelativeMovements(relativeSequence : Array<RelativeMovement>, orientation : Orientation) : Array<Movement>
     {
         var toReturn = arrayOf<Movement>()
@@ -31,7 +32,8 @@ class MovementService : KoinComponent {
         return toReturn
     }
 
-    // TODO doubles demi-tours
+    // Convert a sequence of movements to an optimal sequence of movements
+    // TODO doubles 180°
     fun convertToOptimalSequence(sequence : Array<Movement>) : Array<Movement>
     {
         var toTreat = sequence
@@ -65,6 +67,7 @@ class MovementService : KoinComponent {
         return treatedValues
     }
 
+    // Return false if the sequence of movements can be shortened (pruned)
     fun isOptimalSequence(sequence : Array<Movement>) : Boolean
     {
         for(i in sequence.indices)
@@ -82,6 +85,7 @@ class MovementService : KoinComponent {
         return true
     }
 
+    // Used to do some pruning on the sequencer
     fun getSecondNonOptimalIndex(sequence: Array<Movement>) : Int
     {
         for(i in sequence.indices)
@@ -99,6 +103,32 @@ class MovementService : KoinComponent {
         return 0
     }
 
+    // Used for the pruning on BFS / IDDFS
+    fun getNextOptimalMovements(
+        listOfMovements: Array<Array<Movement>>,
+        movement: Movement?
+    ) : Array<Array<Movement>>
+    {
+        if(movement == null) return listOfMovements
+
+        var movements : Array<Array<Movement>>
+        var colorOfMovement = Color.values().first { movement.name.startsWith(it.name) }!!
+
+        movements = listOfMovements.filterNot { it.first().name.startsWith(colorOfMovement.name) }.toTypedArray()
+        if(colorOfMovement == Color.RED || colorOfMovement == Color.YELLOW || colorOfMovement == Color.BLUE)
+        {
+            movements = movements.filterNot { it.first().name.startsWith(oppositeColor(colorOfMovement).name) }.toTypedArray()
+        }
+        return movements
+    }
+
+    // Get the reversed sequence of movements.
+    fun getOppositeSequence(sequence : Array<Movement>) : Array<Movement>
+    {
+        return sequence.map{getOppositeMovement(it)}.reversed().toTypedArray()
+    }
+
+    // Get the opposite of a movement
     fun getOppositeMovement(movement : Movement) : Movement
     {
         var colorOfMovement = Color.values().first { movement.name.startsWith(it.name) }
@@ -107,9 +137,18 @@ class MovementService : KoinComponent {
         else return Movement.values().first{ it.name.startsWith(colorOfMovement.name) && it.name.endsWith("REVERSE")}
     }
 
-    fun getOppositeSequence(sequence : Array<Movement>) : Array<Movement>
+    // Get the opposite of a color (only used for the above)
+    private fun oppositeColor(color: Color) : Color
     {
-        return sequence.map{getOppositeMovement(it)}.reversed().toTypedArray()
+        return when(color)
+        {
+            Color.WHITE -> Color.YELLOW
+            Color.ORANGE -> Color.RED
+            Color.GREEN -> Color.BLUE
+            Color.RED -> Color.ORANGE
+            Color.YELLOW -> Color.WHITE
+            Color.BLUE -> Color.GREEN
+        }
     }
 
 }

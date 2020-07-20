@@ -1,5 +1,9 @@
 package app.utils.indexing
 
+import app.model.cube.Cube
+import app.model.cube.position.CornerPosition
+import app.model.cube.position.Position
+import app.service.cube.CubeInformationService
 import app.utils.maths.MathUtils
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -13,14 +17,55 @@ class LehmerRanker : KoinComponent {
     private var lookUpTableEdgeOrientation = HashMap<String, Int>()
     private var lookUpTableEdgePosition = HashMap<String, Int>()
 
+    private val cubeInformationService : CubeInformationService by inject()
+
+    /*
+        Return the full Lehmer rank of the cube's corners
+        = corner position lehmper * 3^7 + corner orientation lehmer
+     */
+    fun lookupFullCornerRank(cube : Cube) : Int
+    {
+        var sortedCornerPositions = cube.positions.keys.filter { it is CornerPosition }.sortedBy { it.cubeCoordinates.width }.sortedByDescending { it.cubeCoordinates.depht }.sortedByDescending { it.cubeCoordinates.height }
+        var cornerOrientations = cubeInformationService.getCornerOrientations(cube)
+        var cornerOrientationArray = arrayOf<Int>()
+        var cornerPosition = arrayOf<Int>()
+
+        for (corner in sortedCornerPositions!!) {
+            var index = sortedCornerPositions!!.indexOfFirst { it.identity == cube.positions[corner]!!.identity}
+            cornerOrientationArray += cornerOrientations[index]
+            cornerPosition += index
+        }
+
+
+        var toReturn =lookupCornersPosition(cornerPosition) * Math.pow(3.0, 7.0).toInt() + lookupCornersOrientation(cornerOrientationArray)
+        return toReturn
+    }
+
+    /*
+        Lookup corner position's lehmer of a cube
+     */
+    fun lookupCornersPosition(cube : Cube) : Int
+    {
+        var cornerPosition = arrayOf<Int>()
+        for (corner in cube.lookUps.sortedCornersPositionLookup) {
+            cornerPosition += cube.lookUps.sortedCornersPositionLookup!!.indexOfFirst { it.identity == cube.positions[corner]!!.identity}
+        }
+        return lookupCornersPosition(cornerPosition)
+    }
+
+    /*
+        Lookup corner orientation's lehmer
+        If not present in hashmap, calculate and add it
+     */
     fun lookupCornersOrientation(sequence : Array<Int>) : Int
     {
-        var result = lookUpTableCornerOrientation[sequence.joinToString()]
+        var stringSequence = sequence.joinToString()
+        var result = lookUpTableCornerOrientation[stringSequence]
 
         if(result == null)
         {
             var ranking = this.rankWithReplacement(sequence, 2)
-            lookUpTableCornerOrientation[sequence.joinToString()] = ranking
+            lookUpTableCornerOrientation[stringSequence] = ranking
             return ranking
         }
         else
@@ -28,14 +73,20 @@ class LehmerRanker : KoinComponent {
             return result
         }
     }
+
+    /*
+        Lookup edge orientation's lehmer
+        If not present in hashmap, calculate and add it
+     */
     fun lookupEdgesOrientation(sequence : Array<Int>) : Int
     {
-        var result = lookUpTableEdgeOrientation[sequence.joinToString()]
+        var stringSequence = sequence.joinToString()
+        var result = lookUpTableEdgeOrientation[stringSequence]
 
         if(result == null)
         {
             var ranking = this.rankWithReplacement(sequence, 2)
-            lookUpTableEdgeOrientation[sequence.joinToString()] = ranking
+            lookUpTableEdgeOrientation[stringSequence] = ranking
             return ranking
         }
         else
@@ -44,14 +95,20 @@ class LehmerRanker : KoinComponent {
         }
     }
 
+
+    /*
+            Lookup corner position's lehmer
+            If not present in hashmap, calculate and add it
+         */
     fun lookupCornersPosition(sequence : Array<Int>) : Int
     {
-        var result = lookUpTableCornerPosition[sequence.joinToString()]
+        var stringSequence = sequence.joinToString()
+        var result = lookUpTableCornerPosition[stringSequence]
 
         if(result == null)
         {
-            var ranking = this.rankWithoutReplacement(sequence, 12, false)
-            lookUpTableCornerPosition[sequence.joinToString()] = ranking
+            var ranking = this.rankWithoutReplacement(sequence, 7, false)
+            lookUpTableCornerPosition[stringSequence] = ranking
             return ranking
         }
         else
@@ -62,12 +119,13 @@ class LehmerRanker : KoinComponent {
 
     fun lookupEdgesPosition(sequence : Array<Int>) : Int
     {
-        var result = lookUpTableCornerOrientation[sequence.joinToString()]
+        var stringSequence = sequence.joinToString()
+        var result = lookUpTableCornerOrientation[stringSequence]
 
         if(result == null)
         {
             var ranking = this.rankWithoutReplacement(sequence, 12, true)
-            lookUpTableEdgePosition[sequence.joinToString()] = ranking
+            lookUpTableEdgePosition[stringSequence] = ranking
             return ranking
         }
         else
@@ -77,6 +135,9 @@ class LehmerRanker : KoinComponent {
 
     }
 
+    /*
+        Calculate the lehmer rank of an element, considering the maximum element possible, and the fact that an element may have many occurences
+     */
     private fun rankWithReplacement(sequence : Array<Int>, maxElement : Int) : Int
     {
         var toReturn = 0
@@ -89,9 +150,12 @@ class LehmerRanker : KoinComponent {
         return toReturn
     }
 
-    private fun rankWithoutReplacement(sequence : Array<Int>, maxElement : Int, partialPermutations : Boolean) : Int
+    /*
+        Calculating the lehmer rank of a sequence, knowing an element can't occur more than once
+     */
+    fun rankWithoutReplacement(sequence : Array<Int>, maxElement : Int, partialPermutations : Boolean) : Int
     {
-        var bitSet = Array(maxElement) {0}
+        var bitSet = Array(maxElement+1) {0}
         var array = arrayOf<Int>()
         var multiplicator : Int
         var result = 0
@@ -104,7 +168,7 @@ class LehmerRanker : KoinComponent {
         }
 
         // Converting to base 10
-        for(i in 0 until array.size)
+        for(i in array.indices)
         {
             if(partialPermutations)
             {
@@ -114,7 +178,7 @@ class LehmerRanker : KoinComponent {
             {
                 multiplicator = mathUtils.factorial(i)
             }
-            var elem = array[i]
+            var elem = array[array.size-i-1]
             result += multiplicator * elem
         }
 

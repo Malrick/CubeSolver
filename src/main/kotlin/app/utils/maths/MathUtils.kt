@@ -2,7 +2,11 @@ package app.utils.maths
 
 import org.koin.core.KoinComponent
 
+/*
+    Useful mathematics operations : used by Lehmer Ranker
+ */
 class MathUtils : KoinComponent{
+
     fun factorial(number : Int) : Int
     {
         var factorial: Long = 1

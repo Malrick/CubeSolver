@@ -1,10 +1,12 @@
-package app.utils.algorithms.graphTraversal
+package app.utils.sequencer
 
-import app.model.cube.Cube
 import app.model.movement.Movement
 import app.service.movement.MovementService
 
-class BFS {
+/*
+    Output sequences following the same scheme as a BFS.
+ */
+class BfsSequencer {
 
     val movementService = MovementService()
 
@@ -73,8 +75,6 @@ class BFS {
 
     fun iterate()
     {
-
-        // TODO simplifier
 
         do{
             var breadth = currentPosition.size - 1

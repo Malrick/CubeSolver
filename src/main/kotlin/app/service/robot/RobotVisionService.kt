@@ -12,6 +12,11 @@ import java.awt.image.DataBufferByte
 import java.io.File
 import javax.imageio.ImageIO
 
+
+/*
+    Manage the camera of the robot.
+    Takes pictures of the cube and extract ROIs
+ */
 class RobotVisionService : KoinComponent {
 
     private val cam = VideoCapture()
@@ -47,14 +52,12 @@ class RobotVisionService : KoinComponent {
         ImageIO.write(myPicture, "jpg",  File(fileName))
     }
 
-
-
     fun getContours() : Array<MatOfPoint>
     {
         var squareSize = 70
         var squareSpacing = 65
 
-        var topLeftSquareCenterCoordinates = Scalar(175.0, 35.0)
+        var topLeftSquareCenterCoordinates = Scalar(175.0, 50.0)
 
         var squareCenters = arrayOf<Scalar>()
         var squareContours = arrayOf<MatOfPoint>()
@@ -96,7 +99,7 @@ class RobotVisionService : KoinComponent {
         Imgproc.drawContours(pictureWithContours, contours.toList(), -1, Scalar(0.0, 0.0, 0.0))
 
         HighGui.imshow("Original", picture)
-        HighGui.imshow("Original avec contours", pictureWithContours)
+        HighGui.imshow("Original with contours", pictureWithContours)
         HighGui.waitKey(0)
     }
 

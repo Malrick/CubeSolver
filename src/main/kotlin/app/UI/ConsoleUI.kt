@@ -3,7 +3,7 @@ package app.UI
 import app.model.cube.Cube
 import app.model.Color
 import app.model.movement.Movement
-import app.model.movement.RelativePosition
+import app.model.orientation.RelativePosition
 import app.service.cube.CubeInformationService
 import com.github.ajalt.mordant.TermColors
 import org.koin.core.KoinComponent
@@ -21,9 +21,6 @@ class ConsoleUI : KoinComponent {
         println()
         displayEmptyLine()
         displayRow(cubeInformationService.getSideByRelativePosition(cube, RelativePosition.TOP),1)
-        displayEmptyLine()
-        displayEmptyLine()
-        print("Solved (" + TermColors().red(cubeInformationService.getNumberOfSolved(cube).toString()) +")")
         println()
         displayEmptyLine()
         displayRow(cubeInformationService.getSideByRelativePosition(cube, RelativePosition.TOP),2)
@@ -34,7 +31,6 @@ class ConsoleUI : KoinComponent {
         displayRow(cubeInformationService.getSideByRelativePosition(cube, RelativePosition.FRONT),0)
         print("  ")
         displayRow(cubeInformationService.getSideByRelativePosition(cube, RelativePosition.RIGHT),0)
-        displayEmptyLine()
         //print("[" + booleanToString(cube.corners[0].isSolved()) + " - " + booleanToString(cube.edges[0].isSolved()) + " - " + booleanToString(cube.corners[1].isSolved()) + "]")
 
         println()
@@ -57,20 +53,12 @@ class ConsoleUI : KoinComponent {
         println()
         displayEmptyLine()
         displayRow(cubeInformationService.getSideByRelativePosition(cube, RelativePosition.BOTTOM),0)
-        displayEmptyLine()
-        displayEmptyLine()
-        //print("[" + booleanToString(cube.edges[4].isSolved()) + " -   - " + booleanToString(cube.edges[5].isSolved()) + "]")
         println()
         displayEmptyLine()
         displayRow(cubeInformationService.getSideByRelativePosition(cube,  RelativePosition.BOTTOM),1)
-        displayEmptyLine()
-        displayEmptyLine()
-
-        print("[ " + " -   - " + " ]")
-        print("      ")
-        print("[ " + " -   - " + " ]")
         println()
         displayEmptyLine()
+
         displayRow(cubeInformationService.getSideByRelativePosition(cube,  RelativePosition.BOTTOM),2)
         displayEmptyLine()
         displayEmptyLine()
@@ -95,10 +83,12 @@ class ConsoleUI : KoinComponent {
         displayEmptyLine()
         //print("[" + booleanToString(cube.corners[6].isSolved()) + " - " + booleanToString(cube.edges[11].isSolved()) + " - " + booleanToString(cube.corners[7].isSolved()) + "]")
         println()
+        println()
     }
 
     fun displaySequence(sequence : Array<Movement>)
     {
+        print("Sequence lenght : " + sequence.size + " - ")
         for(elem in sequence)
         {
             print(elem)

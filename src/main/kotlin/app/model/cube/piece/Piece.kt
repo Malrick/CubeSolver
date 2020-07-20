@@ -4,6 +4,8 @@ import app.model.Color
 
 abstract class Piece {
 
+    abstract var identity : String
+
     abstract fun getColorAtPosition(positionOfColor : Int) : Color?
 
     abstract fun setColorAtPosition(positionOfColor : Int, color : Color)
@@ -15,5 +17,4 @@ abstract class Piece {
     abstract fun getColors() : Set<Color>
 
     abstract fun clone() : Piece
-
 }

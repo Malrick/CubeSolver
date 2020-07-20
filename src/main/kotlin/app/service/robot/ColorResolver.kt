@@ -12,18 +12,21 @@ import org.nd4j.linalg.factory.Nd4j
 import org.opencv.core.*
 import java.util.HashMap
 
-class RobotColorService : KoinComponent {
+/*
+    Classifies colors detected by the robot
+ */
+class ColorResolver : KoinComponent {
 
     private val colorUtils : ColorSpaceUtils by inject()
     private val geometryUtils : GeometryUtils by inject()
-    private val Knn : KNN by inject()
+    private val knn : KNN by inject()
 
     fun resolve(detectedColors : HashMap<Color, Array<Mat>>, method : ColorProcessing) : HashMap<Color, Array<Color>>
     {
         return when(method)
         {
             ColorProcessing.NeuralNetwork -> {
-                resolveByNeuralNetwork(detectedColors)
+                queryNeuralNetwork(detectedColors)
             }
             ColorProcessing.ClosestDistance -> {
                 resolveByClosestDistance(detectedColors)
@@ -34,6 +37,7 @@ class RobotColorService : KoinComponent {
         }
     }
 
+    // Get centers colors, then for each colored square get the closest center, assign its color to it
     private fun resolveByClosestDistance(detectedColors: HashMap<Color, Array<Mat>>) : HashMap<Color, Array<Color>>
     {
         var centerColors = HashMap<Color, Scalar>()
@@ -65,20 +69,20 @@ class RobotColorService : KoinComponent {
         return resolvedColor
     }
 
-
-    private fun resolveByNeuralNetwork(detectedColors: HashMap<Color, Array<Mat>>) : HashMap<Color, Array<Color>>
+    // Resolve Rubik's color by querying neural network for each color squares
+    private fun queryNeuralNetwork(detectedColors: HashMap<Color, Array<Mat>>) : HashMap<Color, Array<Color>>
     {
         var whiteLab = getBgrDominantColor(detectedColors[Color.WHITE]!![4])
         var resolvedColors = HashMap<Color, Array<Color>>()
 
         for((sideColor, colors) in detectedColors)
         {
-            var dominantColors = colorUtils.scalarsBGR2Lab(getDominantColors(colors))
+            var dominantColors = colorUtils.scalarsBGR2Lab(getBgrDominantColors(colors))
             var sideResolvedColors = arrayOf<Color>()
 
             for(color in dominantColors)
             {
-                sideResolvedColors += resolveByNeuralNetwork(whiteLab, color)
+                sideResolvedColors += queryNeuralNetwork(whiteLab, color)
             }
             resolvedColors[sideColor] = sideResolvedColors
         }
@@ -86,7 +90,8 @@ class RobotColorService : KoinComponent {
         return resolvedColors
     }
 
-    private fun resolveByNeuralNetwork(whiteLab : Scalar, DetectedColorLab : Scalar) : Color
+    // Query Keras model
+    private fun queryNeuralNetwork(whiteLab : Scalar, DetectedColorLab : Scalar) : Color
     {
         var model = KerasModelImport.importKerasSequentialModelAndWeights("models/colorModel.h5")
 
@@ -113,7 +118,8 @@ class RobotColorService : KoinComponent {
         }
     }
 
-    fun getDominantColors(colors : Array<Mat>) : Array<Scalar>
+    // Get the dominant colors from matrices
+    fun getBgrDominantColors(colors : Array<Mat>) : Array<Scalar>
     {
         var results = arrayOf<Scalar>()
         for(color in colors)
@@ -123,9 +129,10 @@ class RobotColorService : KoinComponent {
         return results
     }
 
+    // Get the dominant color of a matrice
     fun getBgrDominantColor(color : Mat) : Scalar
     {
-        return Knn.KnnClustering(color, 20)
+        return knn.KnnClustering(color, 20)
     }
 
 }

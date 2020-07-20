@@ -2,9 +2,13 @@ package app.model.cube.coordinates
 
 import app.model.Color
 import app.model.cube.Cube
-import app.model.movement.RelativePosition
-import app.model.orientation.Orientation
+import app.model.orientation.RelativePosition
 
+
+/*
+    Defines the coordinate on a piece on the cube, from the cube point of view. (x,y,z)
+    It is possible to be getting the coordinate of a piece on a certain side
+ */
 class CubeCoordinates(var height : Int, var depht : Int, var width : Int) {
 
     fun getSideCoordinate(color : Color, cube : Cube) : SideCoordinate?

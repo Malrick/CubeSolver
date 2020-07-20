@@ -1,7 +1,7 @@
 package app.UI
 
 import app.model.Color
-import app.service.robot.RobotColorService
+import app.service.robot.ColorResolver
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.opencv.core.Core
@@ -10,7 +10,7 @@ import org.opencv.highgui.HighGui
 
 class MatricesDisplay : KoinComponent {
 
-    private val robotColorService : RobotColorService by inject()
+    private val robotColorService : ColorResolver by inject()
 
     fun displayConcatenatedCube(colors : HashMap<Color, Array<Mat>>)
     {
@@ -23,7 +23,7 @@ class MatricesDisplay : KoinComponent {
             concatenatedMats += mat
         }
         Core.vconcat(concatenatedMats, superConcatenation)
-        HighGui.imshow("couleurs concaténées", superConcatenation)
+        HighGui.imshow("concatenated colors", superConcatenation)
 
         var dominantColors = HashMap<Color, MutableList<Mat>>()
         concatenatedMats = listOf()
@@ -43,7 +43,7 @@ class MatricesDisplay : KoinComponent {
             concatenatedMats += mat
         }
         Core.vconcat(concatenatedMats, superConcatenation)
-        HighGui.imshow("couleurs dominantes", superConcatenation)
+        HighGui.imshow("dominant colors", superConcatenation)
         HighGui.waitKey(0)
     }
 }

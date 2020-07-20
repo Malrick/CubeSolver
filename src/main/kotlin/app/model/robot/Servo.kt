@@ -1,14 +1,14 @@
 package app.model.robot
 
 import app.model.robot.constants.ServoState
-import app.model.robot.constants.ServoIdentity
+import app.model.robot.constants.ServoPositions
 
 class Servo {
 
     private var calibrationValueNotTurned : Double = 0.0
     private var calibrationValueTurned : Double = 1.0
 
-    private lateinit var positionOnRobot : ServoIdentity
+    private lateinit var positionOnRobot : ServoPositions
     private lateinit var servoPosition : ServoState
 
     private var channel = -1
@@ -43,12 +43,12 @@ class Servo {
         this.servoPosition = servoPosition
     }
 
-    fun getPositionOnRobot() : ServoIdentity
+    fun getPositionOnRobot() : ServoPositions
     {
         return this.positionOnRobot
     }
 
-    fun setPositionOnRobot(position : ServoIdentity)
+    fun setPositionOnRobot(position : ServoPositions)
     {
         this.positionOnRobot = position
     }

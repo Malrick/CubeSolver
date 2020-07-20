@@ -6,15 +6,13 @@ import java.util.HashMap
 
 class KNN {
 
-    // Boite noire
-    // TODO : blanchir
     fun KnnClustering(matrice: Mat, k: Int): Scalar {
 
         val criteria = TermCriteria(TermCriteria.COUNT, 100, 1.0)
         val labels = Mat()
         val centers = Mat()
-        val clusters= ArrayList<Mat>()
-        val counts: MutableMap<Int, Int> = HashMap()
+        val clusters = ArrayList<Mat>()
+        val counts : MutableMap<Int, Int> = HashMap()
 
         val samples = matrice.reshape(1, matrice.cols() * matrice.rows())
         val samples32f = Mat()
@@ -42,12 +40,6 @@ class KNN {
                 clusters[label].put(y, x, b.toDouble(), g.toDouble(), r.toDouble())
                 rows++
             }
-        }
-        for(i in 0 until centers.rows())
-        {
-            var r = centers[i, 0][0]
-            var g = centers[i, 1][0]
-            var b = centers[i, 2][0]
         }
 
         var maxCountIndex = counts.filter { it != counts.maxBy { it.value } }.maxBy { it.value }!!.key

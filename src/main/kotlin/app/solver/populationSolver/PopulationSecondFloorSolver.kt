@@ -2,11 +2,11 @@ package app.solver.populationSolver
 
 import app.model.Color
 import app.model.cube.Cube
-import app.model.cube.position.Position
 import app.model.movement.Movement
-import app.model.movement.RELATIVE_EDGE_INSERTION_1
-import app.model.movement.RELATIVE_EDGE_INSERTION_2
-import app.model.movement.RelativePosition
+import app.RELATIVE_EDGE_INSERTION_1
+import app.RELATIVE_EDGE_INSERTION_2
+import app.UI.ConsoleUI
+import app.model.orientation.RelativePosition
 import app.service.orientation.OrientationService
 
 class PopulationSecondFloorSolver(
@@ -39,23 +39,31 @@ class PopulationSecondFloorSolver(
     }
 
 
-    override fun gradeSequence(cube: Cube, sequence: Array<Movement>): Int {
+    override fun gradeSequence(cube: Cube, studiedSequence: Array<Movement>): Int {
 
-        var cubeExperiment = cube.clone()
-
-        cubeMotionService.applySequence(cubeExperiment, sequence)
+        cubeMotionService.applySequence(cubeExperimental, studiedSequence)
 
         var score = 0
 
-        var numberOfEdgesSolved = (cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.BLUE) -1) + (cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.GREEN) -1) - cubeInformationService.getNumberOfEdgesSolvedBySide(cubeExperiment, Color.YELLOW)
+        var numberOfEdgesSolved = cubeInformationService.numberOfEEdgesSolved(cubeExperimental)
 
-        if(cubeInformationService.getNumberOfPiecesOfAColorSolved(cubeExperiment, Color.WHITE) == 9)
-        score = numberOfEdgesSolved*100
+        if(cubeInformationService.getNumberOfPiecesOfAColorSolved(cubeExperimental, Color.WHITE) != 9)
+        {
+            ConsoleUI().displayCube(cubeExperimental)
+            ConsoleUI().displaySequence(studiedSequence)
+        }
+        else
+        {
+            score = numberOfEdgesSolved*100
+            score += cubeInformationService.numberOfEdgesInBottomSideWithoutColor(cubeExperimental, Color.YELLOW)
+        }
 
         if(score == maxScore)
         {
             solved = true
         }
+
+        cubeMotionService.applySequence(cubeExperimental, movementService.getOppositeSequence(studiedSequence))
 
         return score
 

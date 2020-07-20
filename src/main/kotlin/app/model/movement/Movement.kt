@@ -1,5 +1,6 @@
 package app.model.movement
 
+// Absolute definition of the movements
 enum class Movement {
     WHITE,
     WHITE_REVERSE,

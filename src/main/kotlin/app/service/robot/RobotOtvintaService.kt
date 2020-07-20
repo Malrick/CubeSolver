@@ -3,20 +3,28 @@ package app.service.robot
 import app.model.Color
 import app.model.movement.Movement
 import app.model.orientation.Orientation
-import app.model.movement.RelativePosition
-import app.model.robot.constants.ServoIdentity
+import app.model.orientation.RelativePosition
+import app.model.robot.constants.ServoPositions
 import app.model.robot.constants.ServoState
 import app.service.orientation.OrientationService
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.opencv.core.Mat
+import org.slf4j.LoggerFactory
 import java.util.*
 
+
+/*
+    Third layer of the driver
+    Manages sequences, and high-level operations. (Take pictures of the cube, etc.)
+ */
 class RobotOtvintaService : RobotService, KoinComponent {
 
     private val robotMotionService : RobotMotionService by inject()
     private val robotVisionService : RobotVisionService by inject()
     private val orientationService : OrientationService by inject()
+
+    private val logger = LoggerFactory.getLogger(RobotOtvintaService::class.java)
 
     private lateinit var orientation : Orientation
 
@@ -53,13 +61,16 @@ class RobotOtvintaService : RobotService, KoinComponent {
                 robotMotionService.turnCube(RelativePosition.BOTTOM)
                 robotMotionService.turnCube(RelativePosition.RIGHT)
             }
-            RelativePosition.FRONT -> robotMotionService.turnCube(RelativePosition.LEFT)
-            RelativePosition.RIGHT -> robotMotionService.turnCube(RelativePosition.LEFT)
+            RelativePosition.FRONT -> robotMotionService.turnCube(
+                RelativePosition.LEFT)
+            RelativePosition.RIGHT -> robotMotionService.turnCube(
+                RelativePosition.LEFT)
             RelativePosition.BOTTOM -> {
                 robotMotionService.turnCube(RelativePosition.RIGHT)
                 robotMotionService.turnCube(RelativePosition.BOTTOM)
             }
-            RelativePosition.BACK -> robotMotionService.turnCube(RelativePosition.BOTTOM)
+            RelativePosition.BACK -> robotMotionService.turnCube(
+                RelativePosition.BOTTOM)
         }
     }
 
@@ -83,8 +94,8 @@ class RobotOtvintaService : RobotService, KoinComponent {
             prepareCubeToPicture(orientation.getPositionOfColor(color))
 
             // The arms at TOP and BOTTOM are getting outside, in order to be able to detect these colors
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.OUTSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.OUTSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoPositions.ARM_TOP]!!, ServoState.OUTSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoPositions.ARM_BOTTOM]!!, ServoState.OUTSIDE, true)
 
             var colorsDetectedOnFirstPicture = robotVisionService.getColorsFromPicture(true, "img/waste.jpg")
             Thread.sleep(250)
@@ -94,10 +105,10 @@ class RobotOtvintaService : RobotService, KoinComponent {
             countPic++
 
             // Arms at top and bottom are coming back to hold the cube, LEFT and RIGHT arms are going out
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_TOP]!!, ServoState.INSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_BOTTOM]!!, ServoState.INSIDE, true)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.OUTSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.OUTSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoPositions.ARM_TOP]!!, ServoState.INSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoPositions.ARM_BOTTOM]!!, ServoState.INSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoPositions.ARM_RIGHT]!!, ServoState.OUTSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoPositions.ARM_LEFT]!!, ServoState.OUTSIDE, true)
 
             // Taking another picture
             Thread.sleep(250)
@@ -106,8 +117,8 @@ class RobotOtvintaService : RobotService, KoinComponent {
             countPic++
 
             // Arms RIGHT and LEFT are coming back to hold the cube (initial position)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_RIGHT]!!, ServoState.INSIDE, false)
-            robotMotionService.executeCommand(robotMotionService.servos[ServoIdentity.ARM_LEFT]!!, ServoState.INSIDE, true)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoPositions.ARM_RIGHT]!!, ServoState.INSIDE, false)
+            robotMotionService.executeCommand(robotMotionService.servos[ServoPositions.ARM_LEFT]!!, ServoState.INSIDE, true)
 
             for (i in 0 until 9) {
                 if (i == 3 || i == 5) {
@@ -162,25 +173,26 @@ class RobotOtvintaService : RobotService, KoinComponent {
             }
 
             robotMotionService.turnCube(rotationDirection)
+            //logger.info("Tournage du cube")
             orientationService.turnCube(orientation, rotationDirection)
             position = orientation.getPositionOfColor(colorOfMovement)
         }
 
         when(position)
         {
-            RelativePosition.TOP -> robotMotionService.turnHand(ServoIdentity.HAND_TOP, clockwise)
-            RelativePosition.LEFT -> robotMotionService.turnHand(ServoIdentity.HAND_LEFT, clockwise)
-            RelativePosition.BOTTOM -> robotMotionService.turnHand(ServoIdentity.HAND_BOTTOM, clockwise)
-            RelativePosition.RIGHT -> robotMotionService.turnHand(ServoIdentity.HAND_RIGHT, clockwise)
+            RelativePosition.TOP -> robotMotionService.turnHand(ServoPositions.HAND_TOP, clockwise)
+            RelativePosition.LEFT -> robotMotionService.turnHand(ServoPositions.HAND_LEFT, clockwise)
+            RelativePosition.BOTTOM -> robotMotionService.turnHand(ServoPositions.HAND_BOTTOM, clockwise)
+            RelativePosition.RIGHT -> robotMotionService.turnHand(ServoPositions.HAND_RIGHT, clockwise)
         }
         if(double)
         {
             when(position)
             {
-                RelativePosition.TOP -> robotMotionService.turnHand(ServoIdentity.HAND_TOP, clockwise)
-                RelativePosition.LEFT -> robotMotionService.turnHand(ServoIdentity.HAND_LEFT, clockwise)
-                RelativePosition.BOTTOM -> robotMotionService.turnHand(ServoIdentity.HAND_BOTTOM, clockwise)
-                RelativePosition.RIGHT -> robotMotionService.turnHand(ServoIdentity.HAND_RIGHT, clockwise)
+                RelativePosition.TOP -> robotMotionService.turnHand(ServoPositions.HAND_TOP, clockwise)
+                RelativePosition.LEFT -> robotMotionService.turnHand(ServoPositions.HAND_LEFT, clockwise)
+                RelativePosition.BOTTOM -> robotMotionService.turnHand(ServoPositions.HAND_BOTTOM, clockwise)
+                RelativePosition.RIGHT -> robotMotionService.turnHand(ServoPositions.HAND_RIGHT, clockwise)
             }
         }
     }

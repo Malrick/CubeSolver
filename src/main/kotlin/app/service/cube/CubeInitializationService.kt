@@ -7,11 +7,10 @@ import app.model.Color
 import app.model.movement.Movement
 import app.model.robot.vision.ColorProcessing
 import app.service.robot.RobotOtvintaService
-import app.service.robot.RobotColorService
+import app.service.robot.ColorResolver
 import app.utils.files.CsvUtils
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import org.opencv.core.Mat
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -19,7 +18,7 @@ class CubeInitializationService : KoinComponent {
 
     private val cubeInformationService: CubeInformationService by inject()
     private val robotService : RobotOtvintaService by inject()
-    private val colorResolver : RobotColorService by inject()
+    private val colorResolver : ColorResolver by inject()
     private val cubeMotionService : CubeMotionService by inject()
     private val matricesDisplay : MatricesDisplay by inject()
     private val csvUtils : CsvUtils by inject()
@@ -46,9 +45,23 @@ class CubeInitializationService : KoinComponent {
         initCube(cube, colors)
     }
 
-    fun initScrambledCube(cube : Cube, numberOfMoves : Int){
+    fun initScrambledCube(cube : Cube, numberOfMoves : Int, displaySequence : Boolean)
+    {
+        var scramble = arrayOf<Movement>()
+
         initSolvedCube(cube)
-        for(i in 0 until numberOfMoves) { cubeMotionService.applyMovement(cube, Movement.values().random()) }
+
+        for(i in 0 until numberOfMoves)
+        {
+            scramble += Movement.values().random()
+        }
+
+        if(displaySequence)
+        {
+            ConsoleUI().displaySequence(scramble)
+        }
+
+        cubeMotionService.applySequence(cube, scramble)
     }
 
 
@@ -79,19 +92,23 @@ class CubeInitializationService : KoinComponent {
         initCube(cube, colors)
     }
 
+
     fun initCubeWithRobot(cube : Cube)
     {
+        // Shows the pictures of the concatenated squares of colors
         val showPictures = false
-        val saveColors = true
 
-        var detectedColors = HashMap<Color, Array<Mat>>()
+        // Save color to csv (use to create Neural Networks, or do data analysis)
+        val saveColors = false
 
         robotService.welcome()
 
-        detectedColors = robotService.takePicturesAndGetColors()
+        // Ask robot for colors
+        var detectedColors = robotService.takePicturesAndGetColors()
 
         robotService.release()
 
+        // Resolve colors, thanks to a certain method)
         var resolvedColors = colorResolver.resolve(detectedColors, ColorProcessing.ClosestDistance)
 
         initCube(cube, resolvedColors)
@@ -100,6 +117,7 @@ class CubeInitializationService : KoinComponent {
 
         if(saveColors) csvUtils.appendLabDataInCsvFile("colors", detectedColors)
 
+        // If the cube is not valid, for now we throw an exception.
         if(!cubeInformationService.integrityCheck(cube))
         {
             throw Exception()

@@ -10,9 +10,9 @@ import app.service.orientation.OrientationService
 import app.service.robot.RobotOtvintaService
 import app.service.robot.ServoService
 import app.service.robot.RobotMotionService
-import app.service.robot.RobotColorService
+import app.service.robot.ColorResolver
 import app.service.robot.RobotVisionService
-import app.utils.algorithms.graphTraversal.BFS
+import app.utils.sequencer.BfsSequencer
 import app.utils.algorithms.clustering.KNN
 import app.utils.algorithms.graphTraversal.IDDFS
 import app.utils.database.DatabaseUtils
@@ -46,7 +46,7 @@ val serviceModule = module {
 val visionModule = module {
     single { ColorSpaceUtils() }
     single { GeometryUtils() }
-    single { RobotColorService() }
+    single { ColorResolver() }
 }
 
 val utilsModule = module {
@@ -55,5 +55,6 @@ val utilsModule = module {
     single { MathUtils() }
     single { CsvUtils() }
     single { KNN() }
-    single { BFS() }
+    single { BfsSequencer() }
+    single { IDDFS() }
 }

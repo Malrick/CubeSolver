@@ -1,5 +1,6 @@
 package app.model.movement
 
+// Relative definition of movements. (Need an orientation to be applied)
 enum class RelativeMovement {
     TOP,
     TOP_REVERSE,

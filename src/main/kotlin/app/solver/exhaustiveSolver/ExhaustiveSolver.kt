@@ -1,4 +1,4 @@
-package app.solver.bruteforceSolver
+package app.solver.exhaustiveSolver
 
 import app.model.cube.Cube
 import app.model.movement.Movement
@@ -8,7 +8,12 @@ import app.solver.Solver
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-abstract class BruteforceSolver(cube : Cube) : Solver, KoinComponent {
+
+/*
+    Designed to test all OLL / PLL possibles on Fridrich's last step.
+    Tries a list of sequences, and return null if the result is not found
+ */
+abstract class ExhaustiveSolver(cube : Cube) : Solver, KoinComponent {
 
     val movementService : MovementService by inject()
 

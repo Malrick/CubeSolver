@@ -1,14 +1,14 @@
 package app.service.orientation
 
 import app.model.Color
-import app.model.movement.Movement
-import app.model.movement.RelativeMovement
-import app.model.movement.RelativePosition
+import app.model.orientation.RelativePosition
 import app.model.orientation.Orientation
 import org.koin.core.KoinComponent
 
 class OrientationService : KoinComponent {
 
+    // Give a list of 4 orientations that match a constraint.
+    // Example : "What are the orientations possible if I have YELLOW side on TOP ?"
     fun getOrientations(constraintOne : Pair<RelativePosition, Color>) : List<Orientation>
     {
         var toReturn = listOf<Orientation>()
@@ -21,6 +21,8 @@ class OrientationService : KoinComponent {
         return toReturn
     }
 
+    // Give an orientation that match two constraints, if possible
+    // Example : "What is the orientation if YELLOW is on TOP and BLUE in on FRONT ?"
     fun getOrientation(constraintOne : Pair<RelativePosition, Color>, constraintTwo : Pair<RelativePosition, Color>) : Orientation {
         val toReturn = HashMap<RelativePosition, Color>()
         toReturn[constraintOne.first] = constraintOne.second
@@ -43,6 +45,8 @@ class OrientationService : KoinComponent {
         return Orientation(toReturn)
     }
 
+    // Check the "integrity" of an orientation.
+    // An orientation has to respect a certain color scheme, so this method checks if an orientation respect this scheme.
     private fun integrityCheck(toCheck : HashMap<RelativePosition, Color>) : Boolean
     {
         var topBottom = toCheck.filter { (it.key == RelativePosition.BOTTOM || it.key == RelativePosition.TOP) && (it.value == Color.BLUE || it.value == Color.WHITE || it.value == Color.RED)}.toList().first()

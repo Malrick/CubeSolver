@@ -8,6 +8,8 @@ import java.lang.UnsupportedOperationException
 
 class CornerPosition(override var cubeCoordinates: CubeCoordinates, var colorOne : Color, var colorTwo : Color, var colorThree : Color) : Position()
 {
+    override var identity = getColors().sorted().joinToString { it.name }
+
     override fun matches(piece : Piece) : Boolean
     {
         if(piece !is Corner) throw UnsupportedOperationException()

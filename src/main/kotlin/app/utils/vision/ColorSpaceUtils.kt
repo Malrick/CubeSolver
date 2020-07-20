@@ -4,7 +4,9 @@ import org.koin.core.KoinComponent
 import org.opencv.core.*
 import org.opencv.imgproc.Imgproc
 
-
+/*
+    Convert colors from a color space to another thanks to OpenCV
+ */
 class ColorSpaceUtils : KoinComponent {
 
     fun scalarsBGR2Lab(scalars : Array<Scalar>) : Array<Scalar>
@@ -40,7 +42,7 @@ class ColorSpaceUtils : KoinComponent {
         var bgr = Mat(1,1, CvType.CV_8UC3, Scalar(B,G,R))
         var hsv = Mat()
         Imgproc.cvtColor(bgr, hsv, Imgproc.COLOR_BGR2HSV)
-        // TODO : normalisation
+        // TODO : normalize
         return Scalar(hsv[0,0][0]/255.0*100.0, hsv[0,0][1]-128.0, hsv[0,0][2]-128.0)
     }
 

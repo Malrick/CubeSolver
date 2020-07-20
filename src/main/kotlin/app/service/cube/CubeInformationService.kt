@@ -2,11 +2,12 @@ package app.service.cube
 
 import app.model.Color
 import app.model.cube.Cube
+import app.model.cube.lookups.EdgePositionsIdentities
 import app.model.cube.piece.Piece
 import app.model.cube.position.CornerPosition
 import app.model.cube.position.EdgePosition
 import app.model.cube.position.Position
-import app.model.movement.RelativePosition
+import app.model.orientation.RelativePosition
 import app.model.orientation.Orientation
 import app.service.orientation.OrientationService
 import org.koin.core.KoinComponent
@@ -24,7 +25,6 @@ class CubeInformationService : KoinComponent{
     {
         return cube.positions.filter { it.key.matches(it.value) }.size
     }
-
 
     fun getSideByRelativePosition(cube : Cube, relativePosition : RelativePosition) : ArrayList<Color> {
 
@@ -58,19 +58,6 @@ class CubeInformationService : KoinComponent{
         return toReturn
     }
 
-    fun getOppositeColor(cube : Cube, color : Color) : Color
-    {
-        return when(cube.orientation.getPositionOfColor(color))
-        {
-            RelativePosition.TOP -> cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
-            RelativePosition.LEFT -> cube.orientation.colorPositions[RelativePosition.RIGHT]!!
-            RelativePosition.BOTTOM -> cube.orientation.colorPositions[RelativePosition.TOP]!!
-            RelativePosition.RIGHT ->  cube.orientation.colorPositions[RelativePosition.LEFT]!!
-            RelativePosition.BACK -> cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
-            RelativePosition.FRONT ->  cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
-        }
-    }
-
     fun getNumberOfCornersSolvedBySide(cube : Cube, color : Color) : Int
     {
         return cube.positions.filter { it.key.possessColor(color) && it.key is CornerPosition && it.key.matches(it.value)}.size
@@ -96,9 +83,21 @@ class CubeInformationService : KoinComponent{
         return cube.positions.filter { it.value.getColorAtPosition(it.key.positionOfColor(color)) == color }.size
     }
 
+    fun getNumberOfCornersOfAColorBySide(cube : Cube, color : Color) : Int
+    {
+        return cube.positions.filter { it.key is CornerPosition && it.value.getColorAtPosition(it.key.positionOfColor(color)) == color }.size
+    }
+
     fun isCornerOfAColorSolved(cube : Cube, colorOne : Color, colorTwo : Color, colorThree : Color) : Boolean
     {
-        return cube.positions.any { it.key.matches(it.value) && it.key.possessColor(colorOne) && it.key.possessColor(colorTwo) && it.key.possessColor(colorThree)}
+        var position = cube.positions.filter { it.key.possessColor(colorOne) && it.key.possessColor(colorTwo) && it.key.possessColor(colorThree)}.keys.first()
+        return position.matches(cube.positions[position]!!)
+        //return cube.positions.any { it.key.matches(it.value) && it.key.possessColor(colorOne) && it.key.possessColor(colorTwo) && it.key.possessColor(colorThree)}
+    }
+
+    fun allCornersAreSolved(cube : Cube) : Boolean
+    {
+        return cube.positions.filter { it.key is CornerPosition }.all { it.key.matches(it.value) }
     }
 
     fun getPositionsOfEdge(cube : Cube, colorOne : Color, colorTwo : Color) : Position
@@ -106,35 +105,67 @@ class CubeInformationService : KoinComponent{
         return cube.positions.filter { it.key is EdgePosition && it.value.possessColor(colorOne) && it.value.possessColor(colorTwo) }.keys.first()
     }
 
-
-    fun getPositionsOfEdges(cube : Cube, edges : Set<Pair<Color, Color>>) : Set<Position>
+    fun allEdgesToTheirSlices(cube : Cube) : Boolean
     {
-        var result = setOf<Position>()
-
-        for(edge in edges)
-        {
-            if(!cube.positions.any { it.key.possessColor(edge.first) && it.key.possessColor(edge.first)})
-            {
-                print("invalid edge")
-            }
-            else
-            {
-                result = result.union(cube.positions.filter { it.value.possessColor(edge.first) && it.value.possessColor(edge.second) && it.key is EdgePosition }.keys)
-            }
-        }
-        return result
+        return allMEdgesInMSlice(cube) && allEEdgesInESlice(cube) && allSEdgesInSSlice(cube)
     }
 
+    fun allMEdgesInMSlice(cube : Cube) : Boolean
+    {
+        var TF = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.TopFront]!!]!!
+        var TB = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.TopBack]!!]!!
+        var BF = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.BottomFront]!!]!!
+        var BB = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.BottomBack]!!]!!
+        if(listOf(TF, TB, BF, BB).any { it.getColors().contains(cube.orientation.colorPositions[RelativePosition.LEFT]!!) ||  it.getColors().contains(cube.orientation.colorPositions[RelativePosition.RIGHT]!!)}) return false
+        return true
+    }
 
+    fun allEEdgesInESlice(cube : Cube) : Boolean
+    {
+        var FL = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.FrontLeft]!!]!!
+        var FR = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.FrontRight]!!]!!
+        var BL = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.BackLeft]!!]!!
+        var BR = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.BackRight]!!]!!
+        if(listOf(FL, FR, BL, BR).any { it.getColors().contains(cube.orientation.colorPositions[RelativePosition.TOP]!!) ||  it.getColors().contains(cube.orientation.colorPositions[RelativePosition.BOTTOM]!!)}) return false
+        return true
+    }
 
-    // A cube is said to be "integre" if it is valid, and solvable.
+    fun allSEdgesInSSlice(cube : Cube) : Boolean
+    {
+        var TL = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.TopLeft]!!]!!
+        var TR = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.TopRight]!!]!!
+        var BL = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.BottomLeft]!!]!!
+        var BR = cube.positions[cube.lookUps.edgeLookup[EdgePositionsIdentities.BottomRight]!!]!!
+        if(listOf(TL, TR, BL, BR).any { it.getColors().contains(cube.orientation.colorPositions[RelativePosition.FRONT]!!) ||  it.getColors().contains(cube.orientation.colorPositions[RelativePosition.BACK]!!)}) return false
+        return true
+    }
+
+    fun numberOfEEdgesSolved(cube : Cube) : Int
+    {
+        var FL = cube.lookUps.edgeLookup[EdgePositionsIdentities.FrontLeft]!!
+        var FR = cube.lookUps.edgeLookup[EdgePositionsIdentities.FrontRight]!!
+        var BL = cube.lookUps.edgeLookup[EdgePositionsIdentities.BackLeft]!!
+        var BR = cube.lookUps.edgeLookup[EdgePositionsIdentities.BackRight]!!
+        return listOf(FL, FR, BL, BR).count{it.matches(cube.positions[it]!!)}
+    }
+
+    fun numberOfEdgesInBottomSideWithoutColor(cube : Cube, color:Color) : Int
+    {
+        var BL = cube.lookUps.edgeLookup[EdgePositionsIdentities.BottomLeft]!!
+        var BR = cube.lookUps.edgeLookup[EdgePositionsIdentities.BottomRight]!!
+        var BB = cube.lookUps.edgeLookup[EdgePositionsIdentities.BottomBack]!!
+        var BF = cube.lookUps.edgeLookup[EdgePositionsIdentities.BottomFront]!!
+        return listOf(BL, BR, BB, BF).count{!it.possessColor(color)}
+    }
+
+    // A cube is said to possess integrity if it corresponds to a valid scramble.
     // Many different tests will be made :
     // - Each color is appearing the same number of times on the cube
     // - Each piece exists, and exists only once
-    // - The parity of the number of edge swaps required to solve the cube's edges is equal to
+    // TODO The parity of the number of edge swaps required to solve the cube's edges is equal to
     //   the parity of the number of corners swaps required to solve the cube's corners
     // - The orientations of the different pieces are coherent with each other
-    // Thanks to all these tests, we can guarantee that our cube is valid, and can be solved.
+    // If our cube pass all these tests, we can guarantee that our cube is valid, and can be solved.
     fun integrityCheck(cube : Cube) : Boolean
     {
         // Initializing
@@ -174,17 +205,17 @@ class CubeInformationService : KoinComponent{
 
         if(positionsColorSets != piecesColorSets)
         {
-            println("not every piece exist")
+            println("Not every piece exist")
             return false
         }
 
-        if(getCornerOrientations(cube).values.sum()%3 != 0)
+        if(getCornerOrientations(cube).sum()%3 != 0)
         {
             println("Corner orientation is wrong")
             return false
         }
 
-        if(getEdgeOrientations(cube).values.sum()%2!=0)
+        if(getEdgeOrientations(cube).sum()%2!=0)
         {
             println("Edge orientation is wrong")
             return false
@@ -193,63 +224,75 @@ class CubeInformationService : KoinComponent{
         return true
     }
 
-    fun getCornerOrientations(cube : Cube) : HashMap<Position, Int>
+    /*
+        It could be nice to output orientations as an hashmap (a piece is linked to its orientation)
+        But the way it is used for now on the project, it would be too time consuming.
+        As as result, only an array of Ints is given.
+     */
+    fun getCornerOrientations(cube : Cube) : Array<Int>
     {
-        var corners = cube.positions.filter { it.key is CornerPosition }
-        var cornerOrientations = HashMap<Position, Int>()
+        var sortedCornersPositions = cube.lookUps.sortedCornersPositionLookup
+        var cornerOrientations = Array(8){0}
+        var i = 0
+        var leftColor = cube.orientation.colorPositions[RelativePosition.LEFT]!!
+        var rightColor = cube.orientation.colorPositions[RelativePosition.RIGHT]!!
 
-        for((position, piece) in corners)
+        var isTopCorner : Boolean
+        var isLeftCorner : Boolean
+        var isFrontCorner: Boolean
+        var colorToSearch : Color
+
+        for(cornerPosition in sortedCornersPositions)
         {
-            var colorToSearch : Color
-            var isTopCorner = position.cubeCoordinates.height == cube.cubeSize-1
-            var isLeftCorner = position.cubeCoordinates.width == 0
-            var isFrontCorner = position.cubeCoordinates.depht == 0
+            isTopCorner = cornerPosition.cubeCoordinates.height == cube.cubeSize-1
+            isLeftCorner = cornerPosition.cubeCoordinates.width == 0
+            isFrontCorner = cornerPosition.cubeCoordinates.depht == 0
 
-            if(piece.possessColor(cube.orientation.colorPositions[RelativePosition.TOP]!!))
+            var piece = cube.positions[cornerPosition]!!
+
+            if(piece.possessColor(leftColor))
             {
-                colorToSearch = cube.orientation.colorPositions[RelativePosition.TOP]!!
+                colorToSearch = leftColor
             }
             else
             {
-                colorToSearch = cube.orientation.colorPositions[RelativePosition.BOTTOM]!!
+                colorToSearch = rightColor
             }
 
             when(piece.getPositionOfColor(colorToSearch))
             {
-                1 -> cornerOrientations[position] = 0
-                2 -> {
-                    if ((isTopCorner && isLeftCorner && isFrontCorner) ||
-                        (!isTopCorner && !isLeftCorner && isFrontCorner) ||
-                        (!isTopCorner && isLeftCorner && !isFrontCorner) ||
-                        (isTopCorner && !isLeftCorner && !isFrontCorner)
-                    ) {
-                        cornerOrientations[position] = 1
+                1 -> {
+                    if (i == 0 || i == 3 || i == 5 || i == 6)
+                    {
+                        cornerOrientations[i]= 1
                     } else {
-                        cornerOrientations[position] = 2
+                        cornerOrientations[i]= 2
                     }
                 }
-                3 -> {
-                    if((isTopCorner && isLeftCorner && isFrontCorner)  ||
-                        (!isTopCorner && !isLeftCorner && isFrontCorner) ||
-                        (!isTopCorner && isLeftCorner && !isFrontCorner) ||
-                        ( isTopCorner && !isLeftCorner && !isFrontCorner))
+                2 -> {
+                    if (i == 0 || i == 3 || i == 5 || i == 6)
                     {
-                        cornerOrientations[position] = 2
+                        cornerOrientations[i]= 2
                     }
                     else
                     {
-                        cornerOrientations[position] = 1
+                        cornerOrientations[i]= 1
                     }
                 }
             }
+            i++
         }
         return cornerOrientations
     }
 
-    fun getEdgeOrientations(cube : Cube) : HashMap<Position, Int>
+    /*
+        Same remark as on corner orientation, only an array is given for now.
+     */
+    fun getEdgeOrientations(cube : Cube) : Array<Int>
     {
-        var edgeOrientations = HashMap<Position, Int>()
+        var edgeOrientations = Array(12){0}
 
+        var i = 0
         for((position, piece) in cube.positions.filter { it.key is EdgePosition })
         {
             var edgePossessTop = piece.possessColor(cube.orientation.colorPositions[RelativePosition.FRONT]!!)
@@ -275,7 +318,7 @@ class CubeInformationService : KoinComponent{
 
                 if(position.positionOfColor(positionPossessedColor) == piece.getPositionOfColor(edgePossessedColor))
                 {
-                    edgeOrientations[position] = 1
+                    edgeOrientations[i] = 1
                 }
             }
             if(edgePossessLeft || edgePossessRight)
@@ -291,7 +334,7 @@ class CubeInformationService : KoinComponent{
 
                 if(position.positionOfColor(positionPossessedColor) == piece.getPositionOfColor(edgePossessedColor))
                 {
-                    edgeOrientations[position] = 1
+                    edgeOrientations[i] = 1
                 }
             }
             if((positionPossessTop || positionPossessBot) && (edgePossessLeft || edgePossessRight))
@@ -307,7 +350,7 @@ class CubeInformationService : KoinComponent{
 
                 if(position.positionOfColor(positionPossessedColor) != piece.getPositionOfColor(edgePossessedColor))
                 {
-                    edgeOrientations[position] = 1
+                    edgeOrientations[i] = 1
                 }
             }
             if((positionPossessLeft || positionPossessRight) && (edgePossessTop || edgePossessBot))
@@ -323,18 +366,19 @@ class CubeInformationService : KoinComponent{
 
                 if(position.positionOfColor(positionPossessedColor) != piece.getPositionOfColor(edgePossessedColor))
                 {
-                    edgeOrientations[position] = 1
+                    edgeOrientations[i] = 1
                 }
             }
-            if(edgeOrientations[position] == null)
-            {
-                edgeOrientations[position] = 0
-            }
+            i++
         }
 
         return edgeOrientations
     }
 
+    /*
+        Not used for now on the project, but this functionality seems interesting to me.
+        It gets the different coherent/adjacents groups of pieces on the cube.
+     */
     fun getGroups(cube : Cube) : Array<Array<Piece>>
     {
         var positionAssignedToAGroup = HashMap<Position, Boolean>()

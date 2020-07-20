@@ -1,18 +1,21 @@
-package app.solver.bruteforceSolver
+package app.solver.exhaustiveSolver
 
+import app.*
 import app.model.Color
 import app.model.cube.Cube
 import app.model.movement.*
+import app.model.orientation.RelativePosition
 import app.service.orientation.OrientationService
 import app.service.cube.CubeInformationService
 import org.koin.core.inject
 
-class BruteforcePLLSolver(cube: Cube) : BruteforceSolver(cube) {
+class ExhaustivePLLSolver(cube: Cube) : ExhaustiveSolver(cube) {
 
     override var listOfSequences = setOf<Array<Movement>>()
 
     val cubeInformationService : CubeInformationService by inject()
 
+    // Define search space
     init {
         var orientationService = OrientationService()
         for(i in 0 until 4)
@@ -58,6 +61,7 @@ class BruteforcePLLSolver(cube: Cube) : BruteforceSolver(cube) {
         }
     }
 
+    // Goal
     override fun isSolved(cube: Cube): Boolean {
         return cubeInformationService.getNumberOfPiecesOfAColorSolved(cube, Color.YELLOW) == 9
     }

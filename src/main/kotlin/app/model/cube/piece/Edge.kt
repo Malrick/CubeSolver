@@ -2,7 +2,10 @@ package app.model.cube.piece
 
 import app.model.Color
 
+
 class Edge(var colorOne : Color, var colorTwo : Color) : Piece() {
+
+    override var identity = getColors().sorted().joinToString { it.name }
 
     override fun getColorAtPosition(positionOfColor: Int) : Color? {
         return when (positionOfColor) {

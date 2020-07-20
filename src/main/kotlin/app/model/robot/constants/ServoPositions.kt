@@ -1,6 +1,9 @@
 package app.model.robot.constants
 
-enum class ServoNames {
+/*
+    The identity of the different servos on the robot
+ */
+enum class ServoPositions {
     ARM_TOP,
     ARM_LEFT,
     ARM_BOTTOM,

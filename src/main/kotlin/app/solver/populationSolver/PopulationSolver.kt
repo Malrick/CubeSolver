@@ -1,12 +1,13 @@
 package app.solver.populationSolver
 
+import app.UI.ConsoleUI
 import app.model.cube.Cube
 import app.model.movement.Movement
 import app.service.cube.CubeInformationService
 import app.service.cube.CubeMotionService
 import app.service.movement.MovementService
 import app.solver.Solver
-import app.utils.algorithms.graphTraversal.BFS
+import app.utils.sequencer.BfsSequencer
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.slf4j.LoggerFactory
@@ -14,8 +15,6 @@ import java.util.*
 import kotlin.collections.HashMap
 
 abstract class PopulationSolver : Solver, KoinComponent {
-
-    // TODO : reformater les solutions
 
     val logger = LoggerFactory.getLogger(PopulationSolver::class.java)
 
@@ -25,11 +24,14 @@ abstract class PopulationSolver : Solver, KoinComponent {
     protected val movementService : MovementService by inject()
     private var random = Random()
 
-    //
-    protected val bfs : BFS by inject()
+    // Initializer
+    protected val bfsSequencer : BfsSequencer by inject()
 
     // Studied set
     protected abstract var listOfMovements : Set<Array<Movement>>
+
+    // Studied element
+    protected lateinit var cubeExperimental : Cube
 
     // State of the algorithm
     protected abstract var maxScore : Int
@@ -45,8 +47,7 @@ abstract class PopulationSolver : Solver, KoinComponent {
 
     override fun solve(cube : Cube) : Array<Movement>?
     {
-
-        var i = 0
+        cubeExperimental = cube.clone()
 
         init(cube)
 
@@ -54,13 +55,9 @@ abstract class PopulationSolver : Solver, KoinComponent {
 
             gradeIndividuals(cube)
 
-            if(population.keys.any { it.equals(maxScore) }) break
-
             selectBestIndividuals()
 
             repopulate()
-
-            i++
 
             logger.debug("Best individual reached " + population.values.max().toString() + " out of " + maxScore)
 
@@ -84,9 +81,9 @@ abstract class PopulationSolver : Solver, KoinComponent {
 
         survivingPopulation = HashMap()
 
-        bfs.init(listOfMovements.toTypedArray())
+        bfsSequencer.init(listOfMovements.toTypedArray())
 
-        for(elem in bfs.getElements(populationMaxSize))
+        for(elem in bfsSequencer.getElements(populationMaxSize))
         {
             population.put(elem, -1)
         }
@@ -107,30 +104,23 @@ abstract class PopulationSolver : Solver, KoinComponent {
         val gradeRequiredToSurvive = population.values.sorted()[indexOfLimitIndividual]
         survivingPopulation = population.filterValues { it >= gradeRequiredToSurvive } as HashMap<Array<Movement>, Int>
 
-        // TODO Trouver un moyen de virer ce while
-        while (survivingPopulation.size.toFloat() > (populationMaxSize * ratioOfSurvivingPopulation)) {
-
-            // Getting the key of the first individual with minimum score and maximum key length
-            val keyOfIndividualWithMinScoreAndMaxSize = survivingPopulation.filter { it.value == survivingPopulation.minBy { it.value }!!.value }.maxBy{ it.key.size}!!.key
-
-            // Deleting the element with the minimum score and the maximum length
-            survivingPopulation.remove(keyOfIndividualWithMinScoreAndMaxSize)
+        if(survivingPopulation.size.toFloat() > (populationMaxSize * ratioOfSurvivingPopulation))
+        {
+            var comparator = compareByDescending<Pair<Array<Movement>, Int>>{it.second}.thenBy{ it.first.size }
+            var sortedSurvivingPopulation = survivingPopulation.toList().sortedWith(comparator)
+            survivingPopulation = HashMap(sortedSurvivingPopulation.subList(0, (populationMaxSize * ratioOfSurvivingPopulation).toInt()).toMap())
         }
 
-        // Population is now survivingPopulation
         population = HashMap(survivingPopulation)
     }
 
     private fun repopulate() {
-        // TODO : Déterminisme : Fouiller dans l'espace de solution sans random ?
-
         var randomMutationSelection : Array<Movement>
         var listOfAddedMovements : Array<Movement>
         var parentPlusChild : Array<Movement> = arrayOf()
         var numberOfMutationsAdded = maxNumberOfMutationsAdded
 
         while (population.size < populationMaxSize) {
-            // Select a parent
             val selectedParent = survivingPopulation.keys.elementAt(random.nextInt(survivingPopulation.size))
 
             if(randomizeNumberOfMutation)
