@@ -8,7 +8,6 @@ import app.model.movement.Movement
 import app.service.cube.CubeInformationService
 import app.service.cube.CubeMotionService
 import app.service.movement.MovementService
-import app.solver.KorfSolver.KorfSolver
 import app.utils.database.DatabaseUtils
 import app.utils.indexing.LehmerRanker
 import org.koin.core.KoinComponent

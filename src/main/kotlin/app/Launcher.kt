@@ -21,6 +21,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.inject
 import org.opencv.core.Core
 import org.slf4j.LoggerFactory
+import kotlin.system.measureTimeMillis
 
 fun main()
 {
@@ -49,55 +50,64 @@ class Launcher : KoinComponent {
 
         var cube = Cube(3, myOrientation)
 
+        var totalNbMoves = 0
+
         if(useRobot) robotService.init(myOrientation)
+        var elapsedTime = measureTimeMillis {
+            for(i in 0..1000)
+            {
+                //cubeInitializationService.initCubeByKeyboard(cube)
+                //cubeInitializationService.initCubeWithRobot(cube)
+                //cubeInitializationService.initSolvedCube(cube)
+                cubeInitializationService.initScrambledCube(cube, 500, false)
 
-        for(i in 0..3)
-        {
-            //cubeInitializationService.initCubeByKeyboard(cube)
-            //cubeInitializationService.initCubeWithRobot(cube)
-            //cubeInitializationService.initSolvedCube(cube)
-            cubeInitializationService.initScrambledCube(cube, 500, false)
+                if (displayCube) consoleUI.displayCube(cube)
 
-            if (displayCube) consoleUI.displayCube(cube)
+                var solution: Array<Movement>
+                var totalSolution = arrayOf<Movement>()
 
-            var solution: Array<Movement>
-            var totalSolution = arrayOf<Movement>()
+                var solvers = arrayOf<Solver>(
+                    //ThistlethwaiteSolver()
+                    PopulationCrossSolver(10000, 0.1f, 7, true),
+                    PopulationCornerSolver(10000, 0.1f, 7, true),
+                    PopulationSecondFloorSolver(10000, 0.1f, 7, true),
+                    ExhaustiveOLLSolver(cube),
+                    ExhaustivePLLSolver(cube)
+                )
 
-            var solvers = arrayOf<Solver>(
-                //ThistlethwaiteSolver()
-                PopulationCrossSolver(10000, 0.001f, 9, true),
-                PopulationCornerSolver(10000, 0.001f, 9, true),
-                PopulationSecondFloorSolver(10000, 0.001f, 9, true),
-                ExhaustiveOLLSolver(cube),
-                ExhaustivePLLSolver(cube)
-            )
+                for (solver in solvers) {
+//                    logger.info("Using " + solver.toString() + " on cube " + cube.toString())
 
-            for (solver in solvers) {
-                logger.info("Using " + solver.toString() + " on cube " + cube.toString())
+                    try {
+                        solution = solver.solve(cube)!!
 
-                try {
-                    solution = solver.solve(cube)!!
+                        cubeMotionService.applySequence(cube, solution)
 
-                    cubeMotionService.applySequence(cube, solution)
+                        totalSolution = totalSolution.plus(solution)
 
-                    totalSolution = totalSolution.plus(solution)
+                        if (displaySolutions) consoleUI.displaySequence(solution)
 
-                    if (displaySolutions) consoleUI.displaySequence(solution)
-
-                    if (displayCube) consoleUI.displayCube(cube)
+                        if (displayCube) consoleUI.displayCube(cube)
+                    }
+                    catch (e : Exception)
+                    {
+                        println(solver)
+                        consoleUI.displayCube(cube)
+                    }
                 }
-                catch (e : Exception)
-                {
-                    println(solver)
-                    consoleUI.displayCube(cube)
-                }
+
+                //logger.info("Total length of solution : " + totalSolution.size)
+
+                totalNbMoves += totalSolution.size
+
+                if(useRobot) robotService.applySequence(totalSolution)
+
             }
 
-            logger.info("Total length of solution : " + totalSolution.size)
-
-            if(useRobot) robotService.applySequence(totalSolution)
 
         }
+
+        logger.info("1000 cubes solved in " + elapsedTime/1000 + " seconds and " + totalNbMoves + " moves")
 
     }
 
